@@ -16,16 +16,16 @@ TODO
 # Script plugins and modules
 This is a list of features that might come into existance at one point:
 
-[SC2 Betting System](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/betting_system)
+[SC2 Betting System](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/betting_system)
 
-[SC2 Build Order Overlay](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/build_order_overlay)
+[SC2 Build Order Overlay](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/build_order_overlay)
 
-[SC2 Match history / Session Stats](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/match_history)
+[SC2 Match history / Session Stats](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/match_history)
 
-[SC2 Match Info Overlay](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/match_info)
+[SC2 Match Info Overlay](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/match_info)
 
-[Viewer Points Generator](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/points_generator)
+[Viewer Points Generator](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/points_generator)
 
-[SC2 Scene Switcher](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/scene_switcher)
+[SC2 Scene Switcher](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/scene_switcher)
 
-[SC2 Twitch Title Updater](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/title_updater)
+[SC2 Twitch Title Updater](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/title_updater)
