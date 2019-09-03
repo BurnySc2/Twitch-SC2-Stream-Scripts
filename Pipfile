@@ -11,6 +11,7 @@ hypothesis = "*"
 [packages]
 websockets = "*"
 aiohttp = "*"
+twitchio = "*"
 
 [requires]
 python_version = "3.7"
