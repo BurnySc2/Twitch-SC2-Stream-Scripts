@@ -103,5 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Batch files
+*.bat
+
 # Pycharm
-./idea
+/.idea
+
+# Sensitive Config files
+/config/twitch_irc_token.json
