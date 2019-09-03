@@ -15,6 +15,9 @@ function apply_changes(content) {
 ws.onmessage = function (event) {
     content_raw = event.data;
     content = JSON.parse(content_raw);
-    console.log(content);
-    apply_changes(content);
+    // All overlay files use the same websocket connection, so need to specify the type of json / payload here if it should be used at all
+    if (content["payload_type"] === "match_info") {
+        console.log(content);
+        apply_changes(content);
+    }
 };

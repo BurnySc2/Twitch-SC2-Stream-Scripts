@@ -9,9 +9,10 @@ import asyncio
 import time
 import os
 import json
+from typing import Dict, List, Set, Union, Optional
 
 from match_info.match_info import MatchInfo
-
+from plugin_base_class.base_class import BaseScript
 
 import logging
 logger = logging.getLogger(__name__)
@@ -64,12 +65,24 @@ class TwitchChatBot(commands.Bot):
         main_channel = "burnysc2"
         super().__init__(irc_token=irc_token, client_id="...", nick="burnysc2bot", prefix="!", initial_channels=initial_channels + [main_channel])
 
-        # Start scripts
+        # Start websocket connection to be able to communicate with overlay files
+        self.websocket_connections = set()
+        self.websocket_server = websockets.serve(self.on_websocket_connection, "127.0.0.1", 5678)
 
-        # Matchinfo script
-        self.match_info = MatchInfo(self)
-        self.match_info.load_config()
-        self.match_info_server = websockets.serve(self.match_info.websocket_server_loop, "127.0.0.1", 5678)
+        # Start scripts
+        enabled_scripts_path = os.path.join(os.path.dirname(__file__), "config", "enabled_scripts.json")
+        with open(enabled_scripts_path) as f:
+            enabled_scripts: Dict[str, bool] = json.load(f)
+
+        self.running_scripts: List[BaseScript] = []
+
+        # Start match_info script/plugin
+        assert "match_info" in enabled_scripts
+        if enabled_scripts["match_info"]:
+            # Matchinfo script
+            self.match_info = MatchInfo(self)
+            self.match_info.load_config()
+            self.running_scripts.append(self.match_info)
 
     # Events don't need decorators when subclassed
     async def event_ready(self):
@@ -77,13 +90,40 @@ class TwitchChatBot(commands.Bot):
         Function is called on bot start when it is connected to twitch channels and ready
         """
         print(f"Ready | {self.nick}")
+        logger.warning(f"READY")
 
-        # Create the match_info task non blocking, which loops over "self.match_info.websocket_server_loop"
-        await self.match_info_server
+        # Create the websocket server - it sends messages to all connected websocket clients (I use them to interact with HTML overlays)
+        await self.websocket_server
+
+        for script in self.running_scripts:
+            await script.on_ready()
 
         while 1:
-            await self.on_tick()
             await asyncio.sleep(1)
+            await self.on_tick()
+
+    async def on_websocket_connection(self, websocket: websockets.WebSocketServer, path):
+        """ The function that is used by the websockets library. New connections will be held here. """
+        logger.warning(f"New websocket connection!")
+        self.websocket_connections.add(websocket)
+        # I don't know why, but need to keep this function alive
+        # If the function returns, the connection closes
+        while 1:
+            await asyncio.sleep(1)
+            # Check if the websocket client closed the connection
+            if websocket.closed:
+                return
+
+    async def broadcast_json(self, json_string: str):
+        """
+        Send a json string to all connected websockets
+        Remove websocket if sending was unsuccessful
+        """
+        for websocket in self.websocket_connections.copy():
+            try:
+                await websocket.send(json_string)
+            except Exception as e:
+                self.websocket_connections.discard(websocket)
 
     async def event_message(self, message: Message):
         """
@@ -97,6 +137,8 @@ class TwitchChatBot(commands.Bot):
         Function that is run every second
         This function is triggered by bot.event_ready()
         """
+        for script in self.running_scripts:
+            await script.on_tick()
         # print(f"Running tick")
 
     async def on_new_game(self, match_info: MatchInfo):
@@ -105,6 +147,8 @@ class TwitchChatBot(commands.Bot):
         This function is triggered by match_info script
         """
         print("New game detected")
+        for script in self.running_scripts:
+            await script.on_new_game(match_info)
 
     async def on_new_game_with_mmr(self, match_info: MatchInfo):
         """
@@ -112,6 +156,8 @@ class TwitchChatBot(commands.Bot):
         This function is triggered by match_info script
         """
         print("New game detected, mmr ready")
+        for script in self.running_scripts:
+            await script.on_new_game_with_mmr(match_info)
 
     async def on_game_ended(self, match_info: MatchInfo):
         """
@@ -120,6 +166,8 @@ class TwitchChatBot(commands.Bot):
         """
         # TODO not working yet
         print("Game end detected (either replay started (rewind), or streamer is now in menu)")
+        for script in self.running_scripts:
+            await script.on_game_ended(match_info)
 
     # Commands use a different decorator
     @commands.command(name="test")

@@ -110,4 +110,23 @@ venv.bak/
 /.idea
 
 # Sensitive Config files
-/config/twitch_irc_token.json
+# https://stackoverflow.com/a/6964322
+# If this doesnt work:
+# git update-index --assume-unchanged config/twitch_irc_token.json
+# Undo with:
+# git update-index --no-assume-unchanged config/twitch_irc_token.json
+config/twitch_irc_token.json
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,13 +13,14 @@ import os
 import logging
 logger = logging.getLogger(__name__)
 
+from plugin_base_class.base_class import BaseScript
 # os.path.dirname(__file__)
 
 if TYPE_CHECKING:
     from bot import TwitchChatBot
 
 
-class MatchInfo:
+class MatchInfo(BaseScript):
     def __init__(self, bot=None):
         self.bot: TwitchChatBot = bot
 
@@ -413,6 +414,7 @@ class MatchInfo:
 
     async def prepare_payload(self) -> dict:
         payload = {
+            "payload_type": "match_info",
             "p1name": self.p1name,
             "p2name": self.p2name,
             "p1race": self.race_dict[self.p1race],
@@ -424,29 +426,17 @@ class MatchInfo:
         }
         return payload
 
-    async def send_data_to_html(self, websocket: websockets.WebSocketServer):
+    async def on_tick(self):
+        await self.update_variables()
+
+    async def send_data_to_html(self):
         payload = await self.prepare_payload()
         # print(f"Payload: {json.dumps(payload, indent=4)}")
         payload_string = json.dumps(payload)
-        self.users.add(websocket)
-        for user in self.users.copy():
-            try:
-                await user.send(payload_string)
-            except Exception as e:
-                # Connection error with websocket, close it
-                self.users.discard(websocket)
+        if self.bot is not None:
+            await self.bot.broadcast_json(payload_string)
 
-    async def websocket_server_loop(self, websocket, path):
-        """ Each new websocket connection will start this function, so when the websocket connection closes, this function has to return. """
-        while 1:
-            print("Updating variables")
-            await self.update_variables(websocket)
-            await asyncio.sleep(1)
-            if websocket.closed:
-                # Close websocket connection if connection was closed
-                return
-
-    async def update_variables(self, websocket=None):
+    async def update_variables(self):
         self.ui_data = await self.get_ui_data()
         self.game_data = await self.get_game_data()
 
@@ -463,7 +453,7 @@ class MatchInfo:
             # print(f"Early return - {time.time()}")
             # Send the data to all websockets again, to newly connected as well as old ones
             if self.p1mmr.isnumeric():
-                await self.send_data_to_html(websocket)
+                await self.send_data_to_html()
             return
 
         # Reset the data before checking and converting it, and grabbing new mmr
@@ -492,7 +482,7 @@ class MatchInfo:
 
             if self.bot is not None:
                 await self.bot.on_new_game_with_mmr(self)
-            await self.send_data_to_html(websocket)
+            await self.send_data_to_html()
 
 
 def main():
