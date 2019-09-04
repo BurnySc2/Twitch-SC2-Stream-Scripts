@@ -1,0 +1,6 @@
+{
+  "give_points_interval": 300,
+  "viewer_pointers_increment": 5,
+  "active_chatter_time": 1800,
+  "active_chatter_points_increment": 50
+}

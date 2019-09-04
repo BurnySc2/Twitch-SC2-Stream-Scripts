@@ -64,6 +64,7 @@ class MatchInfo(BaseScript):
         # FROM CONFIG FILE:
         self.user_names = ["BuRny"]
         self.server = "eu"
+        # Enable if you want to test if script is working vs AI
         self.DEBUG_MODE = True
 
     @property

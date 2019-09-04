@@ -1,8 +1,10 @@
 
 # https://twitchio.readthedocs.io/en/rewrite/twitchio.html
+# https://github.com/TwitchIO/TwitchIO
 from twitchio.ext import commands
 from twitchio import Message
 
+# https://websockets.readthedocs.io/en/stable/intro.html
 import websockets
 
 import asyncio
@@ -12,6 +14,7 @@ import json
 from typing import Dict, List, Set, Union, Optional
 
 from match_info.match_info import MatchInfo
+from points_system.point_system import PointSystem
 from plugin_base_class.base_class import BaseScript
 
 import logging
@@ -22,6 +25,7 @@ logger = logging.getLogger(__name__)
 bot client properties and functions
 coroutine: create_clip(token: str, broadcaster_id: Union[str, int])
 coroutine: get_chatters(channel: str) {
+    # each user is listed here in string form
     count: int
     broadcaster: List[str]
     all: List[str]
@@ -62,10 +66,10 @@ class TwitchChatBot(commands.Bot):
     def __init__(self, irc_token):
         initial_channels = []
         # TODO: only allow one channel to be used
-        main_channel = "burnysc2"
-        super().__init__(irc_token=irc_token, client_id="...", nick="burnysc2bot", prefix="!", initial_channels=initial_channels + [main_channel])
+        self.main_channel = "burnysc2"
+        super().__init__(irc_token=irc_token, client_id="...", nick="burnysc2bot", prefix="!", initial_channels=initial_channels + [self.main_channel])
 
-        # Start websocket connection to be able to communicate with overlay files
+        # Start websocket connection to be able to communicate with overlay HTML files
         self.websocket_connections = set()
         self.websocket_server = websockets.serve(self.on_websocket_connection, "127.0.0.1", 5678)
 
@@ -83,6 +87,13 @@ class TwitchChatBot(commands.Bot):
             self.match_info = MatchInfo(self)
             self.match_info.load_config()
             self.running_scripts.append(self.match_info)
+
+        # Start point_system script/plugin
+        assert "point_system" in enabled_scripts
+        if enabled_scripts["point_system"]:
+            # Pointsystem script
+            self.point_system = PointSystem(self)
+            self.running_scripts.append(self.point_system)
 
     # Events don't need decorators when subclassed
     async def event_ready(self):
@@ -129,7 +140,10 @@ class TwitchChatBot(commands.Bot):
         """
         Function that is run every time the bot sees a new message from one of the connected channels
         """
-        print(message.content)
+        for script in self.running_scripts:
+            await script.on_message(message)
+
+        # Trigger internal commands
         await self.handle_commands(message)
 
     async def on_tick(self):
@@ -139,14 +153,13 @@ class TwitchChatBot(commands.Bot):
         """
         for script in self.running_scripts:
             await script.on_tick()
-        # print(f"Running tick")
 
     async def on_new_game(self, match_info: MatchInfo):
         """
         New game was detected. This is the earliest detection possible that has info about opponent (name, race), but not mmr available yet.
         This function is triggered by match_info script
         """
-        print("New game detected")
+        # print("New game detected")
         for script in self.running_scripts:
             await script.on_new_game(match_info)
 
@@ -155,7 +168,7 @@ class TwitchChatBot(commands.Bot):
         New game was detected. This is the earliest detection possible that has info about opponent (name, race, mmr)
         This function is triggered by match_info script
         """
-        print("New game detected, mmr ready")
+        # print("New game detected, mmr ready")
         for script in self.running_scripts:
             await script.on_new_game_with_mmr(match_info)
 
@@ -164,8 +177,7 @@ class TwitchChatBot(commands.Bot):
         The SC2 game has ended, either the streamer is now in menu, replay or loading screen. This is useful for the betting script to check when the betting is over.
         This function is triggered by match_info script
         """
-        # TODO not working yet
-        print("Game end detected (either replay started (rewind), or streamer is now in menu)")
+        # print("Game end detected (either replay started (rewind), or streamer is now in menu)")
         for script in self.running_scripts:
             await script.on_game_ended(match_info)
 

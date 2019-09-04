@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fe2ad40acfbbf5da8407babe522b8ecbf7df7eb8797e1e6a2c74ffa3e867b52c"
+            "sha256": "88e4e6413b8e051f6e4886367f49732b569ae1e958a67a82de1c39256781acfa"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -105,6 +105,14 @@
                 "sha256:db603a1c235d110c860d5f39988ebc8218ee028f07a7cbc056ba6424372ca31b"
             ],
             "version": "==4.5.2"
+        },
+        "tinydb": {
+            "hashes": [
+                "sha256:260b1f69168a24518af63f0270c72dc026476607016a0105aef6a966d8d2fbdc",
+                "sha256:a05c4c81e6e867c4f8a2e51c5236d0d897019aa5e9296f5947455b0bdd3c519d"
+            ],
+            "index": "pypi",
+            "version": "==3.13.0"
         },
         "twitchio": {
             "hashes": [
