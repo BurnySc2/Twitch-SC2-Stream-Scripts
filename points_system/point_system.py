@@ -45,6 +45,16 @@ class PointSystem(BaseScript):
         # Keep track on when the points were last updated
         self.timestamp_last_points_given: float = time.time()
 
+    def get_points_of_user(self, user: str):
+        User = Query()
+        result: List[dict] = self.db.search(User.name == user)
+        assert len(result) < 2
+        if not result:
+            # Entry wasn't found
+            return 0
+        return result[0]["points"]
+
+
     def add_new_user(self, user: str, points: int = 0, last_message: float = 0):
         self.db.insert({"name": user, "points": points, "last_message": last_message})
 
@@ -126,9 +136,11 @@ class PointSystem(BaseScript):
                     )
 
     async def on_message(self, message: Message):
+        # Update last time a user entered a message, so they get more points, instead of people who arent chatting and just watching
         self.update_last_message(message.author.name)
 
     async def on_tick(self):
+        # Give points to chatters every X minutes
         if time.time() - self.timestamp_last_points_given > self.give_points_interval:
             await self.give_points_to_all_chatters()
             self.timestamp_last_points_given = time.time()
