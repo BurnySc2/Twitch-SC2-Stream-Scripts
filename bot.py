@@ -1,4 +1,3 @@
-
 # https://twitchio.readthedocs.io/en/rewrite/twitchio.html
 # https://github.com/TwitchIO/TwitchIO
 from twitchio.ext import commands
@@ -18,6 +17,7 @@ from points_system.point_system import PointSystem
 from plugin_base_class.base_class import BaseScript
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -62,35 +62,49 @@ Message = {
 }
 """
 
+
 class TwitchChatBot(commands.Bot):
     def __init__(self, irc_token):
-        initial_channels = []
-        # TODO: only allow one channel to be used
-        self.main_channel = "burnysc2"
-        super().__init__(irc_token=irc_token, client_id="...", nick="burnysc2bot", prefix="!", initial_channels=initial_channels + [self.main_channel])
+        # Load config file
+        bot_config_path = os.path.join(os.path.dirname(__file__), "config", "bot_config.json")
+        with open(bot_config_path) as f:
+            bot_config: Dict[str, Union[str, bool]] = json.load(f)
+
+        # The main channel the bot is going to interact with
+        self.main_channel = bot_config["twitch_channel_name"]
+        initial_channels = [self.main_channel]
+        bot_name = bot_config["bot_name"]
+        command_prefix = bot_config["command_prefix"]
+        super().__init__(
+            # Irc token to be able to connect to chat
+            irc_token=irc_token,
+            # Client ID to use advanced twitch API features, TODO
+            client_id="...",
+            # The name of the bot, you need to create a second twitch account for this
+            nick=bot_name,
+            prefix=command_prefix,
+            # The initial channels the bot is going to join, for now it will only be one channel
+            initial_channels=initial_channels,
+        )
 
         # Start websocket connection to be able to communicate with overlay HTML files
         self.websocket_connections = set()
         self.websocket_server = websockets.serve(self.on_websocket_connection, "127.0.0.1", 5678)
 
         # Start scripts
-        enabled_scripts_path = os.path.join(os.path.dirname(__file__), "config", "enabled_scripts.json")
-        with open(enabled_scripts_path) as f:
-            enabled_scripts: Dict[str, bool] = json.load(f)
-
         self.running_scripts: List[BaseScript] = []
 
         # Start match_info script/plugin
-        assert "match_info" in enabled_scripts
-        if enabled_scripts["match_info"]:
+        assert "match_info" in bot_config
+        if bot_config["match_info"]:
             # Matchinfo script
             self.match_info = MatchInfo(self)
             self.match_info.load_config()
             self.running_scripts.append(self.match_info)
 
         # Start point_system script/plugin
-        assert "point_system" in enabled_scripts
-        if enabled_scripts["point_system"]:
+        assert "point_system" in bot_config
+        if bot_config["point_system"]:
             # Pointsystem script
             self.point_system = PointSystem(self)
             self.running_scripts.append(self.point_system)
@@ -186,14 +200,14 @@ class TwitchChatBot(commands.Bot):
     async def my_command(self, ctx):
         await ctx.send(f"Hello {ctx.author.name}!")
 
-    # Commands use a different decorator
     @commands.command(name="test2")
     async def my_command(self, ctx):
         chatters = await self.get_chatters("burnysc2")
         await ctx.send(f"Hello {ctx.author.name}!")
 
-if __name__ == '__main__':
-    # Load token from config file
+
+if __name__ == "__main__":
+    # Load token from twitch irc token config file
     token_file_path = os.path.join(os.path.dirname(__file__), "config", "twitch_irc_token.json")
     with open(token_file_path) as f:
         token_file_json = json.load(f)
