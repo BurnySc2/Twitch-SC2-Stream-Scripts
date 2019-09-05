@@ -88,7 +88,34 @@ const addVoteChild = (bo_description) => {
     node.appendChild(outer_flex_horizontal_container);
 };
 
-// Websocket functions
+// Functions used by websocket
+// start vote, update vote, end vote
+const start_vote = (content_dict) => {
+    clearAllChildren();
+    for (const bo of content_dict["bos"]){
+        addVoteChild(bo);
+    }
+    for (const index in content_dict["bos"]){
+        changePercentage(index, "0%");
+    }
+    changeInfo(0, 0);
+    showVote();
+};
+
+const update_vote = (content_dict) => {
+    for (const index in content_dict["percentages"]){
+        changePercentage(index, content_dict["percentages"][index]);
+    }
+    const unique_votes = content_dict["unique_votes"];
+    const time_active = content_dict["time_active"];
+    changeInfo(unique_votes, time_active);
+};
+
+const end_vote = (content_dict) => {
+    hideVote();
+};
+
+// Websocket function
 var ws = new WebSocket("ws://127.0.0.1:5678/");
 
 ws.onmessage = function (event) {
@@ -99,18 +126,27 @@ ws.onmessage = function (event) {
      * Example Data:
      * {
      *     "payload_type": "build_order_vote",
-     *     "vote_type": one of ["hide", "show", "clear", "change_percentage", "change_info", "add_children"],
-     *     // If "add_children"
-     *     "data": ["my first bo", "my second bo"],
-     *     // if "change_percentage", submit new percentage values and unique votes and time active
-     *     "data": ["25%", "25%", "50%", 15, 15],
+     *     "vote_type": one of ["start_vote", "update_vote", "end_vote"],
+     *
+     *     // If "start_vote"
+     *     "bos": ["my first bo", "my second bo"],
+     *
+     *     // if "update_vote"
+     *     "percentages": ["25%", "25%", "50%"],
+     *     "unique_votes": 12,
+     *     "time_active": 15,
      * }
     */
     if (content["payload_type"] === "build_order_vote") {
-        console.log(content);
-        apply_changes(content);
-        // TODO: run functions accordingly to json data type
-        // document.getElementById("p1name").innerHTML = content["p1name"];
+        if (content["vote_type"] === "start_vote") {
+            start_vote(content);
+        }
+        else if (content["vote_type"] === "update_vote") {
+            update_vote(content);
+        }
+        else if (content["vote_type"] === "end_vote") {
+            end_vote(content);
+        }
     }
 };
 
@@ -137,4 +173,22 @@ window.onload = function(){
 
     // Modify info at bottom
     // changeInfo(15, 25)
+
+
+    // Test websocket functions:
+    // start_vote({
+    //     "bos": ["yikes", "yikers"]
+    // });
+    // setTimeout(() => {
+    //     update_vote({
+    //         "percentages": ["30%", "70%"],
+    //         "unique_votes": 10,
+    //         "time_active": 20,
+    //     });
+    //
+    //     setTimeout(() => {
+    //         end_vote({});
+    //
+    //     }, 2000)
+    // }, 1000);
 };

@@ -1,0 +1,95 @@
+=============
+4 Hellion, 3 Rax, 3rd CC, Bio (Fantasy Build Order)
+-------------
+Enabled 1
+Matchup TvZ
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:40 16 Barracks, Refinery
+1:15 SCV Scout
+1:27 Orbital, Reaper
+1:41 Expand
+2:00 Marine, 2nd Depot
+2:08 Factory
+2:22 Reactor on Barracks, 2nd Refinery
+2:40 Saturate 2nd Gas
+2:54 Starport, swap Factory on Reactor
+3:00 Make 4 Hellions
+3:34 Viking, 3rd Depot
+3:47 +2 Rax, make Reactor with Factory
+3:55 Techlab on Barracks
+4:03 Reactor on Starport, 4th depot
+4:10 Start Stim
+4:25 3rd CC
+4:35 Swap Rax on Reactor, non-stop Marines
+4:50 Make 2 Medivacs
+5:15 +2 Ebays
+5:25 +2 Gas
+5:30 Push with Reaper Hellion 12 Marines 2 Medivacs
+5:50 Start Tank production
+6:40 +2 Barracks
+6:55 Armory
+7:00 Start moveout with 30 Marines 2 Tanks 4 Medivacs and 1-1 about to finish (7:40)
+8:00 +2 Gas and start +2+2
+
+=============
+BratOK into Banshee then Bio
+-------------
+Enabled 1
+Matchup TvP
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:40 16 Barracks, Refinery
+1:10 SCV Scout
+1:27 Orbital, Reactor
+1:44 Expand
+1:56 2nd Depot
+2:03 6 Marines
+2:16 Factory
+2:28 2nd Refinery
+3:00 Swap Barracks and Factory
+3:03 2 Hellions, Starport
+3:08 Move across with 6 Marines, Rally 2 Hellions across
+3:15 Make Techlab on Barracks
+3:30 3rd Depot, make Techlab on Factory, swap Barracks on Reactor
+3:47 Banshee + Cloak, non stop marines
+4:05 Start Tank production
+4:20 +2 Barracks
+4:35 2nd Banshee
+4:50 Ebay, +2 Gas
+5:15 Swap both Barracks on Techlabs, make Reactor with Factory and Starport
+5:25 +1 Attack, Stim, Combat Shield
+6:00 3rd CC, Start MMMM Production
+6:50 Push when Stim is 90% Done
+7:05 +2 Barracks
+
+=============
+6 Hellions into 3CC Bio
+-------------
+Enabled 1
+Matchup TvT
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks
+0:55 SCV Scout
+1:32 Orbital, Reaper
+1:46 Expand
+2:02 Factory, Reactor
+2:15 2nd Depot, 2nd Refinery
+2:45 Starport, 6 Hellions
+3:25 Swap Starport on Techlab, 2 Ravens
+3:40 Techlab on Barracks
+4:05 Swap Barracks and Factory, Tanks
+4:30 3rd CC, +2 Gas
+5:15 +2 Ebays
+5:40 Start 1-1, start Stim
+6:00 +2 Rax
+6:40 +2 Rax, Fly 3rd CC to Location
+7:00 Armory, +2 Gas
+8:00 4th CC
+
+=============

@@ -14,6 +14,7 @@ from typing import Dict, List, Set, Union, Optional
 
 from match_info.match_info import MatchInfo
 from points_system.point_system import PointSystem
+from build_order_overlay.build_order import BuildOrderOverlay
 from plugin_base_class.base_class import BaseScript
 
 import logging
@@ -109,6 +110,14 @@ class TwitchChatBot(commands.Bot):
             self.point_system = PointSystem(self)
             self.running_scripts.append(self.point_system)
 
+        # Start build_order_overlay script/plugin
+        assert "build_order_overlay" in bot_config
+            # Pointsystem script
+        if bot_config["build_order_overlay"]:
+            self.build_order_overlay = BuildOrderOverlay(self)
+            self.build_order_overlay.load_build_orders()
+            self.running_scripts.append(self.build_order_overlay)
+
     # Events don't need decorators when subclassed
     async def event_ready(self):
         """
@@ -133,13 +142,18 @@ class TwitchChatBot(commands.Bot):
         self.websocket_connections.add(websocket)
         # I don't know why, but need to keep this function alive
         # If the function returns, the connection closes
+
+        # Whenever there is a new websocket connection, scripts may need to hide or clear the default overlay
+        for script in self.running_scripts:
+            await script.on_new_websocket_connection()
+
         while 1:
             await asyncio.sleep(1)
             # Check if the websocket client closed the connection
             if websocket.closed:
                 return
 
-    async def broadcast_json(self, json_string: str):
+    async def websocket_broadcast_json(self, json_string: str):
         """
         Send a json string to all connected websockets
         Remove websocket if sending was unsuccessful

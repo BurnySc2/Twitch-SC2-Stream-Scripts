@@ -16,6 +16,9 @@ class BaseScript:
     async def on_ready(self):
         pass
 
+    async def on_new_websocket_connection(self):
+        pass
+
     async def on_message(self, message: Message):
         pass
 

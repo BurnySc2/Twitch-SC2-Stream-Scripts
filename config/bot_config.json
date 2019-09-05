@@ -3,5 +3,6 @@
   "bot_name": "burnysc2bot",
   "command_prefix": "!",
   "match_info": true,
-  "point_system": true
+  "point_system": true,
+  "build_order_overlay": true
 }

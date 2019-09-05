@@ -199,8 +199,8 @@ class MatchInfo(BaseScript):
         # Check if new game was started
         past_loc_was_menu = self.past_game_location == "menu"
         new_loc_is_game = self.game_location == "game"
-        print(f"Previous location was {self.past_game_location}")
-        print(f"Current location is {self.game_location}")
+        # print(f"Previous location was {self.past_game_location}")
+        # print(f"Current location is {self.game_location}")
         if past_loc_was_menu and new_loc_is_game:
             self.new_game_started = True
             # Validate game afterwards
@@ -230,14 +230,12 @@ class MatchInfo(BaseScript):
             self.valid_game = False
             return
 
+        # Enable play vs AI if debug mode is on
         if not self.DEBUG_MODE and any(
             True for player_data in self.game_data["players"] if player_data["type"] != "user"
         ):
             self.valid_game = False
             return
-
-        # Set game time for build order scripts
-        self.game_time = self.game_data["displayTime"]
 
         # Set p1name and p2name variables
         player1_race = self.game_data["players"][0]["race"]
@@ -435,7 +433,7 @@ class MatchInfo(BaseScript):
         # print(f"Payload: {json.dumps(payload, indent=4)}")
         payload_string = json.dumps(payload)
         if self.bot is not None:
-            await self.bot.broadcast_json(payload_string)
+            await self.bot.websocket_broadcast_json(payload_string)
 
     async def update_variables(self):
         self.ui_data = await self.get_ui_data()
@@ -444,6 +442,9 @@ class MatchInfo(BaseScript):
         if self.ui_data == {} or self.game_data == {}:
             print("Early return, no connection to SC2 Client")
             return
+
+        # Set game time for build order scripts
+        self.game_time = self.game_data["displayTime"]
 
         self.detect_new_game_started()
         if self.end_of_game_detected and self.bot is not None:
