@@ -1,0 +1,15 @@
+html, body, #wrapper {
+}
+
+table {
+    width: 200px;
+    height: 135px;
+    table-layout: fixed;
+    white-space: nowrap;
+    overflow: hidden;
+    color: red;
+}
+
+.left {
+    text-align: left;
+}
