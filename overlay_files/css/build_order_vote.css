@@ -1,0 +1,155 @@
+html, body {
+    width: 400px;
+    height: 135px;
+    color: #ddd;
+    border-radius: 15px;
+    transition: opacity 1000ms ease-in-out;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.flex-vertical-container {
+    display: flex;
+    flex-direction: column;
+    background: #33c;;
+    border-radius: 15px;
+}
+
+.flex-horizontal-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px 10px 15px 10px;
+}
+
+.flex-horizontal-bo-percentage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: x-large;
+    background: #44c;
+    padding: 10px;;
+    border-radius: 15px;
+    box-shadow: 0 1px 5px black;
+}
+
+.instruction {
+    font-size: large;
+    padding: 10px;
+}
+
+#vote-choices {
+}
+
+.choice-number {
+    font-size: x-large;
+    margin-right: 10px;
+}
+
+.choice {
+    width: 400px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.flex-horizontal-bo-percentage {
+    margin: 3px;
+}
+
+.bar-wrapper {
+    margin-top: 5px;
+    display: block;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.bar {
+    background-color: #ff0000;
+    height: 10px;
+    border-radius: 5px;
+    /* Animation transition, just change element.style.width and this triggers the transition */
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/transition */
+    transition: width 2000ms ease-in-out;
+}
+
+#bar0 {
+    width: 25%;
+}
+
+#bar1 {
+    width: 75%;
+}
+
+#bar2 {
+    width: 75%;
+}
+
+.text-bo-description {
+    align-self: flex-start;
+}
+
+.text-bo-vote-percentage {
+    align-self: flex-end;
+}
+
+#info1 {
+    flex-grow: 2;
+}
+
+#info2 {
+    flex-grow: 2;
+    text-align: right;
+}
+
+.flex-horizontal-container-bo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px 0px 10px;
+}
+
+.bo-animation-text {
+    transition: opacity 1000ms ease-in-out;
+}
+
+#bo-step0 {
+    font-size: x-large;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-timer0 {
+    font-size: x-large;
+    flex-grow: 1;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-instruction0 {
+    font-size: x-large;
+    flex-grow: 9;
+    padding: 10px 0px 0px 0px;
+}
+
+#bo-step1 {
+    font-size: x-large;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-timer1 {
+    font-size: x-large;
+    flex-grow: 1;
+    padding: 10px 0px 10px 10px;
+}
+
+#bo-instruction1 {
+    font-size: x-large;
+    flex-grow: 9;
+    padding: 10px 0px 10px 0px;
+}

@@ -1,0 +1,72 @@
+html, body {
+    width: 400px;
+    height: 135px;
+    color: #ddd;
+    border-radius: 15px;
+    transition: opacity 1000ms ease-in-out;
+}
+
+.title {
+    font-size: x-large;
+    background: #44c;
+    padding: 10px;;
+    border-radius: 15px;
+    box-shadow: 0 1px 5px black;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.flex-vertical-container {
+    display: flex;
+    flex-direction: column;
+    background: #33c;;
+    border-radius: 15px;
+}
+
+.flex-horizontal-container-bo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px 0px 10px;
+}
+
+.bo-animation-text {
+    transition: opacity 1000ms ease-in-out;
+}
+
+#bo-step0 {
+    font-size: x-large;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-timer0 {
+    font-size: x-large;
+    flex-grow: 1;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-instruction0 {
+    font-size: x-large;
+    flex-grow: 9;
+    padding: 10px 0px 0px 0px;
+}
+
+#bo-step1 {
+    font-size: x-large;
+    padding: 10px 0px 0px 10px;
+}
+
+#bo-timer1 {
+    font-size: x-large;
+    flex-grow: 1;
+    padding: 10px 0px 10px 10px;
+}
+
+#bo-instruction1 {
+    font-size: x-large;
+    flex-grow: 9;
+    padding: 10px 0px 10px 0px;
+}
