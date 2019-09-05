@@ -61,10 +61,6 @@ class BuildOrderOverlay(BaseScript):
         # On tick function only works when a game is running
         self.game_is_running = False
         self.voting_is_running = False
-        # Vote overlay is visible
-        self.bo_vote_overlay_visible = False
-        # Build order step overlay is visible
-        self.bo_step_overlay_visible = False
 
         # On new game variables
         self.build_orders_enabled = []
@@ -304,9 +300,15 @@ class BuildOrderOverlay(BaseScript):
 
         # Reset values
         self.user_already_voted.clear()
+        self.votes_dict.clear()
+        self.votes_total_count = 0
+
         self.chosen_bo = None
+        self.in_game_time = 0
         self.end_of_bo_found = False
         self.end_of_bo_found_time = 0
+        self.game_is_running = True
+        self.voting_started_time = time.time()
 
         current_matchup = f"{match_info.p1race[0].upper()}v{match_info.p2race[0].upper()}"
         if current_matchup not in self.build_orders:
@@ -332,7 +334,6 @@ class BuildOrderOverlay(BaseScript):
             # Don't show anything
             logger.warning(f"No build order for matchup {current_matchup} was entered. Returning.")
 
-        self.game_is_running = True
 
     async def on_message(self, message: Message):
         """
