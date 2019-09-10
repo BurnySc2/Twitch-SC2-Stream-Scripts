@@ -34,7 +34,39 @@ Priority 5
 8:00 +2 Gas and start +2+2
 
 =============
-BratOK into Banshee then Bio
+3CC Hellions BC, Mech (Special vs Reynor Game3, vs Stephano Game2)
+-------------
+Enabled 1
+Matchup TvZ
+Priority 6
++++++++++++++
+0:17 14 Depot
+0:40 16 Barracks, Refinery
+1:15 SCV Scout
+1:27 Orbital, Reaper
+1:41 Expand
+2:00 Marine, 2nd Depot
+2:08 Factory
+2:22 Reactor on Barracks
+2:37 3rd CC
+2:50 2nd Refinery
+3:05 Starport, Start Hellions
+3:37 Viking
+3:45 Fusion Core, 3rd Orbital
+4:07 Techlab on Starport, 3rd Depot
+4:15 +2 Gas
+4:45 Start BC
+5:00 Move 3rd CC to location
+5:05 Armory
+5:35 +2 Factories
+5:50 2nd BC, Start +1 Ground Mech
+6:30 +2 Gas
+7:20 +2 Factories (delay if making tanks)
+7:50 2nd Armory
+8:10 4th CC (add 2 starports later on)
+
+=============
+BratOK into Banshee, Bio
 -------------
 Enabled 1
 Matchup TvP
@@ -83,12 +115,12 @@ Priority 5
 2:45 Starport, 6 Hellions
 3:25 Swap Starport on Techlab, 2 Ravens
 3:40 Techlab on Barracks
-4:05 Swap Barracks and Factory, Tanks
-4:30 3rd CC, +2 Gas
+4:05 Swap Barracks and Factory, 1 Cyclone then Tanks
+4:35 3rd CC, +2 Gas
 5:15 +2 Ebays
 5:40 Start 1-1, start Stim
-6:00 +2 Rax
-6:40 +2 Rax, Fly 3rd CC to Location
+6:10 +2 Rax
+6:45 +2 Rax, Fly 3rd CC to Location
 7:00 Armory, +2 Gas
 8:00 4th CC
 

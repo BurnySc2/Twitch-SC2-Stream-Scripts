@@ -63,7 +63,7 @@ class BuildOrderOverlay(BaseScript):
         self.voting_is_running = False
 
         # On new game variables
-        self.build_orders_enabled = []
+        self.build_orders_current_matchup_enabled = []
         # Timestamp of when voting started, so it is shown properly on overlay
         self.voting_started_time = 0
 
@@ -95,6 +95,21 @@ class BuildOrderOverlay(BaseScript):
         """
         Load build orders from file build_orders.txt
         """
+        # Reset build orders
+        self.build_orders = {
+            # Terran
+            "TvT": [],
+            "TvZ": [],
+            "TvP": [],
+            # Zerg
+            "ZvT": [],
+            "ZvZ": [],
+            "ZvP": [],
+            # Protoss
+            "PvT": [],
+            "PvZ": [],
+            "PvP": [],
+        }
         build_orders_file_path = os.path.join(os.path.dirname(__file__), "build_orders.txt")
         if not os.path.isfile(build_orders_file_path):
             logger.error(f"Could not find build orders file {build_orders_file_path}")
@@ -243,18 +258,22 @@ class BuildOrderOverlay(BaseScript):
     async def build_order_send_websocket_data(self, websocket_type: str):
         if websocket_type == "start_vote":
             # Clear, add_children, change percentage and total unique votes to 0 and time active to 0
-            payload = {"payload_type": "build_order_vote", "vote_type": "start_vote"}
+            bos = [bo["title"] for bo in self.build_orders_current_matchup_enabled]
+            payload = {"payload_type": "build_order_vote", "vote_type": "start_vote", "bos": bos}
             await self.bot.websocket_broadcast_json(json.dumps(payload))
 
         elif websocket_type == "update_vote":
             # Update vote percentages, total unique votes, and time active
             sorted_keys = sorted(self.votes_dict.keys())
+            percentages = ["0%" for index in sorted_keys]
+            if self.votes_total_count:
+                percentages = [
+                    str(round(self.votes_dict[index] / self.votes_total_count, 4) * 100) + "%" for index in sorted_keys
+                ]
             payload = {
                 "payload_type": "build_order_vote",
                 "vote_type": "update_vote",
-                "percentages": [
-                    str(round(self.votes_dict[index] / self.votes_total_count, 4) * 100) for index in sorted_keys
-                ],
+                "percentages": percentages,
                 "unique_votes": str(self.votes_total_count),
                 "time_active": str(int(time.time() - self.voting_started_time)),
             }
@@ -290,13 +309,30 @@ class BuildOrderOverlay(BaseScript):
 
     async def on_new_websocket_connection(self):
         """
-        Hide all overlays on bot start
+        Whenever a new overlay connection is made (e.g. scene switch, or overlay was just enabled
         """
-        await self.build_order_send_websocket_data("end_vote")
-        await self.build_order_send_websocket_data("hide_step")
+        if self.voting_is_running:
+            # Show voting poll
+            await self.build_order_send_websocket_data("start_vote")
+            # Update voting poll with the vote percentages
+            await self.build_order_send_websocket_data("update_vote")
+        else:
+            # Hide voting overlay if vote is not running
+            await self.build_order_send_websocket_data("end_vote")
+
+        if self.game_is_running and self.chosen_bo:
+            # Show build order step because streamer is in a game and a build order was picked (either by voting or because only one build order exists for this matchup
+            await self.build_order_send_websocket_data("show_step")
+        else:
+            # Hide build order step because no build order was picked or no build order for this matchup exists
+            await self.build_order_send_websocket_data("hide_step")
 
     async def on_new_game(self, match_info: MatchInfo):
         # If only one build order is enabled in this matchup, then show build order directly
+
+        # Reload build orders file if it was changed
+        # TODO: only reload if file was modified
+        self.load_build_orders()
 
         # Reset values
         self.user_already_voted.clear()
@@ -316,24 +352,26 @@ class BuildOrderOverlay(BaseScript):
             return
 
         build_orders = self.build_orders[current_matchup]
-        self.build_orders_enabled = [bo for bo in build_orders if bo["enabled"]]
+        self.build_orders_current_matchup_enabled = [bo for bo in build_orders if bo["enabled"]]
 
-        bo_count = len(self.build_orders_enabled)
+        bo_count = len(self.build_orders_current_matchup_enabled)
+        self.votes_dict = {i: 0 for i in range(bo_count)}
+
         if bo_count > 1:
             # Enable voting
+            logger.debug(f"More than one build order detected!")
             await self.build_order_send_websocket_data("start_vote")
             self.voting_is_running = True
             self.voting_started = time.time()
 
         elif bo_count == 1:
             # Show build order directly, no voting needed
-            self.chosen_bo = self.build_orders_enabled[0]
+            self.chosen_bo = self.build_orders_current_matchup_enabled[0]
             await self.build_order_send_websocket_data("show_step")
 
         elif bo_count == 0:
             # Don't show anything
             logger.warning(f"No build order for matchup {current_matchup} was entered. Returning.")
-
 
     async def on_message(self, message: Message):
         """
@@ -342,10 +380,13 @@ class BuildOrderOverlay(BaseScript):
         if self.voting_is_running:
             message_stripped = message.content.strip()
             if message_stripped.isnumeric() and message.author.name not in self.user_already_voted:
-                self.user_already_voted.add(message.author.name)
                 vote_number = int(message_stripped) - 1
                 if vote_number in self.votes_dict:
+                    # Each user has 1 vote, dont let him vote more often
+                    self.user_already_voted.add(message.author.name)
+                    # Increment vote by 1
                     self.votes_dict[vote_number] += 1
+                    # Increment total unique votes by 1
                     self.votes_total_count += 1
                     await self.build_order_send_websocket_data(websocket_type="update_vote")
 
@@ -356,9 +397,9 @@ class BuildOrderOverlay(BaseScript):
                 # The key lambda function generates a tuple e.g. (5, 9) which means this build got 5 votes and has priority 9, so if another build got (5, 8) equal amount of votes but lower priority, the first one should be chosen
                 index_with_most_votes = max(
                     (index for index in self.votes_dict.keys()),
-                    key=lambda i: (self.votes_dict[i], -self.build_orders_enabled[i].get("priority", 0)),
+                    key=lambda i: (self.votes_dict[i], self.build_orders_current_matchup_enabled[i].get("priority", 0)),
                 )
-                self.chosen_bo = self.build_orders_enabled[index_with_most_votes]
+                self.chosen_bo = self.build_orders_current_matchup_enabled[index_with_most_votes]
                 await self.build_order_send_websocket_data("end_vote")
                 self.voting_is_running = False
             else:

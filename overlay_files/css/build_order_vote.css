@@ -1,6 +1,4 @@
 html, body {
-    width: 400px;
-    height: 135px;
     color: #ddd;
     border-radius: 15px;
     transition: opacity 1000ms ease-in-out;
@@ -11,6 +9,8 @@ html, body {
 }
 
 .flex-vertical-container {
+    width: 400px;
+    /*height: 500px;*/
     display: flex;
     flex-direction: column;
     background: #33c;;
