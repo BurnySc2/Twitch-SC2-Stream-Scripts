@@ -10,21 +10,23 @@ const clearAllChildren = () => {
 };
 
 const hideVote = () => {
+    // Hide the whole overlay
     const node = document.getElementsByTagName("body")[0];
     node.classList.add("hidden");
 };
 
 const showVote = () => {
+    // Show the whole overlay
     const node = document.getElementsByTagName("body")[0];
     node.classList.remove("hidden");
 };
 
 const changePercentage = (element_number, percentage_value) => {
     // Args example: (0, "75%")
-    const object_bo_percentage = document.getElementById("bo" + element_number.toString());
+    const object_bo_percentage = document.getElementById("bo" + element_number.toString() + "-percentage");
     object_bo_percentage.innerHTML = percentage_value;
 
-    const bar = document.getElementById("bar" + element_number.toString());
+    const bar = document.getElementById("bo" + element_number.toString() + "-bar");
     bar.style.width = percentage_value;
 };
 
@@ -43,11 +45,12 @@ const addVoteChild = (bo_description) => {
     let child_element_count = node.childElementCount;
 
     let div1 = document.createElement("div");
+    div1.id = "bo" + child_element_count + "-name";
     div1.classList.add("text-bo-description");
     div1.innerHTML = bo_description;
 
     let div2 = document.createElement("div");
-    div2.id = "bo" + child_element_count;
+    div2.id = "bo" + child_element_count + "-percentage";
     div2.classList.add("text-bo-vote-percentage");
     div2.innerHTML = "0%";
 
@@ -60,7 +63,7 @@ const addVoteChild = (bo_description) => {
     // Inner part 2
     let bar = document.createElement("div");
     bar.classList.add("bar");
-    bar.id = "bar" + child_element_count;
+    bar.id = "bo" + child_element_count + "-bar";
     bar.style.width = "0%";
 
     let bar_wrapper = document.createElement("div");
@@ -191,4 +194,13 @@ window.onload = function(){
     //
     //     }, 2000)
     // }, 1000);
+};
+
+const add = (num1, num2) => num1 + num2;
+
+module.exports = {
+    add: add,
+    start_vote: start_vote,
+    update_vote: update_vote,
+    end_vote: end_vote,
 };

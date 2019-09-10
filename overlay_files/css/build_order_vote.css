@@ -79,15 +79,15 @@ html, body {
     transition: width 2000ms ease-in-out;
 }
 
-#bar0 {
+#bo0-bar {
     width: 25%;
 }
 
-#bar1 {
+#bo1-bar {
     width: 75%;
 }
 
-#bar2 {
+#bo2-bar {
     width: 75%;
 }
 

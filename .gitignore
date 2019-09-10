@@ -122,7 +122,8 @@ config/twitch_irc_token.json
 points_system/db.json
 
 
-
+# Node modules
+/node_modules
 
 
 

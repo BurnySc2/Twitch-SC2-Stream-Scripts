@@ -44,3 +44,15 @@ jobs:
         - docker exec -i app bash -c "cd /root/template && pipenv install --dev --python 3.8"
         - docker exec -i app bash -c "cd /root/template && pipenv run pytest test/"
         - docker rm -f app
+
+    - stage: test overlay files javascript
+      script:
+        # Pull the smallest possible docker image with node installed
+        - docker pull node:slim
+        - docker run -it -d --name app node:slim
+        - docker cp . app:/root/template
+        # Install dependencies because node_modules is in gitignore
+        - docker exec -i app bash -c "cd /root/template && npm install"
+        # Run tests
+        - docker exec -i app bash -c "cd /root/template && npm test"
+        - docker rm -f app
