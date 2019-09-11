@@ -11,9 +11,11 @@ import json
 import os
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 from plugin_base_class.base_class import BaseScript
+
 # os.path.dirname(__file__)
 
 if TYPE_CHECKING:
@@ -92,8 +94,6 @@ class MatchInfo(BaseScript):
         self.p2mmr = ""
         self.p2mmr_string = ""
         self.p2stream = ""
-
-        self.new_game_started = False
 
     async def get_game_data(self):
         """
@@ -231,8 +231,9 @@ class MatchInfo(BaseScript):
             return
 
         # Enable play vs AI if debug mode is on
-        if not self.DEBUG_MODE and any(
-            True for player_data in self.game_data["players"] if player_data["type"] != "user"
+        if (
+            not self.DEBUG_MODE
+            and len([True for player_data in self.game_data["players"] if player_data["type"] != "user"]) == 0
         ):
             self.valid_game = False
             return

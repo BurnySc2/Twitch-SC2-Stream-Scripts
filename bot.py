@@ -112,7 +112,7 @@ class TwitchChatBot(commands.Bot):
 
         # Start build_order_overlay script/plugin
         assert "build_order_overlay" in bot_config
-            # Pointsystem script
+        # Pointsystem script
         if bot_config["build_order_overlay"]:
             self.build_order_overlay = BuildOrderOverlay(self)
             self.build_order_overlay.load_build_orders()

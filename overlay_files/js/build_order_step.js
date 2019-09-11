@@ -58,7 +58,7 @@ const show_step = (content_dict) => {
     const step0_info = content_dict["step0_info"];
     const step1_time = content_dict["step1_time"];
     const step1_info = content_dict["step1_info"];
-    changeBuildOrderInfo(title, step0_time, step0_info, step1_time, step1_info, 1000);
+    changeBuildOrderInfo(title, step0_time, step0_info, step1_time, step1_info, content_dict["animation_time"]);
     // changeBuildOrderInfo("4 Hellion into Bio (Fantasy Build Order)", "0:40", "Barracks", "0:45", "Refinery", 1000);
 };
 
@@ -82,9 +82,10 @@ ws.onmessage = function (event) {
      *     // If "show_step"
      *     "title": "4 Hellion into Bio (Fantasy Build Order)",
      *     "step0_time": "0:40",
-     *     "step0_info": Barracks",
+     *     "step0_info": "Barracks",
      *     "step1_time": "0:45",
      *     "step1_info": "Refinery",
+     *     "animation_time": 1000,
      * }
     */
     if (content["payload_type"] === "build_order_step") {
@@ -111,4 +112,9 @@ window.onload = function(){
     // setTimeout(() => {
     //     changeBuildOrderInfo("4 Hellion into Bio (Fantasy Build Order)", "0:45", "Refinery", "1:30", "Reaper", 1000);
     // }, 1500);
+};
+
+module.exports = {
+    show_step: show_step,
+    hide_step: hide_step,
 };

@@ -6,6 +6,7 @@ from match_info.match_info import MatchInfo
 
 import pytest
 
+
 class FakeBot:
     def __init__(self):
         self.match_info: MatchInfo = None
@@ -23,6 +24,7 @@ class FakeBot:
     async def on_game_ended(self):
         self.game_ended_called += 1
 
+
 menu_game_data = {}
 menu_ui_data = {}
 
@@ -34,5 +36,5 @@ replay_ui_data = {}
 
 
 @pytest.mark.asyncio
-async def test_match_info():
+async def test_build_order():
     pass

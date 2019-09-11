@@ -16,8 +16,24 @@ ws.onmessage = function (event) {
     content_raw = event.data;
     content = JSON.parse(content_raw);
     // All overlay files use the same websocket connection, so need to specify the type of json / payload here if it should be used at all
+    /*
+    Example payload:
+    {
+        "payload_type": "match_info",
+        "p2name": "Idontknow",
+        "p2race": "Z",
+        "p1mmr": "4444",
+        "p2mmr": "4555",
+        "p2stream": "BurnySc2",
+        "server": "Europe"
+    }
+     */
     if (content["payload_type"] === "match_info") {
         // console.log(content);
         apply_changes(content);
     }
+};
+
+module.exports = {
+    apply_changes: apply_changes,
 };

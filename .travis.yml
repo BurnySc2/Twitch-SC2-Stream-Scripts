@@ -47,7 +47,7 @@ jobs:
 
     - stage: test overlay files javascript
       script:
-        # Pull the smallest possible docker image with node installed
+        # Pull the smallest possible docker image with node (npm) installed
         - docker pull node:slim
         - docker run -it -d --name app node:slim
         - docker cp . app:/root/template

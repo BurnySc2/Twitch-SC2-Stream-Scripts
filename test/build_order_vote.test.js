@@ -7,8 +7,11 @@ test("Adds 2 + 2 to equal 4", () => {
 // Test manipulation of HTML / DOM
 
 // Function "start_vote" should manipulate a div element with id "vote-choices" to have the same amount of children as there are build orders
+// Function "update_vote" should change the width and percentage value of the vote bars
+// Function "end_vote" should add a class to 'document.getElementsByTagName("body")[0]' with name 'hidden' and change opacity to 0
 
-test("Script executes 'start_vote' and 'update_vote' functions and changes content of DOM", () => {
+
+test("Script executes 'start_vote' and 'update_vote' functions of build_order_vote.js file and changes content of DOM", () => {
 
     // Set up the required HTML
     document.body.innerHTML =
@@ -19,11 +22,16 @@ test("Script executes 'start_vote' and 'update_vote' functions and changes conte
         '   <div id="info2">Time active: 14 seconds</div>' +
         '</div>';
 
+
+
     // Test 'start_vote' function
     let content_dict = {
         "bos": ["build order 1", "build order 2", "build order 3"]
     };
     functions.start_vote(content_dict);
+
+    // The content should show, thus it should remove the 'hidden' class
+    expect(document.getElementsByTagName("body")[0].classList.contains("hidden")).toEqual(false);
 
     // Test that the build orders have been added correctly
     expect(document.getElementById("vote-choices").childElementCount).toEqual(3);
@@ -56,4 +64,13 @@ test("Script executes 'start_vote' and 'update_vote' functions and changes conte
     }
     expect(document.getElementById("info1").textContent).toEqual("Unique votes: 8");
     expect(document.getElementById("info2").textContent).toEqual("Time active: 10 seconds");
+
+
+
+
+    // Test "end_vote" function which adds 'hidden' class
+    content_dict = {};
+    functions.end_vote(content_dict);
+    expect(document.getElementsByTagName("body")[0].classList.contains("hidden")).toEqual(true);
+    expect(document.getElementsByTagName("body")[0].classList).toContain("hidden");
 });

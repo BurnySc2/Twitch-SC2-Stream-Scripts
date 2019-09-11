@@ -298,6 +298,7 @@ class BuildOrderOverlay(BaseScript):
                 "step0_info": step_data_list[1],
                 "step1_time": step_data_list[2],
                 "step1_info": step_data_list[3],
+                "animation_time": 1000,
             }
             payload.update(step_data_dict)
             await self.bot.websocket_broadcast_json(json.dumps(payload))
