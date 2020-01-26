@@ -13,6 +13,7 @@ websockets = "*"
 aiohttp = "*"
 twitchio = "*"
 tinydb = "*"
+obs-websocket-py = "*"
 
 [requires]
 python_version = "3.7"

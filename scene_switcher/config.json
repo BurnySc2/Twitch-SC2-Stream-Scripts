@@ -1,0 +1,11 @@
+{
+    "host": "localhost",
+    "port": 4444,
+    "password": "",
+    "enabled": true,
+    "caster_mode": false,
+    "loading_screen_mode": "fast",
+    "game_scene": "SceneGame",
+    "menu_scene": "SceneLobby",
+    "replay_scene": "SC2Observer"
+}

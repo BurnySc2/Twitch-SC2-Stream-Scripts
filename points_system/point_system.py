@@ -54,7 +54,6 @@ class PointSystem(BaseScript):
             return 0
         return result[0]["points"]
 
-
     def add_new_user(self, user: str, points: int = 0, last_message: float = 0):
         self.db.insert({"name": user, "points": points, "last_message": last_message})
 

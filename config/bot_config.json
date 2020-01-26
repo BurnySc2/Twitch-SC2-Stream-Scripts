@@ -4,5 +4,6 @@
   "command_prefix": "!",
   "match_info": true,
   "point_system": true,
-  "build_order_overlay": true
+  "build_order_overlay": true,
+  "scene_switcher": true
 }

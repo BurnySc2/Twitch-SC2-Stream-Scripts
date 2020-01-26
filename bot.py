@@ -15,6 +15,8 @@ from typing import Dict, List, Set, Union, Optional
 from match_info.match_info import MatchInfo
 from points_system.point_system import PointSystem
 from build_order_overlay.build_order import BuildOrderOverlay
+from scene_switcher.scene_switcher import SceneSwitcher
+
 from plugin_base_class.base_class import BaseScript
 
 import logging
@@ -118,13 +120,19 @@ class TwitchChatBot(commands.Bot):
             self.build_order_overlay.load_build_orders()
             self.running_scripts.append(self.build_order_overlay)
 
+        # Start scene switcher script/plugin
+        assert "scene_switcher" in bot_config
+        # Pointsystem script
+        if bot_config["scene_switcher"]:
+            self.scene_switcher = SceneSwitcher(self)
+            self.scene_switcher.load_settings()
+            self.running_scripts.append(self.scene_switcher)
+
     # Events don't need decorators when subclassed
     async def event_ready(self):
-        """
-        Function is called on bot start when it is connected to twitch channels and ready
-        """
+        """ Function is called on bot start when it is connected to twitch channels and ready """
         print(f"Ready | {self.nick}")
-        logger.warning(f"READY")
+        logger.warning(f"bot.py READY")
 
         # Create the websocket server - it sends messages to all connected websocket clients (I use them to interact with HTML overlays)
         await self.websocket_server

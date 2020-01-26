@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 import asyncio
 import datetime
@@ -15,8 +15,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 from plugin_base_class.base_class import BaseScript
-
-# os.path.dirname(__file__)
 
 if TYPE_CHECKING:
     from bot import TwitchChatBot
@@ -400,7 +398,7 @@ class MatchInfo(BaseScript):
         # Sort by mmr difference to player 1 mmr
         players_sorted = sorted(players_filtered, key=lambda u: abs(u["mmr"] - int(self.p1mmr)))
 
-        most_recent = players_sorted[0]
+        most_recent: Dict[str, str] = players_sorted[0]
         self.p2mmr = str(most_recent["mmr"])
         self.p2mmr_string = self.p2mmr
 
