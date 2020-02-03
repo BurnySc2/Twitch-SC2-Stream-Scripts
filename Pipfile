@@ -14,6 +14,7 @@ aiohttp = "*"
 twitchio = "*"
 tinydb = "*"
 obs-websocket-py = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.7"

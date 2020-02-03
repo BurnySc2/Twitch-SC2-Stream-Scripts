@@ -31,5 +31,11 @@ class BaseScript:
     async def on_new_game_with_mmr(self, match_info: MatchInfo):
         pass
 
+    async def on_replay_entered(self, match_info: MatchInfo):
+        pass
+
+    async def on_game_resumed_from_replay(self, match_info: MatchInfo):
+        pass
+
     async def on_game_ended(self, match_info: MatchInfo):
         pass

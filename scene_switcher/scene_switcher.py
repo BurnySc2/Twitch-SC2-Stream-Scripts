@@ -9,15 +9,15 @@ import aiohttp
 import time
 import json
 import os
+import sys
+
+from loguru import logger
+
 
 # Communication with OBS Studio
 from obswebsocket import obsws, requests as obsrequest
 from obswebsocket.exceptions import ConnectionFailure
 from websocket._exceptions import WebSocketConnectionClosedException
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 from plugin_base_class.base_class import BaseScript
 
@@ -55,7 +55,7 @@ class SceneSwitcher(BaseScript):
         }
         if os.path.isfile(self.settings_path):
             with open(self.settings_path) as f:
-                print(f"Scene switcher loaded settings.")
+                logger.info(f"Scene switcher loaded settings.")
                 self.settings.update(json.load(f))
 
     def connect(self):
@@ -84,25 +84,27 @@ class SceneSwitcher(BaseScript):
         if not self.connected:
             self.connect()
             if self.connected:
-                print(f"Scene switcher connected to OBS websocket")
+                logger.info(f"Scene switcher connected to OBS websocket")
         if self.connected:
             try:
                 self.ws.call(obsrequest.SetCurrentScene(target_scene))
             except (WebSocketConnectionClosedException, ConnectionFailure) as e:
                 # OBS was closed
-                print(f"Error in scene switcher script: {e}")
+                logger.info(f"Error in scene switcher script: {e}")
 
     async def on_new_game(self, match_info: MatchInfo):
-        print("Scene switcher new game was called")
-        print(self.settings)
+        logger.info("Scene switcher new game was called")
+        logger.info(self.settings)
         game_scene: str = self.settings.get("game_scene", "")
         if game_scene:
+            logger.info(f"New game: Switching scene to '{game_scene}'")
             self.switch_obs_scene(game_scene)
 
     async def on_game_ended(self, match_info: MatchInfo):
-        print("Scene switcher game ended was called")
+        logger.info("Scene switcher game ended was called")
         menu_scene: str = self.settings.get("menu_scene", "")
         if menu_scene:
+            logger.info(f"Game ended: Switching scene to '{menu_scene}'")
             self.switch_obs_scene(menu_scene)
 
     # TODO when joining replay or pressing rewind, set replay scene
@@ -120,4 +122,4 @@ if __name__ == "__main__":
     # a = SceneSwitcher()
     # a.load_settings()
     # scenes = a.get_obs_scenes()
-    # print(scenes)
+    # logger.info(scenes)

@@ -11,18 +11,17 @@ import aiohttp
 import time
 import json
 import os
+import sys
 
 from typing import Set, Dict, List
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 from plugin_base_class.base_class import BaseScript
 
 if TYPE_CHECKING:
     from bot import TwitchChatBot
     from match_info.match_info import MatchInfo
+
+from loguru import logger
 
 
 class BuildOrderOverlay(BaseScript):
@@ -233,7 +232,7 @@ class BuildOrderOverlay(BaseScript):
 
         end_of_bo_found = True
         for index, step in enumerate(self.chosen_bo["bo"]):
-            # print(index, self.in_game_time, self.bot.match_info.game_time, step)
+            # logger.info(index, self.in_game_time, self.bot.match_info.game_time, step)
             time_str = step[1]
             time_from_bo = convert_time_formatted_to_seconds(time_str)
             step0_time = step1_time
@@ -328,7 +327,7 @@ class BuildOrderOverlay(BaseScript):
             # Hide build order step because no build order was picked or no build order for this matchup exists
             await self.build_order_send_websocket_data("hide_step")
 
-    async def on_new_game(self, match_info: MatchInfo):
+    async def on_new_game_with_mmr(self, match_info: MatchInfo):
         # If only one build order is enabled in this matchup, then show build order directly
 
         # Reload build orders file if it was changed

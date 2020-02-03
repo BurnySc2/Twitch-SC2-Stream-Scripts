@@ -10,6 +10,9 @@ import asyncio
 import time
 import os
 import json
+import sys
+
+
 from typing import Dict, List, Set, Union, Optional
 
 from match_info.match_info import MatchInfo
@@ -19,9 +22,10 @@ from scene_switcher.scene_switcher import SceneSwitcher
 
 from plugin_base_class.base_class import BaseScript
 
-import logging
+# https://github.com/Delgan/loguru
+from loguru import logger
 
-logger = logging.getLogger(__name__)
+logger.add(sys.stderr, format="{time} {level} {message}", filter="bot", level="INFO")
 
 
 """
@@ -41,7 +45,7 @@ coroutine: get_chatters(channel: str) {
 }
 
 Message = {
-    User object: author: {
+    User object: 'author': {
         id: int, id of user
         is_mod: bool
         is_subscriber: int, 0 for false 1 for true
@@ -49,7 +53,7 @@ Message = {
         display_name: str, e.g. "BurnySc2"
         name: str, e.g. "burnysc2"
     },
-    Channel object: channel: {
+    Channel object: 'channel': {
         coroutine ban(user: str, resaon: str=""), bans user
         coroutine get_stream() -> dict, info about the stream
         coroutine send(content: str), sends text message to destination channel
@@ -120,9 +124,9 @@ class TwitchChatBot(commands.Bot):
             self.build_order_overlay.load_build_orders()
             self.running_scripts.append(self.build_order_overlay)
 
-        # Start scene switcher script/plugin
+        # Start scene_switcher script/plugin
         assert "scene_switcher" in bot_config
-        # Pointsystem script
+        # Scene switcher script
         if bot_config["scene_switcher"]:
             self.scene_switcher = SceneSwitcher(self)
             self.scene_switcher.load_settings()
@@ -131,8 +135,7 @@ class TwitchChatBot(commands.Bot):
     # Events don't need decorators when subclassed
     async def event_ready(self):
         """ Function is called on bot start when it is connected to twitch channels and ready """
-        print(f"Ready | {self.nick}")
-        logger.warning(f"bot.py READY")
+        logger.info(f"bot.py READY | {self.nick}")
 
         # Create the websocket server - it sends messages to all connected websocket clients (I use them to interact with HTML overlays)
         await self.websocket_server
@@ -195,7 +198,7 @@ class TwitchChatBot(commands.Bot):
         New game was detected. This is the earliest detection possible that has info about opponent (name, race), but not mmr available yet.
         This function is triggered by match_info script
         """
-        # print("New game detected")
+        # logger.info("New game detected")
         for script in self.running_scripts:
             await script.on_new_game(match_info)
 
@@ -204,7 +207,7 @@ class TwitchChatBot(commands.Bot):
         New game was detected. This is the earliest detection possible that has info about opponent (name, race, mmr)
         This function is triggered by match_info script
         """
-        # print("New game detected, mmr ready")
+        # logger.info("New game detected, mmr ready")
         for script in self.running_scripts:
             await script.on_new_game_with_mmr(match_info)
 
@@ -213,7 +216,7 @@ class TwitchChatBot(commands.Bot):
         The SC2 game has ended, either the streamer is now in menu, replay or loading screen. This is useful for the betting script to check when the betting is over.
         This function is triggered by match_info script
         """
-        # print("Game end detected (either replay started (rewind), or streamer is now in menu)")
+        # logger.info("Game end detected (either replay started (rewind), or streamer is now in menu)")
         for script in self.running_scripts:
             await script.on_game_ended(match_info)
 

@@ -9,10 +9,9 @@ import aiohttp
 import time
 import json
 import os
+import sys
 
-import logging
-
-logger = logging.getLogger(__name__)
+from loguru import logger
 
 from plugin_base_class.base_class import BaseScript
 
@@ -128,7 +127,7 @@ class MatchInfo(BaseScript):
                 resp_json = await resp.json()
                 return resp_json
         except aiohttp.ClientConnectorError:
-            print("Error, SC2 is not running.")
+            logger.info("Error, SC2 is not running.")
             return {}
 
     async def get_ui_data(self):
@@ -170,7 +169,7 @@ class MatchInfo(BaseScript):
                 resp_json = await resp.json()
                 return resp_json
         except aiohttp.ClientConnectorError:
-            print("Error, SC2 is not running.")
+            logger.info("Error, SC2 is not running.")
             return {}
 
     def detect_new_game_started(self):
@@ -197,8 +196,8 @@ class MatchInfo(BaseScript):
         # Check if new game was started
         past_loc_was_menu = self.past_game_location == "menu"
         new_loc_is_game = self.game_location == "game"
-        # print(f"Previous location was {self.past_game_location}")
-        # print(f"Current location is {self.game_location}")
+        # logger.info(f"Previous location was {self.past_game_location}")
+        # logger.info(f"Current location is {self.game_location}")
         if past_loc_was_menu and new_loc_is_game:
             self.new_game_started = True
             # Validate game afterwards
@@ -217,14 +216,14 @@ class MatchInfo(BaseScript):
         # When both players have the same name
         # When player name was not found in user_names array
         if len(self.game_data["players"]) != 2:
-            print("Invalid game because number of players is not equal to 2")
+            logger.info("Invalid game because number of players is not equal to 2")
             self.valid_game = False
             return
 
         player1_name = self.game_data["players"][0]["name"]
         player2_name = self.game_data["players"][1]["name"]
         if player1_name == player2_name:
-            print("Invalid game because player 1 name is equal to player 2 name")
+            logger.info("Invalid game because player 1 name is equal to player 2 name")
             self.valid_game = False
             return
 
@@ -258,14 +257,14 @@ class MatchInfo(BaseScript):
                 break
         if not streamer_found:
             self.valid_game = False
-            print(
+            logger.info(
                 "Invalid game because streamer could not be found. player 1 or player 2 are not in the list of account names"
             )
             return
 
     async def get_unmasked_response(self, name, race, server):
         url = f"http://sc2unmasked.com/API/Player?name={name}&race={race}&server={server}"
-        print(f"Sc2unmasked url: {url}")
+        logger.info(f"Sc2unmasked url: {url}")
         async with self.session.get(url) as resp:
             assert resp.status == 200
             resp_json = await resp.json()
@@ -339,11 +338,11 @@ class MatchInfo(BaseScript):
         # let url = "http://sc2unmasked.com/API/Player?" + $.param({name: p1name, race: p1race.substring(0, 1), server: server});
 
         unmasked_response = await self.get_unmasked_response(self.p1name, self.p1race, self.server)
-        print("Sc2unmasked response:", json.dumps(unmasked_response, indent=4))
+        logger.info("Sc2unmasked response:", json.dumps(unmasked_response, indent=4))
 
         players = unmasked_response["players"]
         if not players:
-            print("No results found for player 1")
+            logger.info("No results found for player 1")
             self.p1mmr = "???"
             self.p1mmr_string = "???"
             return
@@ -368,9 +367,9 @@ class MatchInfo(BaseScript):
         streamer_didnt_play_in_more_than_24h = (
             self.time_now - self.convert_player_info_to_last_player(streamer_info) > _24_hours
         )
-        print(self.time_now)
-        print(self.convert_player_info_to_last_player(streamer_info))
-        print(
+        logger.info(self.time_now)
+        logger.info(self.convert_player_info_to_last_player(streamer_info))
+        logger.info(
             f"Last game of streamer was {(self.time_now - self.convert_player_info_to_last_player(streamer_info)) / (60)} mins ago"
         )
         if more_than_one_player_match or streamer_didnt_play_in_more_than_24h:
@@ -383,7 +382,7 @@ class MatchInfo(BaseScript):
 
         players = unmasked_response["players"]
         if not players:
-            print("No results found for player 2")
+            logger.info("No results found for player 2")
             self.p2mmr = "???"
             self.p2mmr_string = "???"
             return
@@ -429,7 +428,7 @@ class MatchInfo(BaseScript):
 
     async def send_data_to_html(self):
         payload = await self.prepare_payload()
-        # print(f"Payload: {json.dumps(payload, indent=4)}")
+        # logger.info(f"Payload: {json.dumps(payload, indent=4)}")
         payload_string = json.dumps(payload)
         if self.bot is not None:
             await self.bot.websocket_broadcast_json(payload_string)
@@ -439,7 +438,7 @@ class MatchInfo(BaseScript):
         self.game_data = await self.get_game_data()
 
         if self.ui_data == {} or self.game_data == {}:
-            print("Early return, no connection to SC2 Client")
+            logger.info("Early return, no connection to SC2 Client")
             return
 
         # Set game time for build order scripts
@@ -447,11 +446,11 @@ class MatchInfo(BaseScript):
 
         self.detect_new_game_started()
         if self.end_of_game_detected and self.bot is not None:
-            print("End of game detected!")
+            logger.info("End of game detected!")
             await self.bot.on_game_ended(self)
 
         if not self.new_game_started:
-            # print(f"Early return - {time.time()}")
+            # logger.info(f"Early return - {time.time()}")
             # Send the data to all websockets again, to newly connected as well as old ones
             if self.p1mmr.isnumeric():
                 await self.send_data_to_html()
@@ -460,26 +459,25 @@ class MatchInfo(BaseScript):
         # Reset the data before checking and converting it, and grabbing new mmr
         self.reset_values()
 
-        print("New game start detected")
+        logger.info("New game start detected")
+        # Call this function when the streamer enters the game (on loading screen, the api reports that the player is in game)
+        await self.bot.on_new_game(self)
+
         # Validate API data: has to have only 2 players, both need to be users and both cannot have the exact same name
         self.validate_data()
-
         if self.valid_game:
-            if self.bot is not None:
-                await self.bot.on_new_game(self)
-
-            print("Valid game found")
-            print(f"Grabbing mmr of player1: {self.p1name} ({self.p1race})")
+            logger.info("Valid game found")
+            logger.info(f"Grabbing mmr of player1: {self.p1name} ({self.p1race})")
             await self.get_player1_mmr()
-            print(f"Grabbed mmr of player1: {self.p1mmr} | {self.p1mmr_string}")
+            logger.info(f"Grabbed mmr of player1: {self.p1mmr} | {self.p1mmr_string}")
 
             if self.p1mmr.isnumeric():
-                print(f"Grabbing mmr of player2: {self.p2name} ({self.p2race})")
+                logger.info(f"Grabbing mmr of player2: {self.p2name} ({self.p2race})")
                 try:
                     await self.get_player2_mmr()
-                    print(f"Grabbed mmr of player2: {self.p2mmr} | {self.p2mmr_string}")
+                    logger.info(f"Grabbed mmr of player2: {self.p2mmr} | {self.p2mmr_string}")
                 except aiohttp.ContentTypeError:
-                    print("Could not grab mmr of player2, aiohttp error.")
+                    logger.info("Could not grab mmr of player2, aiohttp error.")
 
             if self.bot is not None:
                 await self.bot.on_new_game_with_mmr(self)
@@ -489,7 +487,7 @@ class MatchInfo(BaseScript):
 def main():
     match_info = MatchInfo()
     match_info.load_config()
-    print("Script started")
+    logger.info("Script started")
     start_server = websockets.serve(match_info.websocket_server_loop, "127.0.0.1", 5678)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
