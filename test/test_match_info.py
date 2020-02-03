@@ -25,6 +25,9 @@ class FakeBot:
     async def on_game_ended(self, match_info: MatchInfo):
         self.game_ended_called += 1
 
+    async def on_rewind(self, match_info: MatchInfo):
+        pass
+
     async def websocket_broadcast_json(self, payload: str):
         self.websocket_broadcast_called += 1
 
@@ -152,11 +155,11 @@ async def test_match_info_game_to_replay():
     assert match_info.game_location == "replay"
     assert match_info.bot.new_game_called == 0
     assert match_info.bot.new_game_with_mmr_called == 0
-    assert match_info.bot.game_ended_called == 1
+    assert match_info.bot.game_ended_called == 0
     assert match_info.bot.websocket_broadcast_called == 0
     assert match_info.new_game_started is False
     assert match_info.valid_game is False
-    assert match_info.end_of_game_detected is True
+    assert match_info.end_of_game_detected is False
 
 
 @pytest.mark.asyncio
