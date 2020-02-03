@@ -65,7 +65,7 @@ class SceneSwitcher(BaseScript):
             self.ws = obsws(self.settings["host"], self.settings["port"], self.settings["password"])
             self.ws.connect()
         except ConnectionFailure as e:
-            logger.exception("Error trying to connect to obs")
+            logger.error("Error trying to connect to obs")
             pass
 
     # def get_obs_scenes(self) -> List[str]:

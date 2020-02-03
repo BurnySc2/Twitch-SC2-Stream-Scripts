@@ -51,11 +51,14 @@ class BuildOrderOverlay(BaseScript):
         self.config_end_of_bo_fade_out_time = 10
 
         config_file_path = os.path.join(os.path.dirname(__file__), "config.json")
-        with open(config_file_path) as f:
-            config_json = json.load(f)
-            self.config_voting_time_duration = config_json["voting_time_duration"]
-            self.config_build_order_step_fade_animation_in_ms = config_json["build_order_step_fade_animation_in_ms"]
-            # TODO: config_end_of_bo_fade_out_time
+        if os.path.isfile(config_file_path):
+            with open(config_file_path) as f:
+                config_json = json.load(f)
+                self.config_voting_time_duration = config_json["voting_time_duration"]
+                self.config_build_order_step_fade_animation_in_ms = config_json["build_order_step_fade_animation_in_ms"]
+                # TODO: config_end_of_bo_fade_out_time
+        else:
+            logger.warning(f"No config file found for build order script: {config_file_path}")
 
         # On tick function only works when a game is running
         self.game_is_running = False
@@ -115,9 +118,7 @@ class BuildOrderOverlay(BaseScript):
             return
 
         # Parse build orders file
-        next_line_is_build_order_title = False
-        next_line_is_setting = False
-        next_line_is_part_of_build_order = False
+        next_line_is: str = ""
 
         # Dict with info about BO title, matchup, if it is enabled, priority
         bo_dict = {}
@@ -132,10 +133,11 @@ class BuildOrderOverlay(BaseScript):
                 if line == "":
                     # Line is empty for readability
                     continue
+                # Comment
+                elif line.startswith("#"):
+                    continue
                 elif line.startswith("=="):
-                    next_line_is_build_order_title = True
-                    next_line_is_setting = False
-                    next_line_is_part_of_build_order = False
+                    next_line_is = "title"
                     # Append to build orders if a build order was parsed before reset
                     if bo_dict and bo:
                         assert "matchup" in bo_dict, f"No matchup was given to build order {bo_dict['title']}"
@@ -149,17 +151,13 @@ class BuildOrderOverlay(BaseScript):
                     bo.clear()
                     bo_dict.clear()
                 elif line.startswith("--"):
-                    next_line_is_build_order_title = False
-                    next_line_is_setting = True
-                    next_line_is_part_of_build_order = False
+                    next_line_is = "setting"
                 elif line.startswith("++"):
-                    next_line_is_build_order_title = False
-                    next_line_is_setting = False
-                    next_line_is_part_of_build_order = True
-                elif next_line_is_build_order_title:
+                    next_line_is = "part_of_bo"
+                elif next_line_is == "title":
                     bo_dict["title"] = line
 
-                elif next_line_is_setting:
+                elif next_line_is == "setting":
                     split_line = line.split(" ")
                     assert (
                         len(split_line) == 2
@@ -168,7 +166,7 @@ class BuildOrderOverlay(BaseScript):
                     # Store "enabled", "matchup", "priority"
                     bo_dict[first.lower()] = second
 
-                elif next_line_is_part_of_build_order:
+                elif next_line_is == "part_of_bo":
                     split_line = line.split(" ")
                     if ":" in split_line[0]:
                         # BO is of type "min:sec Step-description"
@@ -197,7 +195,8 @@ class BuildOrderOverlay(BaseScript):
         elif enabled_string.lower() in enabled_false_variations:
             bo_dict["enabled"] = False
         else:
-            assert False, f"Build order '{bo_title}' does not have a valid 'Enabled' value: {enabled_string}"
+            logger.exception(f"Build order '{bo_title}' does not have a valid 'Enabled' value: {enabled_string}")
+            assert False
 
         # Check if matchup value is valid
         assert "matchup" in bo_dict
@@ -206,7 +205,8 @@ class BuildOrderOverlay(BaseScript):
         if matchup_string.lower() in valid_matchups:
             pass
         else:
-            assert False, f"Build order '{bo_title}' does not have a valid 'Matchup' value: {matchup_string}"
+            logger.exception(f"Build order '{bo_title}' does not have a valid 'Matchup' value: {matchup_string}")
+            assert False
 
         # Optional value
         if "priority" in bo_dict:
@@ -215,15 +215,16 @@ class BuildOrderOverlay(BaseScript):
                 priority = int(priority_str)
                 bo_dict["priority"] = priority
             except Exception as e:
-                assert False, f"Build order '{bo_title}' does not have a valid 'Priprity' value: {priority_str}"
+                logger.exception(f"Build order '{bo_title}' does not have a valid 'Priority' value: {priority_str}")
+                assert False
 
     def get_step_data_from_bo(self) -> List[str]:
         def convert_time_formatted_to_seconds(time_formatted: str) -> int:
             assert ":" in time_formatted, f"{time_formatted}"
             time_list = time_formatted.split(":")
             assert len(time_list) == 2
-            mins, secs = time_list
-            return int(mins) * 60 + int(secs)
+            mins, secs = map(int, time_list)
+            return mins * 60 + secs
 
         step0_time = "???"
         step0_info = "???"

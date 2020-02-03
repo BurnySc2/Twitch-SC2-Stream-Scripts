@@ -238,7 +238,6 @@ class MatchInfo(BaseScript):
         # Invalid when:
         # Player number is unequal to two
         # Game is a replay
-        # Has AI in the game?
         # When one of the players is computer
         # When both players have the same name
         # When player name was not found in user_names array
@@ -252,10 +251,11 @@ class MatchInfo(BaseScript):
             self.valid_game = False
             return
 
-        # if any(player["type"] == "computer" for player in self.game_data["players"]):
-        #     logger.info("Invalid game because it has at least one AI in it")
-        #     self.valid_game = False
-        #     return
+        # Enable play vs AI if debug mode is on
+        if not self.DEBUG_MODE and any(player["type"] == "computer" for player in self.game_data["players"]):
+            logger.info("Invalid game because it has at least one AI in it")
+            self.valid_game = False
+            return
 
         player1_name = self.game_data["players"][0]["name"]
         player2_name = self.game_data["players"][1]["name"]
@@ -264,13 +264,12 @@ class MatchInfo(BaseScript):
             self.valid_game = False
             return
 
-        # Enable play vs AI if debug mode is on
-        if (
-            not self.DEBUG_MODE
-            and len([True for player_data in self.game_data["players"] if player_data["type"] != "user"]) == 0
-        ):
-            self.valid_game = False
-            return
+        # if (
+        #     not self.DEBUG_MODE
+        #     and len([True for player_data in self.game_data["players"] if player_data["type"] != "user"]) == 0
+        # ):
+        #     self.valid_game = False
+        #     return
 
         # Set p1name and p2name variables
         player1_race = self.game_data["players"][0]["race"]

@@ -125,3 +125,57 @@ Priority 5
 8:00 4th CC
 
 =============
+Stargate into HT-Archon Drop
+-------------
+Enabled 1
+Matchup PvZ
+Priority 5
++++++++++++++
+0:20 14 Natural Pylon, Probe Scout
+0:44 16 Gateway
+0:45 16 Assimilator
+1:29 20 Nexus
+1:39 20 Cybercore
+1:50 21 2nd Assimilator
+2:00 21 2nd Pylon
+2:18 23 Adept (Chrono) + Stargate + Warp Gate
+2:29 Assimilator in natural
+2:50 2nd Adept
+3:02 Oracle (Chrono)
+3:20 Robo
+3:30 Twilight
+3:40 3rd Pylon
+4:05 +3 Gates
+4:15 Prism (Chrono) + Templar Archive
+4:40 3rd Nexus + 2 Pylons
+4:50 Forge
+5:00 Warp in 4 HT
+5:35 Observer, +1 Attack, Charge
+5:50 Take all gas, +4 Gates at 3rd as Wall
+
+=============
+Blink Stalker Pressure
+-------------
+Enabled 1
+Matchup PvT
+Priority 5
++++++++++++++
+0:17 14 Pylon (Reaper Wall)
+0:40 16 Gateway, Probe Scout
+0:47 16 Assimilator
+1:25 20 Nexus
+1:36 20 Cybercore
+1:45 21 2nd Assimilator
+1:55 22 2nd Pylon @ Natural (Hellion Wall)
+2:15 23 Adept (Chrono), Stalker, Sentry
+2:21 Twilight
+2:58 Blink (Dont Chrono, Chrono Probes instead)
+# Prepare for Hellion runby - be ready to forcefield with sentry if necessary
+3:10 +2 Gates (Hellion Wall)
+3:35 3rd Pylon
+3:50 @100% Warp Gate: Non-Stop Stalker warp in
+4:00 3rd Nexus, 4th Pylon
+4:10 Robo, 3rd Gas
+6:00 Benchmark: 60 Probes
+
+=============

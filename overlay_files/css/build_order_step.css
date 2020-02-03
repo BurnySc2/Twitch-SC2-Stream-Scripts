@@ -6,7 +6,7 @@ html, body {
 
 .flex-vertical-container {
     width: 400px;
-    height: 250px;
+    height: 320px;
     display: flex;
     flex-direction: column;
     background: #33c;;
