@@ -15,6 +15,7 @@ twitchio = "*"
 tinydb = "*"
 obs-websocket-py = "*"
 loguru = "*"
+atomicwrites = "*"
 
 [requires]
 python_version = "3.7"
