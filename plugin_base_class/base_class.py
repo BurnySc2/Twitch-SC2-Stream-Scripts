@@ -26,9 +26,14 @@ class BaseScript:
         pass
 
     async def on_new_game(self, match_info: MatchInfo):
+        """ Event: streamer loaded from menu to any game mode: 1v1, teamgame, arcade, coop, replay """
         pass
 
     async def on_new_game_with_mmr(self, match_info: MatchInfo):
+        """ Event: streamer loaded from menu to 1v1 """
+        pass
+
+    async def on_rewind(self, match_info: MatchInfo):
         pass
 
     async def on_replay_entered(self, match_info: MatchInfo):

@@ -43,10 +43,13 @@ class MatchInfo(BaseScript):
         self.filter_age = 14 * 24 * 60 * 60 * 1000
         self.sort_by = "most recent"
 
+        self.valid_game = False
         self.new_game_started = False
         # TODO detect when entering main menu to clear opponent mmr race name
         self.end_of_game_detected = False
-        self.valid_game = False
+        self.rewind_detected = False
+        self.replay_detected = False
+        self.resume_from_replay_detected = False
 
         # One of: menu, game, replay, ""
         self.game_location = "menu"
@@ -75,10 +78,13 @@ class MatchInfo(BaseScript):
     def load_config(self):
         path = os.path.dirname(__file__)
         config_file_path = os.path.join(path, "config.json")
-        with open(config_file_path) as f:
-            settings = json.load(f)
-            self.user_names = settings["accounts"]
-            self.server = settings["server"]
+        if os.path.isfile(config_file_path):
+            with open(config_file_path) as f:
+                settings = json.load(f)
+                self.user_names = settings["accounts"]
+                self.server = settings["server"]
+        else:
+            logger.warning(f"No config file found for match info script: {config_file_path}")
 
     def reset_values(self):
         self.p1mmr = ""
@@ -176,9 +182,12 @@ class MatchInfo(BaseScript):
         # Need to detect when a new game started, and when one ended (streamer in menu, replay, not resume from replay)
         self.past_game_location = self.game_location
 
-        self.new_game_started = False
         self.valid_game = False
+        self.new_game_started = False
         self.end_of_game_detected = False
+        self.rewind_detected = False
+        self.replay_detected = False
+        self.resume_from_replay_detected = False
 
         # Check current location in sc2
         in_game_or_replay = self.ui_data["activeScreens"] == []
@@ -193,11 +202,13 @@ class MatchInfo(BaseScript):
         elif in_game_or_replay and in_replay:
             self.game_location = "replay"
 
+        # logger.info(self.game_data)
+        # logger.info(self.ui_data)
+
         # Check if new game was started
         past_loc_was_menu = self.past_game_location == "menu"
         new_loc_is_game = self.game_location == "game"
-        # logger.info(f"Previous location was {self.past_game_location}")
-        # logger.info(f"Current location is {self.game_location}")
+
         if past_loc_was_menu and new_loc_is_game:
             self.new_game_started = True
             # Validate game afterwards
@@ -205,13 +216,29 @@ class MatchInfo(BaseScript):
 
         # Check if game has ended, if the previous location was game, and new location is replay or menu
         past_loc_was_game = self.past_game_location == "game"
-        new_loc_is_not_game = self.game_location != "game"
-        if past_loc_was_game and new_loc_is_not_game:
+        new_loc_is_menu = self.game_location == "menu"
+        past_loc_was_replay = self.past_game_location == "replay"
+        if (past_loc_was_game or past_loc_was_replay) and new_loc_is_menu:
             self.end_of_game_detected = True
+
+        # Check if rewind was used: previous location was game and current location is replay
+        new_loc_is_replay = self.game_location == "replay"
+        if past_loc_was_game and new_loc_is_replay:
+            self.rewind_detected = True
+
+        # Check if streamer joined replay: previous location was menu and current location is replay
+        if past_loc_was_menu and new_loc_is_replay:
+            self.replay_detected = True
+
+        # Check if streamer resumed from replay: previous location was replay and current location is game
+        if past_loc_was_replay and new_loc_is_game:
+            self.resume_from_replay_detected = True
 
     def validate_data(self):
         # Invalid when:
         # Player number is unequal to two
+        # Game is a replay
+        # Has AI in the game?
         # When one of the players is computer
         # When both players have the same name
         # When player name was not found in user_names array
@@ -219,6 +246,16 @@ class MatchInfo(BaseScript):
             logger.info("Invalid game because number of players is not equal to 2")
             self.valid_game = False
             return
+
+        if self.game_data["isReplay"]:
+            logger.info("Invalid game because this is a replay, not a live game")
+            self.valid_game = False
+            return
+
+        # if any(player["type"] == "computer" for player in self.game_data["players"]):
+        #     logger.info("Invalid game because it has at least one AI in it")
+        #     self.valid_game = False
+        #     return
 
         player1_name = self.game_data["players"][0]["name"]
         player2_name = self.game_data["players"][1]["name"]
@@ -376,7 +413,6 @@ class MatchInfo(BaseScript):
             self.p1mmr_string += "?"
 
     async def get_player2_mmr(self):
-
         unmasked_response = await self.get_unmasked_response(self.p2name, self.p2race, self.server)
         # unmasked_response = await self.get_unmasked_response("saixy", "t", self.server)
 
@@ -445,43 +481,54 @@ class MatchInfo(BaseScript):
         self.game_time = self.game_data["displayTime"]
 
         self.detect_new_game_started()
-        if self.end_of_game_detected and self.bot is not None:
+
+        assert self.bot is not None
+        # Send the data to all websockets again, to newly connected as well as old ones
+        if self.p1mmr.isnumeric():
+            await self.send_data_to_html()
+
+        if self.new_game_started:
+            logger.info("New game start detected")
+            # Reset the data before checking and converting it, and then grabbing new mmr
+            self.reset_values()
+
+            # Call this function when the streamer enters the game (on loading screen, the api reports that the player is in game)
+            await self.bot.on_new_game(self)
+
+            # Validate API data: has to have only 2 players, both need to be users and both cannot have the exact same name
+            self.validate_data()
+            if self.valid_game:
+                logger.info("Valid 1v1 game found")
+                logger.info(f"Grabbing mmr of player1: {self.p1name} ({self.p1race})")
+                await self.get_player1_mmr()
+                logger.info(f"Grabbed mmr of player1: {self.p1mmr} | {self.p1mmr_string}")
+
+                if self.p1mmr.isnumeric():
+                    logger.info(f"Grabbing mmr of player2: {self.p2name} ({self.p2race})")
+                    try:
+                        await self.get_player2_mmr()
+                        logger.info(f"Grabbed mmr of player2: {self.p2mmr} | {self.p2mmr_string}")
+                    except aiohttp.ContentTypeError:
+                        logger.exception("Could not grab mmr of player2, aiohttp error.")
+
+                await self.bot.on_new_game_with_mmr(self)
+                await self.send_data_to_html()
+
+        elif self.end_of_game_detected:
             logger.info("End of game detected!")
             await self.bot.on_game_ended(self)
 
-        if not self.new_game_started:
-            # logger.info(f"Early return - {time.time()}")
-            # Send the data to all websockets again, to newly connected as well as old ones
-            if self.p1mmr.isnumeric():
-                await self.send_data_to_html()
-            return
+        elif self.rewind_detected:
+            logger.info("Rewind to replay detected!")
+            await self.bot.on_rewind(self)
 
-        # Reset the data before checking and converting it, and grabbing new mmr
-        self.reset_values()
+        elif self.replay_detected:
+            logger.info("A replay was entered from menu!")
+            await self.bot.on_replay_entered(self)
 
-        logger.info("New game start detected")
-        # Call this function when the streamer enters the game (on loading screen, the api reports that the player is in game)
-        await self.bot.on_new_game(self)
-
-        # Validate API data: has to have only 2 players, both need to be users and both cannot have the exact same name
-        self.validate_data()
-        if self.valid_game:
-            logger.info("Valid game found")
-            logger.info(f"Grabbing mmr of player1: {self.p1name} ({self.p1race})")
-            await self.get_player1_mmr()
-            logger.info(f"Grabbed mmr of player1: {self.p1mmr} | {self.p1mmr_string}")
-
-            if self.p1mmr.isnumeric():
-                logger.info(f"Grabbing mmr of player2: {self.p2name} ({self.p2race})")
-                try:
-                    await self.get_player2_mmr()
-                    logger.info(f"Grabbed mmr of player2: {self.p2mmr} | {self.p2mmr_string}")
-                except aiohttp.ContentTypeError:
-                    logger.info("Could not grab mmr of player2, aiohttp error.")
-
-            if self.bot is not None:
-                await self.bot.on_new_game_with_mmr(self)
-            await self.send_data_to_html()
+        elif self.resume_from_replay_detected:
+            logger.info("Game was resumed from replay!")
+            await self.bot.on_game_resumed_from_replay(self)
 
 
 def main():

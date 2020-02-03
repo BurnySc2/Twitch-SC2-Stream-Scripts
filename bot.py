@@ -25,7 +25,10 @@ from plugin_base_class.base_class import BaseScript
 # https://github.com/Delgan/loguru
 from loguru import logger
 
-logger.add(sys.stderr, format="{time} {level} {message}", filter="bot", level="INFO")
+# Log to console
+logger.add(sys.stderr, format="{time} {level} {message}", filter="bot", level="DEBUG")
+# Log to file, max size 5mb
+logger.add("bot.log", rotation="5 MB", level="INFO")
 
 
 """
@@ -74,6 +77,7 @@ class TwitchChatBot(commands.Bot):
     def __init__(self, irc_token):
         # Load config file
         bot_config_path = os.path.join(os.path.dirname(__file__), "config", "bot_config.json")
+        assert os.path.isfile(bot_config_path), f"No config file for bot.py found: {bot_config_path}"
         with open(bot_config_path) as f:
             bot_config: Dict[str, Union[str, bool]] = json.load(f)
 
@@ -149,7 +153,7 @@ class TwitchChatBot(commands.Bot):
 
     async def on_websocket_connection(self, websocket: websockets.WebSocketServer, path):
         """ The function that is used by the websockets library. New connections will be held here. """
-        logger.warning(f"New websocket connection!")
+        logger.info(f"New websocket connection from overlay file")
         self.websocket_connections.add(websocket)
         # I don't know why, but need to keep this function alive
         # If the function returns, the connection closes
@@ -173,6 +177,8 @@ class TwitchChatBot(commands.Bot):
             try:
                 await websocket.send(json_string)
             except Exception as e:
+                # A websocket disconnected - this means an overlay html was closed, or OBS was closed
+                # logger.exception("Error trying to broadcast json")
                 self.websocket_connections.discard(websocket)
 
     async def event_message(self, message: Message):
@@ -219,6 +225,18 @@ class TwitchChatBot(commands.Bot):
         # logger.info("Game end detected (either replay started (rewind), or streamer is now in menu)")
         for script in self.running_scripts:
             await script.on_game_ended(match_info)
+
+    async def on_rewind(self, match_info: MatchInfo):
+        for script in self.running_scripts:
+            await script.on_rewind(match_info)
+
+    async def on_replay_entered(self, match_info: MatchInfo):
+        for script in self.running_scripts:
+            await script.on_replay_entered(match_info)
+
+    async def on_game_resumed_from_replay(self, match_info: MatchInfo):
+        for script in self.running_scripts:
+            await script.on_game_resumed_from_replay(match_info)
 
     # Commands use a different decorator
     @commands.command(name="test")
