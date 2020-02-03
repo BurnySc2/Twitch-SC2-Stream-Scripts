@@ -16,6 +16,7 @@ tinydb = "*"
 obs-websocket-py = "*"
 loguru = "*"
 atomicwrites = "*"
+win32-setctime = "*"
 
 [requires]
 python_version = "3.7"
