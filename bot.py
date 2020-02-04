@@ -15,20 +15,22 @@ import sys
 
 from typing import Dict, List, Set, Union, Optional
 
+# https://github.com/Delgan/loguru
+from loguru import logger
+
+logger.remove()
+# Log to console
+logger.add(sys.stdout, level="INFO")
+# Log to file, max size 5mb
+logger.add("bot.log", rotation="1 MB", level="INFO")
+
+
 from match_info.match_info import MatchInfo
 from points_system.point_system import PointSystem
 from build_order_overlay.build_order import BuildOrderOverlay
 from scene_switcher.scene_switcher import SceneSwitcher
 
 from plugin_base_class.base_class import BaseScript
-
-# https://github.com/Delgan/loguru
-from loguru import logger
-
-# Log to console
-logger.add(sys.stderr, format="{time} {level} {message}", filter="bot", level="DEBUG")
-# Log to file, max size 5mb
-logger.add("bot.log", rotation="5 MB", level="INFO")
 
 
 """

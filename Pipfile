@@ -7,17 +7,16 @@ verify_ssl = true
 pytest = "*"
 pytest-asyncio = "*"
 hypothesis = "*"
+# atomicwrites and win32-setctime, required for pytest on windows
+atomicwrites = "*"
+win32-setctime = "*"
 
 [packages]
 websockets = "*"
 aiohttp = "*"
 twitchio = "*"
-tinydb = "*"
 obs-websocket-py = "*"
 loguru = "*"
-# atomicwrites and win32-setctime, required for pytest on windows
-atomicwrites = "*"
-win32-setctime = "*"
 
 [requires]
 python_version = "3.7"

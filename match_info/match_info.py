@@ -133,7 +133,7 @@ class MatchInfo(BaseScript):
                 resp_json = await resp.json()
                 return resp_json
         except aiohttp.ClientConnectorError:
-            logger.info("Error, SC2 is not running.")
+            logger.debug("Error, SC2 is not running.")
             return {}
 
     async def get_ui_data(self):
@@ -175,7 +175,7 @@ class MatchInfo(BaseScript):
                 resp_json = await resp.json()
                 return resp_json
         except aiohttp.ClientConnectorError:
-            logger.info("Error, SC2 is not running.")
+            logger.debug("Error, SC2 is not running.")
             return {}
 
     def detect_new_game_started(self):
@@ -473,7 +473,7 @@ class MatchInfo(BaseScript):
         self.game_data = await self.get_game_data()
 
         if self.ui_data == {} or self.game_data == {}:
-            logger.info("Early return, no connection to SC2 Client")
+            logger.debug("Early return, no connection to SC2 Client")
             return
 
         # Set game time for build order scripts
