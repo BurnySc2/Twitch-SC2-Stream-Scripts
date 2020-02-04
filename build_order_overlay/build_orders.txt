@@ -132,10 +132,10 @@ Matchup PvZ
 Priority 5
 +++++++++++++
 0:20 14 Natural Pylon, Probe Scout
-0:44 16 Gateway
+0:40 16 Gateway
 0:45 16 Assimilator
-1:29 20 Nexus
-1:39 20 Cybercore
+1:25 20 Nexus
+1:35 20 Cybercore
 1:50 21 2nd Assimilator
 2:00 21 2nd Pylon
 2:18 23 Adept (Chrono) + Stargate + Warp Gate

@@ -15,6 +15,7 @@ twitchio = "*"
 tinydb = "*"
 obs-websocket-py = "*"
 loguru = "*"
+# atomicwrites and win32-setctime, required for pytest on windows
 atomicwrites = "*"
 win32-setctime = "*"
 

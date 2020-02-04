@@ -10,6 +10,7 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
         python-version: [3.7, 3.8]
+        node: [ '10.x', '8.x' ]
 
     steps:
       - uses: actions/checkout@v1
@@ -27,6 +28,14 @@ jobs:
       - name: Test with pytest
         run: |
           pipenv run pytest test/
+
+      - name: Install npm packages
+        run: |
+          npm install
+
+      - name: Run npm tests
+        run: |
+          npm test
 
 #    - stage: test overlay files javascript
 #      script:
