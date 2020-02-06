@@ -70,7 +70,7 @@ BratOK into Banshee, Bio
 -------------
 Enabled 1
 Matchup TvP
-Priority 5
+Priority 6
 +++++++++++++
 0:17 14 Depot
 0:40 16 Barracks, Refinery
@@ -98,6 +98,62 @@ Priority 5
 7:05 +2 Barracks
 
 =============
+Saixy's 2-Base Raven push
+-------------
+Enabled 1
+Matchup TvP
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:40 16 Barracks, Refinery
+1:15 SCV Scout
+1:27 Orbital, Reaper
+1:41 Expand
+1:56 2nd Depot, Reactor
+2:04 2nd Gas
+2:20 Factory
+3:05 Starport, Factory tech lab
+3:20 3rd Depot
+3:40 2nd Rax, Raven
+3:50 Tank, 3rd Rax
+4:20 Ebay, 3rd gas, Factory and Starport make reactors
+4:40 4th gas, +1 attack, stim, combatshield
+6:00 Move out @ 100 supply with 2 medivacs
+6:10 3rd CC
+6:50 +2 Rax, ghost academy
+
+=============
+Demuslims 2 Base Allin
+-------------
+Enabled 1
+Matchup TvP
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks
+0:55 SCV Scout
+1:32 Orbital, Reaper
+1:46 Expand
+1:55 Factory
+2:10 Barracks reactor
+2:15 2nd depot
+2:23 2nd rax
+2:40 Swap Fact to Reactor and make 2 Hellions
+2:52 2nd Gas
+3:12 Starport, Factory makes Reactor, swap Barracks to Reactor
+3:30 3rd Depot, 3rd Gas
+3:45 Stim
+4:00 Start 2 Medivacs, Factory makes Techlab (Tanks)
+4:10 Ebay
+4:40 3rd Rax
+4:55 Drop with 12 marines
+5:10 Start +1 attack, Starport makes Reactor
+5:30 Swap Barracks onto Reactor
+6:15 4th Gas
+6:30 Move out @100 Supply
+
+=============
 6 Hellions into 3CC Bio
 -------------
 Enabled 1
@@ -123,6 +179,62 @@ Priority 5
 6:45 +2 Rax, Fly 3rd CC to Location
 7:00 Armory, +2 Gas
 8:00 4th CC
+
+=============
+Cure's 4 Cyclone 2 Raven Pressure into Bio
+-------------
+Enabled 0
+Matchup TvT
+Priority 5
++++++++++++++
+
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks (3 Reapers)
+0:55 17 2nd Gas
+1:30 19 Orbital, Factory (3 Hellions), Reaper, Pull 3 out of Gas
+1:44 20 2nd Depot
+2:25 Expand, Put back in Gas
+2:35 3rd Depot
+2:54 Starport
+3:10 Barracks Reactor
+3:25 3rd Gas, Factory Techlab (3 Cyclones)
+3:30 Liberator, then Techlab (2 Ravens)
+4:25 Cyclone upgrade
+5:40 3rd CC, 4th Gas
+6:00 +2 Rax, Stim
+6:15 +2 Ebays
+6:45 1-1 Upgrades, +2 Rax
+
+=============
+Inno's 4 Cyclone 2 Raven Pressure into Mech
+-------------
+Enabled 1
+Matchup TvT
+Priority 5
++++++++++++++
+
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks (3 Reapers)
+0:55 17 2nd Gas
+1:30 19 Orbital, Factory (2 Hellions), Reaper, Pull 3 out of Gas
+1:44 20 2nd Depot
+2:25 Expand, Put back in Gas
+2:35 3rd Depot
+2:54 Starport
+3:10 Barracks Techlab
+3:25 3rd Gas, Factory Techlab (3 Cyclones)
+3:30 Swap Starport to Techlab (2 Ravens)
+4:30 3rd CC
+4:45 4th Gas
+4:55 Cyclone upgrade
+5:15 +2 Factories
+6:30 Push with 6 Cyclone 2 Raven, start Tank production
+6:30 +2 Factories
+6:45 +2 Gas, +2 Armories
+7:40 Blueflame, +1+1 ground mech
+8:00 Ebay
 
 =============
 Stargate into HT-Archon Drop

@@ -18,6 +18,7 @@ from typing import Dict, List, Set, Union, Optional
 # https://github.com/Delgan/loguru
 from loguru import logger
 
+# Remove default loggers
 logger.remove()
 # Log to console
 logger.add(sys.stdout, level="INFO")
