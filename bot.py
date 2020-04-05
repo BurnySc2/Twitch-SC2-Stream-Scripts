@@ -86,7 +86,7 @@ class TwitchChatBot(commands.Bot):
 
         # The main channel the bot is going to interact with
         self.main_channel = bot_config["twitch_channel_name"]
-        initial_channels = [self.main_channel]
+        self.initial_channels = [self.main_channel]
         bot_name = bot_config["bot_name"]
         command_prefix = bot_config["command_prefix"]
         super().__init__(
@@ -98,7 +98,7 @@ class TwitchChatBot(commands.Bot):
             nick=bot_name,
             prefix=command_prefix,
             # The initial channels the bot is going to join, for now it will only be one channel
-            initial_channels=initial_channels,
+            initial_channels=self.initial_channels,
         )
 
         # Start websocket connection to be able to communicate with overlay HTML files
@@ -142,7 +142,7 @@ class TwitchChatBot(commands.Bot):
     # Events don't need decorators when subclassed
     async def event_ready(self):
         """ Function is called on bot start when it is connected to twitch channels and ready """
-        logger.info(f"bot.py READY | {self.nick}")
+        logger.info(f"bot.py READY | {self.nick} - Connected to channel {self.initial_channels}")
 
         # Create the websocket server - it sends messages to all connected websocket clients (I use them to interact with HTML overlays)
         await self.websocket_server
