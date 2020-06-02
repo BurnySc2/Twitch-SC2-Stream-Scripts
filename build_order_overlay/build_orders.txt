@@ -5,6 +5,7 @@ Enabled 1
 Matchup TvZ
 Priority 6
 +++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfeyQk07KtleZk1WKsLyQKzjSsJQxdcyWK0gssP0GZywKzpNsKxyKyrsxaasL0fcx3a1ZdsKIyX2sLKx42sOxaJtR20tZfexaKyUKxaPsPxZYxyZsK112sNLxaJtleZkxYhzfZymaxa0zdwyn0sLIxaJtjkil5Ytli2MxdJx3KysnsJLKyTb0CyxyysPxZJtR4DtZfexZJsK0zc1tbyUKx3SsJRxd408908oyO9yOOxzasJxaKx0PsJzFKxaPsKxzZsRxaJtjkil2dtli2MzKixa0sN01K1pnsN0ZKxyNxYYzc0sKI1Nb1q3sKx32yx3xaasPxZJtR3QtZfe0Ekxzy0AdxddsKznKxdv1AzsNLxaJtleZkxYhymazDbsOyPKtgXiRUz4KzeZyr0xaasJRxaJtjkil3utlizKKxdd1s9zKOsJ1TTtNuF
 0:17 14 Depot
 0:40 16 Barracks, Refinery
 1:15 SCV Scout
@@ -73,6 +74,7 @@ Matchup TvP
 Priority 6
 +++++++++++++
 # https://youtu.be/w3Ud_42wJGw?t=2965
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfexzjsLQzKbsJLyVKxeTx7dsR0l1sP0LZywKtleZkxYhsKyNKzGsxabzHwsIzH2yqvyNasKxZJtR4DtZfexZJsJLxbKzhSsKysK0BssJOyyZzPZsPxZYsNL02WxYYsJRz61sLzHKx3SzjZyTa1qbsQ1qZx0KxaQ02KzIpsL1VcsJIyuZx3cyxasKyUKtlgXiRUx1KsNx1KtleZkyQK1VKxYmzDZ1RbsLyPWz1L0vs1pe0Z9yqMsPxZJtR3mtZfe1P9sKyQZz2v1JdsNzGK0u9xzdsLLyoWsKJzgbxddyva1qwyNasJRzkcsKzk1sKI0e90e9048xdLtR2atZfexaKsPxaYxZZzKaxzKtlgXiRUzHKsKyQZsI0AbsMx3KxdTsQyxKteZkxYi0AZ1pZxZZsJyPK0zQsJx1Kz6Sxdd0awsPzkY1mxxYvsNMxYu1fesOx1KtgXiRU1dLsRzfYxZYytd0wwsJxYKyQ90V3ylwsPxXJtR4xtZfexZJsOQ1iKxyNxZZzBptNuF
 0:17 14 Depot
 0:40 16 Barracks, Refinery
 1:10 SCV Scout
@@ -105,6 +107,7 @@ Enabled 1
 Matchup TvP
 Priority 5
 +++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfeyQk07KtleZk1WKsLyQKzjSsJQxdcyWK0gssP0GYsLywcsKIyw1xaasKzOKyxTzqYytb0HKtleZkxYiyNZsJLzFKzhTsM1VczL9zLM1qK1OPsKyOKzGSsLRzjcywZ0A90AmxzasJx0ZsJ0Xc009009zkIsL01yxaasKJ0YbsNOzjWsLzJKxYNyQdsKKxdb0E0sJRyxcsIyxcsQ0JWxYYsPxXJtR3MtZfe0A9yQKtlgXiRU1R9z5ysJ0WayOXsJRxYJtjkil21tliz6KsKIxdcyuZ0ZZyvK0BQxaZyQ0xzKtlgXiRUz6KsM0acsM0bKxdS10dxdd0LaxaazQK1bQsQ0lKteZkxY9xYUsJOxYKtgXiRU0RDtNuF
 0:17 14 Depot
 0:40 16 Barracks, Refinery
 1:15 SCV Scout
@@ -118,7 +121,7 @@ Priority 5
 3:40 2nd Rax, Raven
 3:50 Tank, 3rd Rax
 4:20 Ebay, 3rd gas, Factory and Starport make reactors
-4:40 4th gas, +1 attack, stim, combatshield
+4:40 +2 gas gas, +1 attack, stim, combatshield
 6:00 Move out @ 100 supply with 2 medivacs
 6:10 3rd CC
 6:50 +2 Rax, ghost academy or fusion core
@@ -162,6 +165,7 @@ Matchup TvT
 Priority 5
 +++++++++++++
 # https://lotv.spawningtool.com/56633/
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3isKIx32z3Dx3ZsKxcJtR2ZtZfezN9x3eytysJLx1KyuTsRxdJtleZkxYJzlKysPxZysKPzGbsJzGK1UsyWK1UQ0ZXyOasNLxywsJQz6bsKzgY0z3zlYsL1PKySssK0Fc08bxaK0gQsJxaYznKxZPsOR1xK0dNzGa03dsKI0d90dTsLxaY0CKxZPyqbsLx1KzlSsNO1XWsLzJK1vnzIbsQzHbsP0bysLyT1sJRx2b0g0sNO1vWsKIys9xaS0DdsLLzMWys0sMQyPXxYXsKxXJtR4btZfezD9sJOyRy1mLx0pxzZsLL0vWsPxxYsJMxaYxzasLKxbJtjkil2etli2Mz7isMQziWxyasLxaKxyNxYYsKJzfbxddsJyVLtgXiRUxbLsRx4cxdc1Xb1x9xyOsPxZJtR4FtZfexzjsLLyowsL1sLxyMxYY0Qyxa0sJRxaJtjkil6Ltli2MxdlsKKxd40L9xaRsL10KyuSxddsMxdKtleZkxYJsPxXJtR2xtZfeyRKsLxxv0z90zSxaKzFNxYYsJR1Jbxdd1mY0Z9xaRsPyoKtgXiRUzjLsJxbZsKxbK0BSxdd0G90GbtR3qtZfexZJsLL0FKteZk0dKsRzibxddsMQyVWxY9xYk1jzxaasNMypWxYRtNuF
 0:17 14 Depot
 0:28 15 Refinery
 0:45 16 Barracks (3 Reapers)
@@ -262,12 +266,23 @@ Priority 5
 8:00 4th CC
 
 =============
+CC first - 3CC bio push
+-------------
+Enabled 0
+Matchup TvT
+Priority 5
++++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3iyu1sQyu1sK0uDx30sIx39zr9x3PsKxcJtR2ZtZfexZisJLxbKyTSsLQxdbx7e0LasPzrZyTcxddywazNzyQ9ritlgXiRUzhKsLxbK0BSsJJx4ZzM0sKyvcsMQyvKteZkxY6zfzsJR1Rcx3K1RRzKyxyxsPxZJtR4etZfeyO70wdz6zxYXz4ZsKxxKzGTsIxdc01xxa9xaRsJ0DcsJR0D0xYwz8zsKzfc0cLtR2atZfexaKsMxaYsKJ0zczozsJzocsKIxd4zR0sN1CKtleZkxYhsMQxY9zYjsKxZJtR5otZfexZbtNuF
+0:17 14 Depot
+
+=============
 Stargate into HT-Archon Drop
 -------------
 Enabled 1
 Matchup PvZ
 Priority 5
 +++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=protoss&bo=uDritmrisSJEritSf2HtL2NtZU2HsQM2PtkuBtgV2KritnfibViriuFsExagsOIxaJtjkilTkli2Mx3ixaasKzaDxaHtR3RtZfeyuKsKyu1sOyUKzo9zoKznYxzasNRzKbsP0h9x3xsIx311BZsOP0H9x3VsLJxeKtleZkzMKzNZytaxaLtlgXiRU04lzHKyspzi9xaqsMRN1pWsLLzHYsLJ0YKxzNzG0sPyPKtjkil3ttli2Mx3isOz8Kx3tsIx3bsKzRK07P0i0xa90CSsK0Cbxd6zr11zKtleZkyP9sOI0DcsQ0D9yxwxdcyXasKOxaJtR20tZfexajyR9xaRsNR1z9xaSsPNxaJtleZkxY9xYNtNuF
 0:20 14 Natural Pylon, Probe Scout
 0:40 16 Gateway
 0:45 16 Assimilator
@@ -297,6 +312,7 @@ Enabled 1
 Matchup PvT
 Priority 5
 +++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=protoss&bo=uDritmrisSJEritSf2HtL2NtZU2HsQM2PtkuBtgV2KritnfibViriuFsExagsOIxaJtjkilTkli2Mx3ixaasKzaDxaHtR3RtZfeyuKsKyu1sOyUKzo9zoKznYxzasNRzK1sP073sI119x3vsLJx4KtleZk10K11ZxZZypLtlgXiRUzHKsONzk1xaasPyvL0AMxyasK0yK0aQxaZzg0xa1sP0XKtgXiRU1p9xabsPysLteZkxYJsOKxYJtjkil6StlizJkx3dyX3yxbsIyUbsKJxdJtR2atZfex3myxbyUK0I9xaJsPyUczr3xaasK1bYsKOxaYyQbx09zIqsPyRKtleZkypjxyYxYwylasOIxaJtjkil43tli2MxdlyXa0ZysQK0Z9yljxYRtNuF
 0:17 14 Pylon (Reaper Wall)
 0:40 16 Gateway, Probe Scout
 0:47 16 Assimilator
@@ -314,5 +330,18 @@ Priority 5
 4:00 3rd Nexus, 4th Pylon
 4:10 Robo, 3rd Gas
 6:00 Benchmark: 60 Probes
+
+=============
+Dt drop
+-------------
+Enabled 0
+Matchup PvT
+Priority 5
++++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=protoss&bo=uDritmrisSJEritSf2HtL2NtZU2HsQM2PtkuBtgV2KritnfibViriuFsExagsOIxaJtjkilTkli2Mx3ixaasKzaDxaHtR3RtZfeyuKsKyu1sOyUKzo9zoKznYxzasNRzKbsP0h9x3xsIx311BZsLJzOKtleZkysKsNys1xaLtlgXiRUx1v0BQzkK0CPxaayRasPx0K0d3xa9xaGsORzLbsOKzo9yxTyU9xa9xaLsJxaJtleZkyP9sOI0absNR039xaSsKOxaJtR3RtZfexa9zI0sPyRKtleZkxYytNuF
+
+0:17 14 Pylon (Reaper Wall)
+0:40 16 Gateway, Probe Scout
+0:47 16 Assimilator
 
 =============

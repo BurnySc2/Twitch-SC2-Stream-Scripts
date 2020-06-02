@@ -10,6 +10,9 @@ import time
 import json
 import os
 import sys
+from dataclasses import dataclass
+
+from typing import List, Dict, Optional
 
 from loguru import logger
 
@@ -19,16 +22,80 @@ if TYPE_CHECKING:
     from bot import TwitchChatBot
 
 
+@dataclass()
+class PlayerInfo:
+    realm: int
+    # One of EU, US, KR
+    region: str
+    # One of "Grandmaster", "Master", "Diamond"
+    rank: str
+    # "BuRny"
+    username: str
+    # Full battle tag id, Burny#2396
+    bnet_id: str
+    # One of "Terran" "Protoss" "Zerg" "Random"
+    race: str
+    mmr: int
+    wins: int
+    losses: int
+    clan: Optional[str]
+    profile_id: int
+    alias: Optional[str]
+
+    @staticmethod
+    def from_sc2_unmasked(data: dict) -> PlayerInfo:
+        pass
+
+    @staticmethod
+    def from_sc2_ladder(data: dict) -> PlayerInfo:
+        """
+        Input example:
+        [
+          {
+            "realm": "1",
+            "region": "EU",
+            "rank": "Master",
+            "username": "BuRny",
+            "bnet_id": "Burny#2396",
+            "race": "Terran",
+            "mmr": 4948,
+            "wins": 1,
+            "losses": 0,
+            "clan": "Zelos",
+            "profile_id": 727565,
+            "alias": "BuRny"
+          },
+        ]
+        """
+        logger.info(data)
+        return PlayerInfo(
+            realm=data["realm"],
+            region=data["region"],
+            rank=data["rank"],
+            username=data["username"],
+            bnet_id=data["bnet_id"],
+            race=data["race"],
+            mmr=data["mmr"],
+            wins=data["wins"],
+            losses=data["losses"],
+            clan=data["clan"],
+            profile_id=data["profile_id"],
+            alias=data["alias"],
+        )
+
+
 class MatchInfo(BaseScript):
     def __init__(self, bot=None):
         self.bot: TwitchChatBot = bot
 
         self.p1name = ""
+        # One of: Terran, Protoss, Zerg, Random
         self.p1race = ""
         self.p1mmr = ""
         self.p1mmr_string = ""
 
         self.p2name = ""
+        # One of: Terran, Protoss, Zerg, Random
         self.p2race = ""
         self.p2mmr = ""
         self.p2mmr_string = ""
@@ -87,7 +154,6 @@ class MatchInfo(BaseScript):
             logger.warning(f"No config file found for match info script: {config_file_path}")
 
     def reset_values(self):
-        self.p1mmr = ""
         self.p1race = ""
         self.p1mmr = ""
         self.p1mmr_string = ""
@@ -276,8 +342,9 @@ class MatchInfo(BaseScript):
         player2_race = self.game_data["players"][1]["race"]
         self.p1name = player1_name
         self.p2name = player2_name
-        self.p1race = player1_race[0].lower()
-        self.p2race = player2_race[0].lower()
+        # Convert "p" to "Protoss" etc
+        self.p1race = self.race_dict[player1_race[0].lower()[0]]
+        self.p2race = self.race_dict[player2_race[0].lower()[0]]
 
         # Invalidate if p1name or p2name is not in user_names
         streamer_found = False
@@ -298,20 +365,7 @@ class MatchInfo(BaseScript):
             )
             return
 
-    async def get_unmasked_response(self, name, race, server):
-        url = f"http://sc2unmasked.com/API/Player?name={name}&race={race}&server={server}"
-        logger.info(f"Sc2unmasked url: {url}")
-        async with self.session.get(url) as resp:
-            assert resp.status == 200
-            resp_json = await resp.json()
-            return resp_json
-
-    def convert_player_info_to_last_player(self, player_info: dict) -> int:
-        """ Returns time in seconds """
-        # TODO: can be None, needs to return 0 in that case?
-        return int(player_info["last_played"][6:-2]) // 1000
-
-    async def get_player1_mmr(self):
+    # async def get_unmasked_response(self, name, race, server) -> List[PlayerInfo]:
         """
         Not case sensitive, and finds displayname equal to burny:
         http://sc2unmasked.com/API/Player?q=burny
@@ -364,6 +418,27 @@ class MatchInfo(BaseScript):
           ]
         }
         """
+    #     url = f"http://sc2unmasked.com/API/Player?name={name}&race={race}&server={server}"
+    #     logger.info(f"Sc2unmasked url: {url}")
+    #     async with self.session.get(url) as resp:
+    #         assert resp.status == 200
+    #         resp_json = await resp.json()
+    #         return [PlayerInfo.from_sc2_unmasked(data) for data in resp_json]
+
+    async def get_sc2_ladder_response(self, name, race, server) -> List[PlayerInfo]:
+        """
+        name: user name in loading scren
+        race: one of "Terran", "Protoss", "Zerg", "Random"
+        server: one of "US", "EU", "KR"
+        """
+        url = f"https://www.sc2ladder.com/api/player?name={name}&race={race}&region={server}"
+        logger.info(f"sc2laadder url: {url}")
+        async with self.session.get(url) as resp:
+            assert resp.status == 200
+            resp_json = await resp.json()
+            return [PlayerInfo.from_sc2_ladder(data) for data in resp_json]
+
+    async def get_player1_mmr(self):
         # Set current time to sc2unmasked timezone
         self.time_now = time.time() + self.time_offset
 
@@ -371,86 +446,60 @@ class MatchInfo(BaseScript):
         # Use configurated server if it was set, to get better results
 
         # Example url: http://sc2unmasked.com/API/Player?name=BuRny&race=T&server=eu
+        # Example url: http://sc2ladder.com/API/player?name=BuRny&race=Terran&server=eu
         # let url = "http://sc2unmasked.com/API/Player?" + $.param({name: p1name, race: p1race.substring(0, 1), server: server});
 
-        unmasked_response = await self.get_unmasked_response(self.p1name, self.p1race, self.server)
-        logger.info("Sc2unmasked response:", json.dumps(unmasked_response, indent=4))
+        players = await self.get_sc2_ladder_response(self.p1name, self.p1race, self.server)
+        logger.info("sc2ladder.com response:")
+        for p in players:
+            logger.info(p)
 
-        players = unmasked_response["players"]
         if not players:
             logger.info("No results found for player 1")
             self.p1mmr = "???"
             self.p1mmr_string = "???"
             return
 
-        players_sorted = sorted(players, key=lambda u: -self.convert_player_info_to_last_player(u))
-
-        one_hour = 60 * 60
-        players_filtered = [
-            player
-            for player in players_sorted
-            if self.time_now - self.convert_player_info_to_last_player(player) < one_hour
-        ]
-
-        streamer_info = players_sorted[0]
-        self.p1mmr = str(streamer_info["mmr"])
+        streamer_info = players[0]
+        self.p1mmr = str(streamer_info.mmr)
         self.p1mmr_string = self.p1mmr
-        # More than one player was found that was playing with same name and race in the last hour, so mmr might be uncertain
-        more_than_one_player_match = len(players_filtered) > 1
-        _24_hours = 60 * 60 * 24
-
-        # Streamer didnt play in 24h so match and mmr might be inaccurate
-        streamer_didnt_play_in_more_than_24h = (
-            self.time_now - self.convert_player_info_to_last_player(streamer_info) > _24_hours
-        )
-        logger.info(self.time_now)
-        logger.info(self.convert_player_info_to_last_player(streamer_info))
-        logger.info(
-            f"Last game of streamer was {(self.time_now - self.convert_player_info_to_last_player(streamer_info)) / (60)} mins ago"
-        )
-        if more_than_one_player_match or streamer_didnt_play_in_more_than_24h:
+        # TODO Append question mark if the mmr might be unreliable, e.g. multiple results, or wasnt played on that account for a while
+        if len(players) > 1:
             self.p1mmr_string += "?"
 
     async def get_player2_mmr(self):
-        unmasked_response = await self.get_unmasked_response(self.p2name, self.p2race, self.server)
-        # unmasked_response = await self.get_unmasked_response("saixy", "t", self.server)
+        players = await self.get_sc2_ladder_response(self.p2name, self.p2race, self.server)
 
-        players = unmasked_response["players"]
         if not players:
             logger.info("No results found for player 2")
             self.p2mmr = "???"
             self.p2mmr_string = "???"
             return
 
-        # Filter opponents by age of last player (14 days)
-        players_filtered = [
-            player
-            for player in players
-            if self.time_now - self.convert_player_info_to_last_player(player) < self.filter_age
-        ]
+        # TODO Filter opponents by age of last player (14 days)
 
         # Sort by mmr difference to player 1 mmr
-        players_sorted = sorted(players_filtered, key=lambda u: abs(u["mmr"] - int(self.p1mmr)))
+        players_sorted = sorted(players, key=lambda u: abs(u.mmr - int(self.p1mmr)))
 
-        most_recent: Dict[str, str] = players_sorted[0]
-        self.p2mmr = str(most_recent["mmr"])
+        most_recent = players_sorted[0]
+        self.p2mmr = str(most_recent.mmr)
         self.p2mmr_string = self.p2mmr
 
-        more_than_one_result_found = len(players_sorted) > 1
-        if more_than_one_result_found:
+        if len(players_sorted) > 1:
             self.p2mmr_string += "?"
 
-        # Find opponent stream if he has a stream and his stream is online and on twitch
-        if most_recent["is_online"] and most_recent["platform"] == "twitch.tv":
-            self.p2stream = most_recent["stream_name"]
+        # TODO Find opponent stream if he has a stream and his stream is online and on twitch
+        # if most_recent["is_online"] and most_recent["platform"] == "twitch.tv":
+        #     self.p2stream = most_recent["stream_name"]
 
     async def prepare_payload(self) -> dict:
+        """ Send payload to websocket. """
         payload = {
             "payload_type": "match_info",
             "p1name": self.p1name,
             "p2name": self.p2name,
-            "p1race": self.race_dict[self.p1race],
-            "p2race": self.race_dict[self.p2race],
+            "p1race": self.p1race,
+            "p2race": self.p2race,
             "p1mmr": self.p1mmr_string,
             "p2mmr": self.p2mmr_string,
             "p2stream": self.p2stream,
