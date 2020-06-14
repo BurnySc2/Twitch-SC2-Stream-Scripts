@@ -7,7 +7,7 @@ This is a repository for my twitch stream scripts that I plan to publish and pol
 
 These scripts will be orientated around Python 3.7, StarCraft 2, OBS Studio and Twitch.
 
-These scripts will use and interact with the Twitch-API, Twitch Chat, StarCraft 2 Client API, SC2Unmasked API, StarCraft 2 replay parsers.
+These scripts will use and interact with the Twitch-API, Twitch Chat, StarCraft 2 Client API, SC2Ladder.com API, StarCraft 2 replay parsers.
 HTML files (for OBS as overlay) and twitch chat will be used as output.
 
 # Setup

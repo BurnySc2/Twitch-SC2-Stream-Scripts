@@ -67,6 +67,32 @@ Priority 5
 8:00 +2 Gas and start +2+2
 
 =============
+Uthermal mine drop into 2 tank push, bio
+-------------
+Enabled 1
+Matchup TvP
+Priority 6
++++++++++++++
+# https://www.youtube.com/watch?v=Jq7JBjbZS9I
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfe07ksLx1KzLT1cKtleZkx2KsQx1cxdKx1OyQK04ssP0eYsKxaKyTssL0FcsKMxdcsIy01xaasK0kZzqcyTasJLyVKx4TsRyZKtleZkxZKxYvsP0AY1QbzBwyNa0PYsJR1IcyTZ0WzsNMz7x1LvsL0V21P3zkwyNbxaZsLLyPWsPxXJtR41tZfe0V90v9xYQsOQzIK1L90wdzcw1jdxdd0A0sLLzMXzkKysLtNuF
+0:18 14 Depot
+0:41 16 Barracks, Refinery
+1:15 Send SCV to scout if opponent has natural
+1:28 19 Orbital
+1:28 19 Reaper
+1:39 20 Expand
+2:01 20 Marine
+2:02 21 Depot
+2:03 22 Factory (2 mines, then techlab, then 3 tanks)
+2:19 23 Barracks Reactor (non stop Marines), Bunker, 2nd Refinery
+2:50 25 Starport (Medivac, Liberator after 1st tank), Natural Orbital
+3:16 36 3rd Depot
+4:08 Load 2 mines and drop in natural (scout natural gas)
+4:46 68 CommandCenter
+5:15 @78 Supply, move out with 13 Marines, 2 Tanks, 4 SCVs (to make 2-3 bunkers) to deny third
+5:25 +2 Barracks, +2 Ebays, +2 Gas
+
+=============
 BratOK into Banshee, Bio
 -------------
 Enabled 0
@@ -103,7 +129,7 @@ Priority 6
 =============
 Saixy's 2-Base Raven push
 -------------
-Enabled 1
+Enabled 0
 Matchup TvP
 Priority 5
 +++++++++++++
@@ -158,9 +184,35 @@ Priority 5
 6:30 Move out @100 Supply
 
 =============
-Heromarines's Double gas 2 Raven opening
+Soul's TvT with fast Stim
 -------------
 Enabled 1
+Matchup TvT
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks (2 Reapers, then Reactor)
+0:55 17 2nd Gas
+1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab), Orbital, Reaper
+1:44 20 2nd Depot
+2:27 Expand
+2:45 27 Starport, 3rd Depot
+3:20 Starport Techlab
+3:32 Build 3 Tanks (not enough gas for more)
+3:45 Starport makes Reactor, Swap Barracks on Techlab
+4:00 +2 Barracks, start Stim
+4:30 3rd Gas, Starport makes Reactor
+5:15 Start Medivac production (stop tanks if necessary)
+6:05 Start Combatshield, Build 3rd on Location
+6:15 @100 Supply, move out with 23 Marines 3 Tanks 4 Medivacs
+6:40 +2 Ebays, 4th Gas
+8:20 Armory
+
+=============
+Heromarines's Double gas 2 Raven opening
+-------------
+Enabled 0
 Matchup TvT
 Priority 5
 +++++++++++++
