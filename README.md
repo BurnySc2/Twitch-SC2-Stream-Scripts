@@ -20,7 +20,11 @@ HTML files (for OBS as overlay) and twitch chat will be used as output.
 - In command line, navigate to this folder and run `pipenv install` to install the python requirements to run the bot (this may take a minute)
 - For the `scene switcher` to work, you need to install the [OBS websocket plugin](https://github.com/Palakis/obs-websocket/releases)
 
-## Configuration
+## Configuration (Quick)
+
+Run `python ./run_configuration.py` and follow the instructions.
+
+## Configuration (Detailled)
 
 1) Generate an oAuth-token, so that the bot can read chat messages (build order and betting system): Log into your **bot's twitch account** (or open a new window in incognito if you don't want to log out of your main account) and go to [twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate a token - **Do not show this token to anyone**
 
