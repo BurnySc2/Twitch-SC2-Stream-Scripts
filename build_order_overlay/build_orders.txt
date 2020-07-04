@@ -83,14 +83,18 @@ Priority 6
 1:39 20 Expand
 2:01 20 Marine
 2:02 21 Depot
-2:03 22 Factory (2 mines, then techlab, then 3 tanks)
-2:19 23 Barracks Reactor (non stop Marines), Bunker, 2nd Refinery
-2:50 25 Starport (Medivac, Liberator after 1st tank), Natural Orbital
+2:03 22 Factory (2 mines, then techlab, then 3 tanks, then reactor mines)
+2:19 23 Barracks Reactor (non stop Marines), 2nd Refinery, Bunker
+2:50 25 Starport (Medivac, Liberator after 2nd tank and CC), Natural Orbital
 3:16 36 3rd Depot
 4:08 Load 2 mines and drop in natural (scout natural gas)
-4:46 68 CommandCenter
-5:15 @78 Supply, move out with 13 Marines, 2 Tanks, 4 SCVs (to make 2-3 bunkers) to deny third
-5:25 +2 Barracks, +2 Ebays, +2 Gas
+4:30 60 CommandCenter
+5:00 @69 Supply, move out with 11 Marines, 2 Tanks, 4 SCVs (to make 2-3 bunkers) to attempt to deny third
+5:10 +2 Barracks, +2 Gas, +2 Ebays
+6:00 Stim + Combatshield starts, 1-1 starts
+6:30 Fly out 3rd CC
+6:50 +2 Barracks
+7:30 Armory
 
 =============
 BratOK into Banshee, Bio
@@ -395,5 +399,16 @@ Priority 5
 0:17 14 Pylon (Reaper Wall)
 0:40 16 Gateway, Probe Scout
 0:47 16 Assimilator
+
+=============
+Saixy #The build
+-------------
+Enabled 0
+Matchup TvZ
+Priority 5
++++++++++++++
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfe07ksLx1KzLT1cKtleZkx2KsQ0D1sPzmYsJyrKyTTywKzLN1UbysKzlssKIx3bsL082sK08YxzasJLx1KyuSsKzO2sJOzPYsJzpZsPxZYsNLxaJtleZkxYhzdasLynK0XszgZsJRyT10awsJyNKzHQxyKxaPzEa1r3sNOzjWySa1q91qrsQyq10BbxaKtlgXiRUySLyvKzKNsKJzK1sPxZJtR2ztZfexzjytd1XLyUQ0CXsMI0C1sJRysY0czsMK0ccytKznssKyXcxddzubsQxaJtleZkxykxaZsJI10ZypXsJxYKxyQypasR0y1zjyz7ZsJyNYsJLKzicyrv0VaxabyPXsNMxYusK16K0SSxddsJR1P9xYOyQe1s9zHmyNasPxxKtgXiRU1OLsJxbZx1KtR5VtZfezG7sKyOYxZZ0Vkzdn0RyxYwzyZsLLxywxaTtNuF
+
+0:17 14 Pylon (Reaper Wall)
 
 =============
