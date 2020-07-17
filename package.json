@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts#readme",
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^26.1.0"
   }
 }
