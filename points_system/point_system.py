@@ -43,7 +43,7 @@ class PointSystem(BaseScript):
         self.viewer_pointers_increment: int = 0
         self.active_chatter_time: int = 10
         self.active_chatter_points_increment: int = 0
-        config_file_path = os.path.join(os.path.dirname(__file__), "config.json")
+        config_file_path = Path(__file__).parent / "config.json"
         with open(config_file_path) as f:
             config_json = json.load(f)
             self.__dict__.update(config_json)

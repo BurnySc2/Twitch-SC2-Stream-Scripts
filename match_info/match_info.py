@@ -10,6 +10,7 @@ import time
 import json
 import os
 import sys
+from pathlib import Path
 from dataclasses import dataclass
 
 from typing import List, Dict, Optional
@@ -143,9 +144,8 @@ class MatchInfo(BaseScript):
         return self._session
 
     def load_config(self):
-        path = os.path.dirname(__file__)
-        config_file_path = os.path.join(path, "config.json")
-        if os.path.isfile(config_file_path):
+        config_file_path = Path(__file__).parent / "config.json"
+        if config_file_path.is_file():
             with open(config_file_path) as f:
                 settings = json.load(f)
                 self.user_names = settings["accounts"]
@@ -365,7 +365,7 @@ class MatchInfo(BaseScript):
             )
             return
 
-    # async def get_unmasked_response(self, name, race, server) -> List[PlayerInfo]:
+        # async def get_unmasked_response(self, name, race, server) -> List[PlayerInfo]:
         """
         Not case sensitive, and finds displayname equal to burny:
         http://sc2unmasked.com/API/Player?q=burny
@@ -418,6 +418,7 @@ class MatchInfo(BaseScript):
           ]
         }
         """
+
     #     url = f"http://sc2unmasked.com/API/Player?name={name}&race={race}&server={server}"
     #     logger.info(f"Sc2unmasked url: {url}")
     #     async with self.session.get(url) as resp:

@@ -12,6 +12,7 @@ import time
 import json
 import os
 import sys
+from pathlib import Path
 
 from typing import Set, Dict, List
 
@@ -50,8 +51,8 @@ class BuildOrderOverlay(BaseScript):
         # After how many seconds the overlay is fading out, when the end of BO was reached
         self.config_end_of_bo_fade_out_time = 10
 
-        config_file_path = os.path.join(os.path.dirname(__file__), "config.json")
-        if os.path.isfile(config_file_path):
+        config_file_path = Path(__file__).parent / "config.json"
+        if config_file_path.is_file():
             with open(config_file_path) as f:
                 config_json = json.load(f)
                 self.config_voting_time_duration = config_json["voting_time_duration"]
@@ -112,8 +113,8 @@ class BuildOrderOverlay(BaseScript):
             "PvZ": [],
             "PvP": [],
         }
-        build_orders_file_path = os.path.join(os.path.dirname(__file__), "build_orders.txt")
-        if not os.path.isfile(build_orders_file_path):
+        build_orders_file_path = Path(__file__).parent / "build_orders.txt"
+        if not build_orders_file_path.is_file():
             logger.error(f"Could not find build orders file {build_orders_file_path}")
             return
 

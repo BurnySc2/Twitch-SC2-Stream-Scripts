@@ -1,7 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from twitchio import Message
+from twitchio.dataclasses import User as TwitchUser
+from twitchio.dataclasses import Channel as TwitchChannel
+from twitchio.dataclasses import Message as TwitchMessage
+from twitchio.dataclasses import Context as TwitchContext
 
 
 if TYPE_CHECKING:
@@ -19,7 +22,7 @@ class BaseScript:
     async def on_new_websocket_connection(self):
         pass
 
-    async def on_message(self, message: Message):
+    async def on_message(self, message: TwitchMessage):
         pass
 
     async def on_tick(self):

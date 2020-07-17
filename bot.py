@@ -1,7 +1,11 @@
 # https://twitchio.readthedocs.io/en/rewrite/twitchio.html
 # https://github.com/TwitchIO/TwitchIO
 from twitchio.ext import commands
-from twitchio import Message
+from twitchio.dataclasses import User as TwitchUser
+from twitchio.dataclasses import Channel as TwitchChannel
+from twitchio.dataclasses import Message as TwitchMessage
+from twitchio.dataclasses import Context as TwitchContext
+from twitchio.client import Chatters as TwitchChatters
 
 # https://websockets.readthedocs.io/en/stable/intro.html
 import websockets
@@ -11,6 +15,7 @@ import time
 import os
 import json
 import sys
+from pathlib import Path
 
 
 from typing import Dict, List, Set, Union, Optional
@@ -30,57 +35,14 @@ from match_info.match_info import MatchInfo
 from points_system.point_system import PointSystem
 from build_order_overlay.build_order import BuildOrderOverlay
 from scene_switcher.scene_switcher import SceneSwitcher
-
 from plugin_base_class.base_class import BaseScript
-
-
-"""
-bot client properties and functions
-coroutine: create_clip(token: str, broadcaster_id: Union[str, int])
-coroutine: get_chatters(channel: str) {
-    # each user is listed here in string form
-    count: int
-    broadcaster: List[str]
-    all: List[str]
-    admins: List[str]
-    global_mods: List[str]
-    moderators: List[str]
-    staff: List[str]
-    viewers: List[str]
-    vips: List[str]
-}
-
-Message = {
-    User object: 'author': {
-        id: int, id of user
-        is_mod: bool
-        is_subscriber: int, 0 for false 1 for true
-        is_turbo: int, 0 for false 1 for true
-        display_name: str, e.g. "BurnySc2"
-        name: str, e.g. "burnysc2"
-    },
-    Channel object: 'channel': {
-        coroutine ban(user: str, resaon: str=""), bans user
-        coroutine get_stream() -> dict, info about the stream
-        coroutine send(content: str), sends text message to destination channel
-        coroutine send_me(content: str), sends text message to destination channel with /me
-        coroutine slow()
-        coroutine slow_off()
-        coroutine timeout(user: str, duration: int=600, reason: str=""), times user out
-        coroutine unban(user: str), unbans user
-    },
-    content: str, content of the message
-    _timestamp: int, timestamp of message
-    timestamp: datetime, UTC datetime object with twitch timestamp
-}
-"""
 
 
 class TwitchChatBot(commands.Bot):
     def __init__(self, irc_token):
         # Load config file
-        bot_config_path = os.path.join(os.path.dirname(__file__), "config", "bot_config.json")
-        assert os.path.isfile(bot_config_path), f"No config file for bot.py found: {bot_config_path}"
+        bot_config_path = Path(__file__).parent / "config" / "bot_config.json"
+        assert bot_config_path.is_file(), f"No config file for bot.py found: {bot_config_path}"
         with open(bot_config_path) as f:
             bot_config: Dict[str, Union[str, bool]] = json.load(f)
 
@@ -184,7 +146,7 @@ class TwitchChatBot(commands.Bot):
                 # logger.exception("Error trying to broadcast json")
                 self.websocket_connections.discard(websocket)
 
-    async def event_message(self, message: Message):
+    async def event_message(self, message: TwitchMessage):
         """
         Function that is run every time the bot sees a new message from one of the connected channels
         """
@@ -243,18 +205,36 @@ class TwitchChatBot(commands.Bot):
 
     # Commands use a different decorator
     @commands.command(name="test")
-    async def my_command(self, ctx):
+    async def my_command(self, ctx: TwitchContext):
+        channel: TwitchChannel = ctx.channel
+        user: TwitchUser = ctx.author
+        message: TwitchMessage = ctx.message
+        content: str = ctx.content
+        """
+        coroutine: get_chatters(channel: str) {
+            # each user is listed here in string form
+            count: int
+            broadcaster: List[str]
+            all: List[str]
+            admins: List[str]
+            global_mods: List[str]
+            moderators: List[str]
+            staff: List[str]
+            viewers: List[str]
+            vips: List[str]
+        }
+        """
+        chatters: TwitchChatters = await self.get_chatters(ctx.channel.name)
         await ctx.send(f"Hello {ctx.author.name}!")
 
     @commands.command(name="test2")
-    async def my_command(self, ctx):
-        chatters = await self.get_chatters("burnysc2")
-        await ctx.send(f"Hello {ctx.author.name}!")
+    async def my_command2(self, ctx: TwitchContext):
+        await ctx.send(f"Hello2 {ctx.author.name}!")
 
 
 if __name__ == "__main__":
     # Load token from twitch irc token config file
-    token_file_path = os.path.join(os.path.dirname(__file__), "config", "twitch_irc_token.json")
+    token_file_path = Path(__file__).parent / "config" / "twitch_irc_token.json"
     with open(token_file_path) as f:
         token_file_json = json.load(f)
         token = token_file_json["token"]

@@ -10,6 +10,7 @@ import time
 import json
 import os
 import sys
+from pathlib import Path
 
 from loguru import logger
 
@@ -29,7 +30,7 @@ if TYPE_CHECKING:
 class SceneSwitcher(BaseScript):
     def __init__(self, bot=None):
         self.bot: TwitchChatBot = bot
-        self.settings_path = os.path.join(os.path.dirname(__file__), "config.json")
+        self.settings_path = Path(__file__).parent / "config.json"
         self.settings: dict = {}
         self.ws: obsws = obsws()
         self.last_set_scene = ""
