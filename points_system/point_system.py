@@ -77,6 +77,7 @@ class PointSystem(BaseScript):
     def save_database(self):
         with self.database_path.open("w") as f:
             json.dump(self.db, f, sort_keys=True, indent=2)
+        self.db_changes_pending = 0
         self.db_last_written = time.time()
 
     def get_points_of_user(self, user: str):
@@ -170,21 +171,6 @@ class PointSystem(BaseScript):
             logger.warning(f"Data was successfully written to database file on bot shutdown.")
 
     async def on_tick(self):
-        # Give points to chatters every X minutes
-        if time.time() - self.timestamp_last_points_given > self.config.give_points_interval:
-            await self.give_points_to_all_chatters()
-
-        # Write current database to file (don't write after each change instantly to file)
-        if (
-            # Wait x seconds before writing the updated database entry to file
-            (time.time() - self.db_last_updated > 30 or self.db_changes_pending > 5)
-            # Only write to database if the database was changed at all
-            and self.db_last_updated > self.db_last_written
-            # At least one change is pending
-            and self.db_changes_pending > 0
-        ):
-            self.save_database()
-
         # Every X minutes, check if the stream is online and only if stream is online, give chatters / viewers points
         if time.time() - self.last_stream_is_online_check > self.stream_is_online_check_interval:
             stream_is_online: bool = await self.check_if_stream_is_live(self.bot.main_channel)
@@ -193,6 +179,22 @@ class PointSystem(BaseScript):
                 logger.info(
                     f"Checked if stream {self.bot.main_channel} is live. Detected a change, stream is live: {stream_is_online}"
                 )
+
+        if self.stream_is_online:
+            # Give points to chatters every X minutes
+            if time.time() - self.timestamp_last_points_given > self.config.give_points_interval:
+                await self.give_points_to_all_chatters()
+
+            # Write current database to file (don't write after each change instantly to file)
+            if (
+                # Wait x seconds before writing the updated database entry to file
+                (time.time() - self.db_last_updated > 30 or self.db_changes_pending > 5)
+                # Only write to database if the database was changed at all
+                and self.db_last_updated > self.db_last_written
+                # At least one change is pending
+                and self.db_changes_pending > 0
+            ):
+                self.save_database()
 
 
 if __name__ == "__main__":

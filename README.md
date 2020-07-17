@@ -105,3 +105,19 @@ This is a list of features that are working or might come into existance at one 
 
 # Bugs
 If you run into bugs or issues or have questions, feel free to message me in Discord BuRny#8752 or [create a new issue on github](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/issues/new).
+
+# Development
+Run python tests (assuming you have python 3.7+ installed):
+
+```
+pip install pipenv
+pipenv install --dev
+pipenv run pytest test
+```
+
+Run npm tests (assuming you have npm / node installed):
+
+```
+npm install
+npm test
+```
