@@ -17,18 +17,23 @@ scene_switcher_config_path = Path(__file__).parent / "scene_switcher" / "config.
 class BaseClassSettings(DataClassJsonMixin):
     @classmethod
     def yes_or_no(cls, string: str) -> bool:
+        """ Converts a string to boolean. """
         if string.strip().lower() in {"y", "yes", "true"}:
             return True
         return False
 
     @classmethod
     def config_path(cls) -> Path:
+        """ Where the config can be found. Required for 'load_config()' """
         raise NotImplementedError(f"Missing config path for class f{cls.__name__}")
 
     @classmethod
-    def load_config(cls):
-        with cls.config_path().open() as f:
-            return cls.from_json(f.read())
+    def load_config(cls) -> "BaseClassSettings":
+        # If file is missing, just return new class instance
+        if cls.config_path().is_file():
+            with cls.config_path().open() as f:
+                return cls.from_json(f.read())
+        return cls()
 
     def save_config(self, old_object: "BaseClassSettings" = None):
         if old_object is not None and self == old_object:
@@ -47,6 +52,7 @@ class BaseClassSettings(DataClassJsonMixin):
         return set()
 
     def enter_config(self):
+        """ Lets the user manually re-fill all the values in this object. Converts input strings to int, float etc. automatically """
         for key, old_value in self.__dict__.items():
             if key not in self.helper_strings:
                 continue
@@ -60,7 +66,7 @@ class BaseClassSettings(DataClassJsonMixin):
                     if not input_value:
                         break
                     old_value.append(input_value)
-            else:
+            elif isinstance(old_value, (bool, int, float, str)):
                 input_value = input(f"{input_helper_text} ")
                 # No input given, save the old value
                 if not input_value:
