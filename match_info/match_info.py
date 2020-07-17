@@ -302,7 +302,7 @@ class MatchInfo(BaseScript):
         # Game is a replay
         # When one of the players is computer
         # When both players have the same name
-        # When player name was not found in user_names array
+        # When player name was not found in accounts array
         if len(self.game_data["players"]) != 2:
             logger.info("Invalid game because number of players is not equal to 2")
             self.valid_game = False
@@ -342,9 +342,9 @@ class MatchInfo(BaseScript):
         self.p1race = self.race_dict[player1_race[0].lower()[0]]
         self.p2race = self.race_dict[player2_race[0].lower()[0]]
 
-        # Invalidate if p1name or p2name is not in user_names
+        # Invalidate if p1name or p2name is not in accounts
         streamer_found = False
-        for name in self.config.user_names:
+        for name in self.config.accounts:
             if player1_name == name:
                 streamer_found = True
                 break

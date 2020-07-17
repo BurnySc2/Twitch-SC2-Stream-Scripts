@@ -2,7 +2,7 @@ import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from match_info.match_info import MatchInfo
+from match_info.match_info import MatchInfo, MatchInfoConfig
 
 import pytest
 

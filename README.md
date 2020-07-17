@@ -97,7 +97,7 @@ This is a list of features that are working or might come into existance at one 
 
 - [x] [SC2 Match Info Overlay](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/match_info)
 
-- [ ] [Viewer Points Generator](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/points_generator)
+- [x] [Viewer Points Generator](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/points_generator)
 
 - [x] [SC2 Scene Switcher](https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/tree/master/scene_switcher)
 
