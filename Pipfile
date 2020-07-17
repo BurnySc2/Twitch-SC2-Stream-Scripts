@@ -17,6 +17,7 @@ aiohttp = "*"
 twitchio = "*"
 obs-websocket-py = "*"
 loguru = "*"
+dataclasses-json = "*"
 
 [requires]
 python_version = "3.7"
