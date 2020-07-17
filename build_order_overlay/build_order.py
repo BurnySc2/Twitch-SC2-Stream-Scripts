@@ -3,16 +3,12 @@ from typing import TYPE_CHECKING
 
 from twitchio import Message
 
-import asyncio
-import datetime
-import random
-import websockets
-import aiohttp
 import time
 import json
-import os
-import sys
 from pathlib import Path
+
+from dataclasses import dataclass
+from dataclasses_json import DataClassJsonMixin
 
 from typing import Set, Dict, List
 
@@ -23,6 +19,12 @@ if TYPE_CHECKING:
     from match_info.match_info import MatchInfo
 
 from loguru import logger
+
+
+@dataclass()
+class BuildOrderOverlayConfig(DataClassJsonMixin):
+    voting_time_duration: int = 30
+    build_order_step_fade_animation_in_ms: int = 500
 
 
 class BuildOrderOverlay(BaseScript):
@@ -44,22 +46,13 @@ class BuildOrderOverlay(BaseScript):
             "PvP": [],
         }
 
-        # 30 secs
-        self.config_voting_time_duration = 30
-        # 1000 ms
-        self.config_build_order_step_fade_animation_in_ms = 1000
         # After how many seconds the overlay is fading out, when the end of BO was reached
         self.config_end_of_bo_fade_out_time = 10
 
         config_file_path = Path(__file__).parent / "config.json"
-        if config_file_path.is_file():
-            with open(config_file_path) as f:
-                config_json = json.load(f)
-                self.config_voting_time_duration = config_json["voting_time_duration"]
-                self.config_build_order_step_fade_animation_in_ms = config_json["build_order_step_fade_animation_in_ms"]
-                # TODO: config_end_of_bo_fade_out_time
-        else:
-            logger.warning(f"No config file found for build order script: {config_file_path}")
+        with config_file_path.open() as f:
+            self.config: BuildOrderOverlayConfig = BuildOrderOverlayConfig.from_json(f.read())
+            # TODO: config_end_of_bo_fade_out_time
 
         # On tick function only works when a game is running
         self.game_is_running = False
@@ -299,7 +292,7 @@ class BuildOrderOverlay(BaseScript):
                 "step0_info": step_data_list[1],
                 "step1_time": step_data_list[2],
                 "step1_info": step_data_list[3],
-                "animation_time": self.config_build_order_step_fade_animation_in_ms,
+                "animation_time": self.config.build_order_step_fade_animation_in_ms,
             }
             payload.update(step_data_dict)
             await self.bot.websocket_broadcast_json(json.dumps(payload))
@@ -395,7 +388,7 @@ class BuildOrderOverlay(BaseScript):
     async def on_tick(self):
         # If time has passed (30 secs or so ingame time), hide voting, choose build order with most votes
         if self.voting_is_running:
-            if self.bot.match_info.game_time > self.config_voting_time_duration:
+            if self.bot.match_info.game_time > self.config.voting_time_duration:
                 # The key lambda function generates a tuple e.g. (5, 9) which means this build got 5 votes and has priority 9, so if another build got (5, 8) equal amount of votes but lower priority, the first one should be chosen
                 index_with_most_votes = max(
                     (index for index in self.votes_dict.keys()),

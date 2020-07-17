@@ -1,19 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, List, Tuple
 
-import asyncio
-import datetime
-import random
-import websockets
-import aiohttp
 import time
-import json
-import os
-import sys
 from pathlib import Path
 
 from loguru import logger
 
+from dataclasses import dataclass
+from dataclasses_json import DataClassJsonMixin
 
 # Communication with OBS Studio
 from obswebsocket import obsws, requests as obsrequest
@@ -27,17 +21,25 @@ if TYPE_CHECKING:
     from match_info.match_info import MatchInfo
 
 
+@dataclass()
+class SceneSwitcherConfig(DataClassJsonMixin):
+    host: str = "localhost"
+    port: int = 4444
+    password: str = ""
+    enabled: bool = True
+    game_scene: str = "SceneGame"
+    menu_scene: str = "SceneLobby"
+    replay_scene: str = "SC2Observer"
+
+
 class SceneSwitcher(BaseScript):
     def __init__(self, bot=None):
         self.bot: TwitchChatBot = bot
-        self.settings_path = Path(__file__).parent / "config.json"
-        self.settings: dict = {}
+        self.config_path = Path(__file__).parent / "config.json"
+        with self.config_path.open() as f:
+            self.config = SceneSwitcherConfig.from_json(f.read())
         self.ws: obsws = obsws()
         self.last_set_scene = ""
-
-    @property
-    def enabled(self):
-        return self.settings.get("enabled", False)
 
     @property
     def connected(self):
@@ -45,25 +47,9 @@ class SceneSwitcher(BaseScript):
             return False
         return self.ws.ws.connected
 
-    def load_settings(self):
-        """ Loads settings from local settings.json file """
-        # Set the default settings. In case in a later version of this script the settings change, new default variables will be added automatically
-        self.settings = {
-            # Connection settings to OBS Studio websockets plugin
-            "host": "localhost",
-            "port": 4444,
-            "password": "",
-        }
-        if os.path.isfile(self.settings_path):
-            with open(self.settings_path) as f:
-                # logger.info(f"Scene switcher loaded settings.")
-                self.settings.update(json.load(f))
-        else:
-            logger.warning(f"No config file found for scene switcher script: {self.settings_path}")
-
     def connect(self):
         try:
-            self.ws = obsws(self.settings["host"], self.settings["port"], self.settings["password"])
+            self.ws = obsws(self.config.host, self.config.port, self.config.password)
             self.ws.connect()
         except ConnectionFailure as e:
             logger.error("Error trying to connect to obs")
@@ -103,24 +89,23 @@ class SceneSwitcher(BaseScript):
                 pass
 
     async def on_new_game(self, match_info: MatchInfo):
-        self.switch_obs_scene(self.settings.get("game_scene", ""))
+        self.switch_obs_scene(self.config.game_scene)
 
     async def on_game_resumed_from_replay(self, match_info: MatchInfo):
-        self.switch_obs_scene(self.settings.get("game_scene", ""))
+        self.switch_obs_scene(self.config.game_scene)
 
     async def on_rewind(self, match_info: MatchInfo):
-        self.switch_obs_scene(self.settings.get("replay_scene", ""))
+        self.switch_obs_scene(self.config.replay_scene)
 
     async def on_replay_entered(self, match_info: MatchInfo):
-        self.switch_obs_scene(self.settings.get("replay_scene", ""))
+        self.switch_obs_scene(self.config.replay_scene)
 
     async def on_game_ended(self, match_info: MatchInfo):
-        self.switch_obs_scene(self.settings.get("menu_scene", ""))
+        self.switch_obs_scene(self.config.menu_scene)
 
 
 if __name__ == "__main__":
     a = SceneSwitcher()
-    a.load_settings()
     while 1:
         a.switch_obs_scene("SceneGame")
         time.sleep(3)

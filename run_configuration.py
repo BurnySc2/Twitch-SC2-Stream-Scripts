@@ -6,6 +6,7 @@ from copy import deepcopy
 from typing import List, Dict, Set, Union, Optional
 
 twitch_irc_token_path = Path(__file__).parent / "config" / "twitch_irc_token.json"
+twitch_client_id_path = Path(__file__).parent / "config" / "twitch_client_id.json"
 main_config_path = Path(__file__).parent / "config" / "bot_config.json"
 match_info_config_path = Path(__file__).parent / "match_info" / "config.json"
 point_system_config_path = Path(__file__).parent / "match_info" / "config.json"
@@ -143,6 +144,28 @@ Copy your oauth / key into this field:
 
 
 @dataclass()
+class TwitchClientId(BaseClassSettings):
+    client_id: str = ""
+
+    @classmethod
+    def config_path(cls) -> Path:
+        return twitch_client_id_path
+
+    @property
+    def helper_strings(self) -> Dict[str, str]:
+        return {
+            "client_id": """
+Go to https://dev.twitch.tv/docs/v5#getting-a-client-id and log in to twitch - create a new application (in the developer portal) with any name.
+
+Enter any name and simply enter 'http://localhost' in the 'OAuth Redirect URLs' field.
+Pick Category 'Chat Bot'.
+
+After you created your 'application', click 'manage' and copy paste the 'Client ID'
+"""
+        }
+
+
+@dataclass()
 class MatchInfoConfig(BaseClassSettings):
     accounts: List[str] = field(default_factory=lambda: [])
     # One of: US, EU, KR
@@ -241,6 +264,15 @@ def set_up_twitch_irc_token():
     # Re-fill all values (user input)
     twitch_irc_token_config.enter_config()
     twitch_irc_token_config.save_config(old_twitch_irc_token_config)
+
+
+def set_up_twitch_client_id():
+    """ Configures /config/twitch_client_id.json """
+    twitch_client_id_config = TwitchClientId.load_config()
+    old_twitch_client_id_config = deepcopy(twitch_client_id_config)
+    # Re-fill all values (user input)
+    twitch_client_id_config.enter_config()
+    twitch_client_id_config.save_config(old_twitch_client_id_config)
 
 
 def set_up_main_config():

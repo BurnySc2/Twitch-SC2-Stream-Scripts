@@ -18,6 +18,7 @@ twitchio = "*"
 obs-websocket-py = "*"
 loguru = "*"
 dataclasses-json = "*"
+python-twitch-client = "*"
 
 [requires]
 python_version = "3.7"

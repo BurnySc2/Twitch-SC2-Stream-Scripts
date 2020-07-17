@@ -28,11 +28,20 @@ Run `python ./run_configuration.py` and follow the instructions.
 
 1) Generate an oAuth-token, so that the bot can read chat messages (build order and betting system): Log into your **bot's twitch account** (or open a new window in incognito if you don't want to log out of your main account) and go to [twitchapps.com/tmi/](https://twitchapps.com/tmi/) to generate a token - **Do not show this token to anyone**
 
+Further more, create a twitch 'application' by going to [https://dev.twitch.tv/docs/v5#getting-a-client-id](https://dev.twitch.tv/docs/v5#getting-a-client-id) and creating a new application (can be made from your main or your bot's account). Fill out any name, set 'OAuth Redirect URLs' to 'http://localhost' and pick category 'Chat bot'.
+After you created your 'application', click 'manage' and copy your 'Client ID' - **Do not show this token to anyone**
+
 2) In the `config` folder, edit the following files with a text editor:
-    - Edit `twitch_irc_token.json` with a text editor, paste the token (from step 1) so the file contents has to look like this:
+    - Edit (or create) `twitch_irc_token.json` with a text editor, paste the token (from step 1) so the file contents has to look like this:
         ```json
         {
           "token": "oauth:123my_completely_random_tokenabc"
+        }
+        ```
+    - Edit (or create) `twitch_client_id.json` with a text editor, paste the token (from step 1) so the file contents has to look like this:
+        ```json
+        {
+          "client_id": "my_client_id"
         }
         ```
     - Edit `bot_config.json` and change the twitch channel and bot name accordingly. Set `bot_name` to the account the bot should write in chat to announce things (e.g. betting script), which can also be your main streaming account.

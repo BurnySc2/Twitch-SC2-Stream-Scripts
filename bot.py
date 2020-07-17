@@ -7,16 +7,19 @@ from twitchio.dataclasses import Message as TwitchMessage
 from twitchio.dataclasses import Context as TwitchContext
 from twitchio.client import Chatters as TwitchChatters
 
+# https://github.com/tsifrer/python-twitch-client
+from twitch import TwitchClient
+
 # https://websockets.readthedocs.io/en/stable/intro.html
 import websockets
 
 import asyncio
-import time
-import os
 import json
 import sys
 from pathlib import Path
 
+from dataclasses import dataclass, field
+from dataclasses_json import DataClassJsonMixin
 
 from typing import Dict, List, Set, Union, Optional
 
@@ -38,19 +41,30 @@ from scene_switcher.scene_switcher import SceneSwitcher
 from plugin_base_class.base_class import BaseScript
 
 
+@dataclass()
+class MainConfig(DataClassJsonMixin):
+    twitch_channel_name: str = "burnysc2"
+    bot_name: str = "burnysc2bot"
+    command_prefix: str = "!"
+    match_info: bool = True
+    point_system: bool = True
+    build_order_overlay: bool = True
+    scene_switcher: bool = True
+
+
 class TwitchChatBot(commands.Bot):
     def __init__(self, irc_token):
         # Load config file
         bot_config_path = Path(__file__).parent / "config" / "bot_config.json"
         assert bot_config_path.is_file(), f"No config file for bot.py found: {bot_config_path}"
         with open(bot_config_path) as f:
-            bot_config: Dict[str, Union[str, bool]] = json.load(f)
+            self.bot_config = MainConfig.from_json(f.read())
+            # bot_config: Dict[str, Union[str, bool]] = json.load(f)
 
         # The main channel the bot is going to interact with
-        self.main_channel = bot_config["twitch_channel_name"]
         self.initial_channels = [self.main_channel]
-        bot_name = bot_config["bot_name"]
-        command_prefix = bot_config["command_prefix"]
+        bot_name = self.bot_config.bot_name
+        command_prefix = self.bot_config.command_prefix
         super().__init__(
             # Irc token to be able to connect to chat
             irc_token=irc_token,
@@ -67,39 +81,42 @@ class TwitchChatBot(commands.Bot):
         self.websocket_connections = set()
         self.websocket_server = websockets.serve(self.on_websocket_connection, "127.0.0.1", 5678)
 
-        # Start scripts
+        # Start connection to twitch - required to check if a stream is live
+        twitch_client_id_path = Path(__file__).parent / "config" / "twitch_client_id.json"
+        assert twitch_client_id_path.is_file()
+        with twitch_client_id_path.open() as f:
+            twitch_client_id = json.load(f)["client_id"]
+            self.twitch_client: TwitchClient = TwitchClient(client_id=twitch_client_id)
+
+        # Start scripts - all class instances are kept inside this list
         self.running_scripts: List[BaseScript] = []
 
         # Start match_info script/plugin
-        assert "match_info" in bot_config
-        if bot_config["match_info"]:
+        if self.bot_config.match_info:
             # Matchinfo script
             self.match_info = MatchInfo(self)
-            self.match_info.load_config()
             self.running_scripts.append(self.match_info)
 
         # Start point_system script/plugin
-        assert "point_system" in bot_config
-        if bot_config["point_system"]:
+        if self.bot_config.point_system:
             # Pointsystem script
             self.point_system = PointSystem(self)
             self.running_scripts.append(self.point_system)
 
         # Start build_order_overlay script/plugin
-        assert "build_order_overlay" in bot_config
-        # Pointsystem script
-        if bot_config["build_order_overlay"]:
+        if self.bot_config.build_order_overlay:
             self.build_order_overlay = BuildOrderOverlay(self)
             self.build_order_overlay.load_build_orders()
             self.running_scripts.append(self.build_order_overlay)
 
         # Start scene_switcher script/plugin
-        assert "scene_switcher" in bot_config
-        # Scene switcher script
-        if bot_config["scene_switcher"]:
+        if self.bot_config.scene_switcher:
             self.scene_switcher = SceneSwitcher(self)
-            self.scene_switcher.load_settings()
             self.running_scripts.append(self.scene_switcher)
+
+    @property
+    def main_channel(self) -> str:
+        return self.bot_config.twitch_channel_name
 
     # Events don't need decorators when subclassed
     async def event_ready(self):

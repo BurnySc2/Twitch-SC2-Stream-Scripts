@@ -2,16 +2,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 
 import asyncio
-import datetime
-import random
 import websockets
 import aiohttp
 import time
 import json
-import os
-import sys
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from dataclasses_json import DataClassJsonMixin
 
 from typing import List, Dict, Optional
 
@@ -21,6 +18,13 @@ from plugin_base_class.base_class import BaseScript
 
 if TYPE_CHECKING:
     from bot import TwitchChatBot
+
+
+@dataclass()
+class MatchInfoConfig(DataClassJsonMixin):
+    accounts: List[str] = field(default_factory=lambda: [])
+    # One of: US, EU, KR
+    server: str = "eu"
 
 
 @dataclass()
@@ -132,8 +136,10 @@ class MatchInfo(BaseScript):
         self.users = set()
 
         # FROM CONFIG FILE:
-        self.user_names = ["BuRny"]
-        self.server = "eu"
+        config_file_path = Path(__file__).parent / "config.json"
+        with config_file_path.open() as f:
+            self.config: MatchInfoConfig = MatchInfoConfig.from_json(f.read())
+            assert self.config.server in {"", "eu", "us", "kr"}, f"Current value is: {self.config.server}"
         # Enable if you want to test if script is working vs AI
         self.DEBUG_MODE = True
 
@@ -142,16 +148,6 @@ class MatchInfo(BaseScript):
         if self._session is None:
             self._session = aiohttp.ClientSession()
         return self._session
-
-    def load_config(self):
-        config_file_path = Path(__file__).parent / "config.json"
-        if config_file_path.is_file():
-            with open(config_file_path) as f:
-                settings = json.load(f)
-                self.user_names = settings["accounts"]
-                self.server = settings["server"]
-        else:
-            logger.warning(f"No config file found for match info script: {config_file_path}")
 
     def reset_values(self):
         self.p1race = ""
@@ -348,7 +344,7 @@ class MatchInfo(BaseScript):
 
         # Invalidate if p1name or p2name is not in user_names
         streamer_found = False
-        for name in self.user_names:
+        for name in self.config.user_names:
             if player1_name == name:
                 streamer_found = True
                 break
@@ -450,7 +446,7 @@ class MatchInfo(BaseScript):
         # Example url: http://sc2ladder.com/API/player?name=BuRny&race=Terran&server=eu
         # let url = "http://sc2unmasked.com/API/Player?" + $.param({name: p1name, race: p1race.substring(0, 1), server: server});
 
-        players = await self.get_sc2_ladder_response(self.p1name, self.p1race, self.server)
+        players = await self.get_sc2_ladder_response(self.p1name, self.p1race, self.config.server)
         logger.info("sc2ladder.com response:")
         for p in players:
             logger.info(p)
@@ -469,7 +465,7 @@ class MatchInfo(BaseScript):
             self.p1mmr_string += "?"
 
     async def get_player2_mmr(self):
-        players = await self.get_sc2_ladder_response(self.p2name, self.p2race, self.server)
+        players = await self.get_sc2_ladder_response(self.p2name, self.p2race, self.config.server)
 
         if not players:
             logger.info("No results found for player 2")
@@ -504,7 +500,7 @@ class MatchInfo(BaseScript):
             "p1mmr": self.p1mmr_string,
             "p2mmr": self.p2mmr_string,
             "p2stream": self.p2stream,
-            "server": self.server_dict[self.server],
+            "server": self.server_dict[self.config.server],
         }
         return payload
 
@@ -582,7 +578,6 @@ class MatchInfo(BaseScript):
 
 def main():
     match_info = MatchInfo()
-    match_info.load_config()
     logger.info("Script started")
     start_server = websockets.serve(match_info.websocket_server_loop, "127.0.0.1", 5678)
     asyncio.get_event_loop().run_until_complete(start_server)
