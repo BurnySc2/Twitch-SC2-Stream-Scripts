@@ -142,7 +142,7 @@ class PointSystem(BaseScript):
         # Get the ID of the streamer to be able to poll if the stream is live
         channel_id = self.name_to_id_dict.get(channel_name, None)
         if channel_id is None:
-            for channel_info in self.bot.twitch_client.users.translate_usernames_to_ids([channel_name]):
+            for channel_info in self.bot.twitch_client.users.translate_usernames_to_ids([channel_name.lower()]):
                 # Cache name to id
                 self.name_to_id_dict[channel_info.name] = channel_info.id
             channel_id = self.name_to_id_dict[channel_name]

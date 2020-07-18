@@ -9,7 +9,6 @@ pytest-asyncio = "*"
 hypothesis = "*"
 # atomicwrites and win32-setctime, required for pytest on windows
 atomicwrites = "*"
-win32-setctime = "*"
 
 [packages]
 websockets = "*"
@@ -19,6 +18,7 @@ obs-websocket-py = "*"
 loguru = "*"
 dataclasses-json = "*"
 python-twitch-client = "*"
+win32-setctime = "*"
 
 [requires]
 python_version = "3.7"
