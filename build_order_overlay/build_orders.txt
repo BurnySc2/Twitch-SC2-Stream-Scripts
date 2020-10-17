@@ -1,7 +1,7 @@
 =============
 3CC Hellions BC, Mech (Special vs Reynor Game3, vs Stephano Game2)
 -------------
-Enabled 1
+Enabled 0
 Matchup TvZ
 Priority 6
 +++++++++++++
@@ -30,6 +30,55 @@ Priority 6
 7:20 +2 Factories (delay if making tanks)
 7:50 2nd Armory
 8:10 4th CC (add 2 starports later on)
+
+=============
+Hellion BC into mech - Cure vs Serral Dreamhack Final
+-------------
+Enabled 1
+Matchup TvZ
+Priority 6
++++++++++++++
+0:17 14 Depot
+0:40 16 Barracks, Refinery
+1:25 18 SCV Scout
+1:27 Orbital, Reaper
+1:38 Expand
+1:46 2nd Depot, Marine
+2:06 23 Factory, 2nd Refinery
+2:22 Reactor on Barracks
+2:50 Starport, Start Hellions, 2nd Marine
+3:10 3rd Depot
+3:31 Fusion Core
+3:50 3rd CC (after 3 depots)
+4:20 Start BC (finishes 5:24), +2 Gas
+4:55 +2 Factories (Hellion Cyclone production), start Yamato research
+5:30 2nd BC, Lift 3rd to location
+6:20 Start Blueflame
+7:00 3rd BC, +2 Armories (get ground mech upgrades)
+7:35 +2 Factories (get cyclone upgrade once you see corruptors?)
+8:20 4th CC
+
+=============
+3CC double Thor drop into Mech
+-------------
+Enabled 0
+Matchup TvZ
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:40 Barracks, Refinery
+1:40 Expand, 2nd Depot
+2:00 Marine
+2:07 Factory
+2:17 2nd Gas, Barracks Reactor
+2:53 Starport, start Hellion production
+3:25 3rd Depot, Liberator
+3:50 3rd CC
+4:00 Armory, 4th Depot
+4:20 +2 Factories (build Techlabs from Rax + Starport)
+4:30 +2 Gas
+4:50 +1 Mech Attack
+5:40 2 Thor, 2 Medivacs, continue Hellion production
 
 =============
 4 Hellion, 3 Rax, 3rd CC, Bio (Fantasy Build Order)
@@ -76,25 +125,52 @@ Priority 6
 # https://www.youtube.com/watch?v=Jq7JBjbZS9I
 # https://burnysc2.github.io/sc2-planner/?&race=terran&bo=uDritmrisSJEritSf2HtL2NtZU2HsMN2PtkuBtgV2KritnfibViriuFsExagsJRxaJtjkilTkli2Mx3ixaasKzaDyUZsKIyx9yxTxZJtR3QtZfe07ksLx1KzLT1cKtleZkx2KsQx1cxdKx1OyQK04ssP0eYsKxaKyTssL0FcsKMxdcsIy01xaasK0kZzqcyTasJLyVKx4TsRyZKtleZkxZKxYvsP0AY1QbzBwyNa0PYsJR1IcyTZ0WzsNMz7x1LvsL0V21P3zkwyNbxaZsLLyPWsPxXJtR41tZfe0V90v9xYQsOQzIK1L90wdzcw1jdxdd0A0sLLzMXzkKysLtNuF
 0:18 14 Depot
-0:41 16 Barracks, Refinery
+0:40 16 Barracks, Refinery
 1:15 Send SCV to scout if opponent has natural
-1:28 19 Orbital
-1:28 19 Reaper
-1:39 20 Expand
-2:01 20 Marine
-2:02 21 Depot
-2:03 22 Factory (2 mines, then techlab, then 3 tanks, then reactor mines)
-2:19 23 Barracks Reactor (non stop Marines), 2nd Refinery, Bunker
+1:28 19 Orbital, Reaper
+1:43 20 Expand
+2:00 21 Depot, Marine
+2:08 22 Factory (2 mines, then techlab, then 3 tanks, then reactor mines)@
+2:22 23 Barracks Reactor (non stop Marines), 2nd Refinery, Bunker
 2:50 25 Starport (Medivac, Liberator after 2nd tank and CC), Natural Orbital
 3:16 36 3rd Depot
 4:08 Load 2 mines and drop in natural (scout natural gas)
 4:30 60 CommandCenter
-5:00 @69 Supply, move out with 11 Marines, 2 Tanks, 4 SCVs (to make 2-3 bunkers) to attempt to deny third
-5:10 +2 Barracks, +2 Gas, +2 Ebays
+4:55 +2 Barracks, +2 Gas, +2 Ebays
+5:05 @69 Supply, move out with 11 Marines, 2 Tanks, 4 SCVs (to make 2-3 bunkers) to attempt to deny third
 6:00 Stim + Combatshield starts, 1-1 starts
 6:30 Fly out 3rd CC
 6:50 +2 Barracks
 7:30 Armory
+
+=============
+Byun's Ebay block into Hellions, Mine drop
+-------------
+Enabled 0
+Matchup TvP
+Priority 5
++++++++++++++
+# https://lotv.spawningtool.com/build/133108/
+0:18 14 Depot
+0:28 15 Refinery
+0:38 Send SCV to block natural (Ebay)
+0:45 16 Barracks (Marine, Reactor for Factory)
+1:31 19 Orbital, Marine, Factory
+1:49 20 Factory (4 Hellions then 4 Mines)
+2:00 21 2nd Depot
+2:19 22 Expand
+2:30 Start Hellions, 3rd Depot
+2:50 3rd and 4th Hellion, Starport, 2nd Gas
+3:12 Start Mine productions (Cyclone Viking if Stargate)
+3:25 Start Medivac, 3rd Gas
+3:40 Make Barracks Techlab for Factory
+3:55 Starport makes Techlab (Raven)
+4:05 Non stop Marines, 2 Tanks (2nd Tank after Raven)
+4:20 Bunker
+5:00 +2 Rax, Ebay
+5:20 Factory and Starport build Reactors
+5:40 Start +1, Stim, Combatshield
+6:30 3rd CC, 4th Gas
 
 =============
 BratOK into Banshee, Bio

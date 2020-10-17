@@ -116,7 +116,7 @@ class TwitchChatBot(commands.Bot):
 
     @property
     def main_channel(self) -> str:
-        return self.bot_config.twitch_channel_name
+        return self.bot_config.twitch_channel_name.lower()
 
     # Events don't need decorators when subclassed
     async def event_ready(self):
