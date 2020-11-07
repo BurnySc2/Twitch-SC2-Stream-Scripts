@@ -118,7 +118,7 @@ Priority 5
 =============
 Uthermal mine drop into 2 tank push, bio
 -------------
-Enabled 1
+Enabled 0
 Matchup TvP
 Priority 6
 +++++++++++++
@@ -209,7 +209,7 @@ Priority 6
 =============
 Saixy's 2-Base Raven push
 -------------
-Enabled 0
+Enabled 1
 Matchup TvP
 Priority 5
 +++++++++++++
@@ -219,10 +219,10 @@ Priority 5
 1:15 SCV Scout
 1:27 Orbital, Reaper
 1:41 Expand
-1:56 2nd Depot, Reactor
+1:56 2nd Depot, Marine
 2:04 2nd Gas
-2:20 Factory
-3:05 Starport, Factory tech lab
+2:20 Factory, Barracks Reactor
+3:05 Starport, Factory builds 2x Techlab
 3:20 3rd Depot
 3:40 2nd Rax, Raven
 3:50 Tank, 3rd Rax
@@ -266,7 +266,7 @@ Priority 5
 =============
 Soul's TvT with fast Stim
 -------------
-Enabled 1
+Enabled 0
 Matchup TvT
 Priority 5
 +++++++++++++
@@ -288,6 +288,55 @@ Priority 5
 6:15 @100 Supply, move out with 23 Marines 3 Tanks 4 Medivacs
 6:40 +2 Ebays, 4th Gas
 8:20 Armory
+
+=============
+Clem's Tank drop
+-------------
+Enabled 1
+Matchup TvT
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks (2 Reapers, then Reactor)
+0:55 17 2nd Gas
+1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab), Orbital, Reaper
+1:44 20 2nd Depot
+2:27 Expand
+2:44 Starport, 3rd Depot, put SCVs back in gas
+3:15 Make 4 Marines, 1 Tank, 1 Medivac
+3:25 3rd Gas
+3:55 Factory makes Techlab, Starport attaches to free Techlab and makes 2-3 Raven
+4:20 Arrive with Medivac
+4:30 Start 3rd CC
+
+=============
+Heromarines's Rax first double Gas 2 Raven (Modified)
+-------------
+Enabled 1
+Matchup TvT
+Priority 5
++++++++++++++
+# https://lotv.spawningtool.com/build/132662/
+# https://lotv.spawningtool.com/61815/
+# https://burnysc2.github.io/sc2-planner/?&race=terran&bo=002eJytlsEOgjAQRP+lZw7QCgK/YjwQIIaYAKklxhj/3RsSw4yw7pVJ2dnX2YXT03SNKQ9pZMJjbE1p7oO/tt68ol9KUszKLfipDpNvNxzDik3IC20sqiY9NgtVHbqh/y2Qhj+cpr4L2/glzjIYRyLGyCIUsPcjPAKaEgUpZyCQAyjgQqlbN+0YTvUBSFLYEuzJMkSC68sKK0AhHCbSME85Pia4+ww0DDIhCTKeFs2XSWPHIqRJAZGm6XF0B6h/aTQvirrTBLso9GUbZyVTThFxd0Cl9tt26To1+BxQ5vtlsZem8eKr5k8A2kT1w7gTK/8hY6JgrcFJyfUmaEU5vwHUY3ck
+0:17 14 Depot
+0:40 16 Barracks (2 Reapers)
+0:45 16 Refinery
+0:55 17 Refinery
+1:30 20 2nd Depot
+1:44 20 Factory (1 Hellion), pull 2 out of Gas
+2:23 24 Expand, saturate Gas
+2:30 Barracks makes Techlab for Factory
+2:55 28 Starport, start Cyclone, Barracks makes Techlab for Starport, 3rd Gas
+3:35 Make 2 Ravens, Non-stop Tank production
+4:20 3rd Base, 4th Gas
+5:35 Push with 3 Tank, 2 Raven, reinforce with Vikings
+5:50 +2 Rax
+6:10 Fly out 3rd CC
+6:30 +2 Ebay
+7:00 Benchmark: 105 Supply
+7:30 +2 Rax, Armory, +2 Gas
 
 =============
 Heromarines's Double gas 2 Raven opening

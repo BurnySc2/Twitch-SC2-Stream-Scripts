@@ -155,6 +155,7 @@ class TwitchChatBot(commands.Bot):
         Send a json string to all connected websockets
         Remove websocket if sending was unsuccessful
         """
+        logger.info(f"Sending websocket data: {json_string}")
         for websocket in self.websocket_connections.copy():
             try:
                 await websocket.send(json_string)
