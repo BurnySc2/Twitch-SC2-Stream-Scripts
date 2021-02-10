@@ -34,7 +34,7 @@ Priority 6
 =============
 Hellion BC into mech - Cure vs Serral Dreamhack Final
 -------------
-Enabled 1
+Enabled 0
 Matchup TvZ
 Priority 6
 +++++++++++++
@@ -61,7 +61,7 @@ Priority 6
 =============
 3CC double Thor drop into Mech
 -------------
-Enabled 0
+Enabled 1
 Matchup TvZ
 Priority 5
 +++++++++++++
@@ -118,7 +118,7 @@ Priority 5
 =============
 Uthermal mine drop into 2 tank push, bio
 -------------
-Enabled 0
+Enabled 1
 Matchup TvP
 Priority 6
 +++++++++++++
@@ -209,7 +209,7 @@ Priority 6
 =============
 Saixy's 2-Base Raven push
 -------------
-Enabled 1
+Enabled 0
 Matchup TvP
 Priority 5
 +++++++++++++
@@ -292,7 +292,7 @@ Priority 5
 =============
 Clem's Tank drop
 -------------
-Enabled 1
+Enabled 0
 Matchup TvT
 Priority 5
 +++++++++++++

@@ -20,14 +20,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install pipenv dependencies
+      - name: Install poetry dependencies
         run: |
-          python -m pip install pipenv
-          pipenv install --dev --python ${{ matrix.python-version }}
+          python -m pip install poetry
+          poetry install
 
       - name: Run pytest
         run: |
-          pipenv run pytest test/
+          poetry run pytest test/
 
       - name: Install npm packages
         run: |

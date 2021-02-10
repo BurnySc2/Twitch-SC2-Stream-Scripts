@@ -18,8 +18,8 @@ HTML files (for OBS as overlay) and twitch chat will be used as output.
 - Install Python 3.7 or newer
 - OBS Studio (or Streamlabs OBS if you don't care about the `scene switcher` script)
 - Download all files in this repository and unzip
-- In command line, run `pip install pipenv --user` to install `pipenv`
-- In command line, navigate to this folder and run `pipenv install` to install the python requirements to run the bot (this may take a minute)
+- In command line, run `pip install poetry --user` to install `poetry`
+- In command line, navigate to this folder and run `poetry install` to install the python requirements to run the bot (this may take a minute)
 - For the `scene switcher` to work, you need to install the [OBS websocket plugin](https://github.com/Palakis/obs-websocket/releases)
 
 ## Configuration (Quick)
@@ -81,7 +81,7 @@ Run `python ./run_configuration.py` and follow the instructions.
 
 For the scripts the work, the bot needs to run in the background. It will output various (seemingly useless) information to the console and `bot.log` file.
 
-- In command line, navigate to this folder and run `pipenv run bot.py` or `python -m pipenv run bot.py` to start the bot.
+- In command line, navigate to this folder and run `poetry run bot.py` or `python -m poetry run bot.py` to start the bot.
 - It will print `bot.py READY | burnysc2bot` if it successfully started and connected to your twitch chat
 
 # Script plugins and modules
@@ -111,9 +111,9 @@ If you run into bugs or issues or have questions, feel free to message me in Dis
 Run python tests (assuming you have python 3.7+ installed):
 
 ```
-pip install pipenv
-pipenv install --dev
-pipenv run pytest test
+pip install poetry
+poetry install
+poetry run pytest test
 ```
 
 Run npm tests (assuming you have npm / node installed):

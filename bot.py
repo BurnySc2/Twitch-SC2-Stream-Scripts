@@ -31,7 +31,7 @@ logger.remove()
 # Log to console
 logger.add(sys.stdout, level="INFO")
 # Log to file, max size 5mb
-logger.add("bot.log", rotation="1 MB", level="INFO")
+logger.add("bot.log", rotation="1 MB", retention="1 month", level="INFO")
 
 
 from match_info.match_info import MatchInfo
@@ -155,7 +155,7 @@ class TwitchChatBot(commands.Bot):
         Send a json string to all connected websockets
         Remove websocket if sending was unsuccessful
         """
-        logger.info(f"Sending websocket data: {json_string}")
+        # logger.info(f"Sending websocket data: {json_string}")
         for websocket in self.websocket_connections.copy():
             try:
                 await websocket.send(json_string)
