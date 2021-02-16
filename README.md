@@ -73,9 +73,9 @@ Run `python ./run_configuration.py` and follow the instructions.
    - Go into the `overlay_files` folder
    - Drag and drop the desired .html overlay files into OBS.
    - Resolution for the .html files should be set to the following (30 fps should suffice):
-     - `match_info.html`: 200 width, 150 height
+     - `match_info.html`: 260 width, 170 height
      - `build_order_vote.html`: 420 width, 400 height
-     - `build_order_step.html`: 420 width, 300 to 350 height
+     - `build_order_step.html`: 470 width, 330 height
 
 ## Running the bot
 

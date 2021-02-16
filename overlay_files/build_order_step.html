@@ -2,29 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ASD</title>
+    <title>Build Order Step</title>
     <script src="js/build_order_step.js"></script>
-    <link rel="stylesheet" href="css/build_order_step.css">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-
+<!--Size: 470 width and 330 height-->
 <body>
-    <div id="build-order-div" class="flex-vertical-container">
+    <div id="build-order-div" class="flex flex-col bg-blue-600 rounded-2xl text-white text-2xl">
         <!-- Build order title -->
-        <div id="build-order-title" class="title">4 Hellion into Bio (Fantasy Build Order)</div>
+        <div id="build-order-title" class="bg-blue-500 rounded-2xl border-b-2 border-black p-2 text-3xl">4 Hellion into Bio (Fantasy Build Order)</div>
 
         <!-- Instruction of build order -->
-        <div id="bo-step0">Current step:</div>
-        <div class="flex-horizontal-container-bo">
-            <div id="bo-timer0" class="bo-animation-text">0:14</div>
-            <div id="bo-instruction0" class="bo-animation-text">Depot - Some two line instruction</div>
+        <div id="bo-step0" class="px-1 m-1">Current step:</div>
+        <div class="flex flex-row px-1 m-2">
+            <div id="bo-timer0" class="transition ease-in-out duration-1000 self-center mx-1">0:14</div>
+            <div id="bo-instruction0" class="transition ease-in-out duration-1000 mx-1">Depot - Some long two line instruction</div>
         </div>
 
-        <div id="bo-step1">Next step:</div>
-        <div class="flex-horizontal-container-bo">
-            <div id="bo-timer1" class="bo-animation-text">0:40</div>
-            <div id="bo-instruction1" class="bo-animation-text">Barracks - Some two line instruction</div>
+        <div id="bo-step1" class="px-1 m-1">Next step:</div>
+        <div class="flex flex-row px-1 m-2">
+            <div id="bo-timer1" class="transition ease-in-out duration-1000 self-center mx-1">0:40</div>
+            <div id="bo-instruction1" class="transition ease-in-out duration-1000 mx-1">Barracks - Some two line instruction</div>
         </div>
     </div>
 </body>
-
 </html>
