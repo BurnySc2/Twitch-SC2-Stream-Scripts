@@ -111,7 +111,7 @@ window.onload = function(){
     // Try to trigger another animation while the animation is still going
     // setTimeout(() => {
     //     changeBuildOrderInfo("4 Hellion into Bio (Fantasy Build Order)", "0:45", "Refinery", "1:30", "Reaper", 1000);
-    // }, 1500);
+    // }, 2500);
 };
 
 module.exports = {
