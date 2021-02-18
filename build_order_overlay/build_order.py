@@ -343,7 +343,9 @@ class BuildOrderOverlay(BaseScript):
 
         current_matchup = f"{match_info.p1race[0].upper()}v{match_info.p2race[0].upper()}"
         if current_matchup not in self.build_orders:
-            logger.warning(f"No build order found for matchup {current_matchup}. Could not display a build order on build order overlay.")
+            logger.warning(
+                f"No build order found for matchup {current_matchup}. Could not display a build order on build order overlay."
+            )
             return
 
         build_orders = self.build_orders[current_matchup]
