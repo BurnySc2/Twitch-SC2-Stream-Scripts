@@ -3,12 +3,12 @@ let timeoutId = 0
 
 const hideBoSteps = () => {
     const node = document.getElementsByTagName("body")[0]
-    node.classList.add("hidden")
+    node.style.opacity = "0"
 }
 
 const showBoSteps = () => {
     const node = document.getElementsByTagName("body")[0]
-    node.classList.remove("hidden")
+    node.style.opacity = "1"
 }
 
 const changeBuildOrderInfo = (

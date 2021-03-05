@@ -11,13 +11,13 @@ const clearAllChildren = () => {
 const hideVote = () => {
     // Hide the whole overlay
     const node = document.getElementsByTagName("body")[0]
-    node.classList.add("hidden")
+    node.style.opacity = "0"
 }
 
 const showVote = () => {
     // Show the whole overlay
     const node = document.getElementsByTagName("body")[0]
-    node.classList.remove("hidden")
+    node.style.opacity = "1"
 }
 
 const changePercentage = (element_number, percentage_value) => {
@@ -186,6 +186,16 @@ window.onload = function () {
 
     // Show the voting system
     // showVote();
+
+    // Hide the voting system after delay
+    // setTimeout(() => {
+    //     hideVote();
+    // }, 3000)
+
+    // Show the voting system after delay
+    // setTimeout(() => {
+    //     showVote();
+    // }, 6000)
 
     // Add new child element to vote choices
     // addVoteChild("big yikes")
