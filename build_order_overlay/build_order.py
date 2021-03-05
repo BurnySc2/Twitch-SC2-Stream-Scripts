@@ -25,6 +25,8 @@ from loguru import logger
 class BuildOrderOverlayConfig(DataClassJsonMixin):
     voting_time_duration: int = 30
     build_order_step_fade_animation_in_ms: int = 500
+    announce_voted_build_order_in_chat: bool = True
+    debug_allow_multiple_votes: bool = False
 
 
 class BuildOrderOverlay(BaseScript):
@@ -270,6 +272,7 @@ class BuildOrderOverlay(BaseScript):
                 "percentages": percentages,
                 "unique_votes": str(self.votes_total_count),
                 "time_active": str(int(time.time() - self.voting_started_time)),
+                "time_till_vote_ends": str(self.config.voting_time_duration),
             }
             await self.bot.websocket_broadcast_json(json.dumps(payload))
 
@@ -376,7 +379,9 @@ class BuildOrderOverlay(BaseScript):
         """
         if self.voting_is_running:
             message_stripped = message.content.strip()
-            if message_stripped.isnumeric() and message.author.name not in self.user_already_voted:
+            if message_stripped.isnumeric() and (
+                message.author.name not in self.user_already_voted or self.config.debug_allow_multiple_votes
+            ):
                 vote_number = int(message_stripped) - 1
                 if vote_number in self.votes_dict:
                     # Each user has 1 vote, dont let him vote more often
@@ -398,6 +403,8 @@ class BuildOrderOverlay(BaseScript):
                 )
                 self.chosen_bo = self.build_orders_current_matchup_enabled[index_with_most_votes]
                 await self.build_order_send_websocket_data("end_vote")
+                if self.config.announce_voted_build_order_in_chat:
+                    await self.send_message(f"Chosen build order: {self.chosen_bo}")
                 self.voting_is_running = False
             else:
                 # Update the vote display time

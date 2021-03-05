@@ -1,56 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Build Order Vote</title>
-    <script src="js/build_order_vote.js"></script>
-    <link rel="stylesheet" href="css/build_order_vote.css">
-</head>
-<body>
-    <div id="vote-div" class="flex-vertical-container">
-        <!-- Poll title / question-->
-        <div class="title">Vote TvZ Build Order</div>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Build Order Vote</title>
+        <script src="js/build_order_vote.js"></script>
+        <link rel="stylesheet" href="css/build_order_vote.css" />
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="flex flex-col" class="flex-vertical-container">
+            <!-- Poll title / question-->
+            <div class="title">Vote TvZ Build Order</div>
 
-        <!-- Twitch chat instruction -->
-        <div class="instruction">Type number (1, 2, ...) in chat to vote</div>
+            <!-- Twitch chat instruction -->
+            <div class="instruction">Type number (1, 2, ...) in chat to vote</div>
 
-        <!-- Vote choices -->
+            <!-- Vote choices -->
 
-        <div id="vote-choices">
-            <!-- Choice 1 -->
-            <div class="flex-horizontal-container">
-                <div class="choice-number">1)</div>
-                <div class="choice">
-                    <div class="flex-horizontal-bo-percentage">
-                        <div id="bo0-name" class="text-bo-description">Hellion Viking into BC into Mech</div>
-                        <div id="bo0-percentage" class="text-bo-vote-percentage">25%</div>
+            <div id="vote-choices">
+                <!-- Choice 1 -->
+                <div class="flex-horizontal-container">
+                    <div class="choice-number">1)</div>
+                    <div class="choice">
+                        <div class="flex-horizontal-bo-percentage">
+                            <div id="bo0-name" class="text-bo-description">
+                                Hellion Viking into BC into Mech
+                            </div>
+                            <div id="bo0-percentage" class="text-bo-vote-percentage">25%</div>
+                        </div>
+                        <div class="bar-wrapper">
+                            <div id="bo0-bar" class="bar"></div>
+                        </div>
                     </div>
-                    <div class="bar-wrapper">
-                        <div id="bo0-bar" class="bar"></div>
+                </div>
+
+                <!-- Choice 2 -->
+                <div class="flex-horizontal-container">
+                    <div class="choice-number">2)</div>
+                    <div class="choice">
+                        <div class="flex-horizontal-bo-percentage">
+                            <div id="bo1-name" class="text-bo-description">
+                                4 Hellion into Bio (Fantasy Build Order)
+                            </div>
+                            <div id="bo1-percentage" class="text-bo-vote-percentage">75%</div>
+                        </div>
+                        <div class="bar-wrapper">
+                            <div id="bo1-bar" class="bar"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Choice 2 -->
-            <div class="flex-horizontal-container">
-                <div class="choice-number">2)</div>
-                <div class="choice">
-                    <div class="flex-horizontal-bo-percentage">
-                        <div id="bo1-name" class="text-bo-description">4 Hellion into Bio (Fantasy Build Order)</div>
-                        <div id="bo1-percentage" class="text-bo-vote-percentage">75%</div>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div id="bo1-bar" class="bar"></div>
-                    </div>
-                </div>
+            <!--Poll info-->
+            <div class="grid grid-cols-1 justify-items-center">
+                <div id="info1">Unique votes: 7</div>
+                <div id="info2">Time active: 14 seconds</div>
+                <div id="info3">Time limit: 30 seconds</div>
             </div>
         </div>
-
-        <!--Poll info-->
-        <div class="flex-horizontal-container">
-            <div id="info1">Unique votes: 7</div>
-            <div id="info2">Time active: 14 seconds</div>
-        </div>
-    </div>
-</body>
+    </body>
 </html>

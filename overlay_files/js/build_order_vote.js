@@ -31,13 +31,16 @@ const changePercentage = (element_number, percentage_value) => {
     bar.style.width = percentage_value
 }
 
-const changeInfo = (unique_votes, time_active) => {
+const changeInfo = (unique_votes, time_active, time_till_vote_ends) => {
     // Args example: (15, 25)
     const unique_votes_object = document.getElementById("info1")
     unique_votes_object.innerHTML = "Unique votes: " + unique_votes
 
     const time_active_object = document.getElementById("info2")
     time_active_object.innerHTML = "Time active: " + time_active + " seconds"
+
+    const time_till_vote_ends_object = document.getElementById("info3")
+    time_till_vote_ends_object.innerHTML = "Time limit: " + time_till_vote_ends + " seconds"
 }
 
 const addVoteChild = (bo_description) => {
@@ -102,7 +105,7 @@ const start_vote = (content_dict) => {
     for (const index in content_dict["bos"]) {
         changePercentage(index, "0%")
     }
-    changeInfo(0, 0)
+    changeInfo(0, 0, 0)
     showVote()
 }
 
@@ -112,7 +115,8 @@ const update_vote = (content_dict) => {
     }
     const unique_votes = content_dict["unique_votes"]
     const time_active = content_dict["time_active"]
-    changeInfo(unique_votes, time_active)
+    const time_till_vote_ends = content_dict["time_till_vote_ends"]
+    changeInfo(unique_votes, time_active, time_till_vote_ends)
 }
 
 const end_vote = (content_dict) => {
