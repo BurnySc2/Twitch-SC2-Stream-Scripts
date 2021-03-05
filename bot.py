@@ -62,7 +62,7 @@ class TwitchChatBot(commands.Bot):
             # bot_config: Dict[str, Union[str, bool]] = json.load(f)
 
         # The main channel the bot is going to interact with
-        self.initial_channels = [self.main_channel]
+        self.initial_channels = [self.main_channel_name]
         bot_name = self.bot_config.bot_name
         command_prefix = self.bot_config.command_prefix
         super().__init__(
@@ -115,8 +115,12 @@ class TwitchChatBot(commands.Bot):
             self.running_scripts.append(self.scene_switcher)
 
     @property
-    def main_channel(self) -> str:
+    def main_channel_name(self) -> str:
         return self.bot_config.twitch_channel_name.lower()
+
+    @property
+    def main_channel(self) -> TwitchChannel:
+        return self.get_channel(self.main_channel_name)
 
     # Events don't need decorators when subclassed
     async def event_ready(self):

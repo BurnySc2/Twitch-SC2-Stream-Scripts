@@ -429,7 +429,7 @@ class MatchInfo(BaseScript):
         server: one of "US", "EU", "KR"
         """
         url = f"https://www.sc2ladder.com/api/player?name={name}&race={race}&region={server}"
-        logger.info(f"sc2laadder url: {url}")
+        logger.info(f"sc2ladder url: {url}")
         async with self.session.get(url) as resp:
             assert resp.status == 200
             resp_json = await resp.json()

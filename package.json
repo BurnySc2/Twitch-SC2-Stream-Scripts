@@ -1,29 +1,29 @@
 {
-  "name": "Twitch-SC2-Stream-Scripts",
-  "version": "1.0.0",
-  "description": "WORK IN PROGRESS",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "jest --verbose ./test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/issues"
-  },
-  "homepage": "https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts#readme",
-  "devDependencies": {
-    "jest": "^26.6.3"
-  },
-  "dependencies": {
-    "prettier": "^2.2.1"
-  }
+    "name": "Twitch-SC2-Stream-Scripts",
+    "version": "1.0.0",
+    "description": "WORK IN PROGRESS",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "jest --verbose ./test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts/issues"
+    },
+    "homepage": "https://github.com/BurnySc2/Twitch-SC2-Stream-Scripts#readme",
+    "devDependencies": {
+        "jest": "^26.6.3"
+    },
+    "dependencies": {
+        "prettier": "^2.2.1"
+    }
 }

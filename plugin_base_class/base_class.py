@@ -47,3 +47,7 @@ class BaseScript:
 
     async def on_game_ended(self, match_info: MatchInfo):
         pass
+
+    async def send_message(self, message: str):
+        channel: TwitchChannel = self.main_channel
+        await channel.send(message)

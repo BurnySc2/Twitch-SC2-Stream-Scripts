@@ -117,7 +117,7 @@ class PointSystem(BaseScript):
     async def give_points_to_all_chatters(self):
         self.timestamp_last_points_given = time.time()
 
-        viewers = await self.bot.get_chatters(self.bot.main_channel)
+        viewers = await self.bot.get_chatters(self.bot.main_channel_name)
 
         for viewer in viewers.all:
             # All chatters are displayed as display name, so this doesnt work for asian characters?
@@ -156,8 +156,8 @@ class PointSystem(BaseScript):
 
     async def on_ready(self):
         """ Once the bot starts, check immediately if channel is live. """
-        self.stream_is_online = await self.check_if_stream_is_live(self.bot.main_channel)
-        logger.info(f"Point system initialized. Stream is live ({self.bot.main_channel}): {self.stream_is_online}")
+        self.stream_is_online = await self.check_if_stream_is_live(self.bot.main_channel_name)
+        logger.info(f"Point system initialized. Stream is live ({self.bot.main_channel_name}): {self.stream_is_online}")
 
     async def on_message(self, message: Message):
         # Update last time a user entered a message, so they get more points, instead of people who arent chatting and just watching
@@ -174,11 +174,11 @@ class PointSystem(BaseScript):
     async def on_tick(self):
         # Every X minutes, check if the stream is online and only if stream is online, give chatters / viewers points
         if time.time() - self.last_stream_is_online_check > self.stream_is_online_check_interval:
-            stream_is_online: bool = await self.check_if_stream_is_live(self.bot.main_channel)
+            stream_is_online: bool = await self.check_if_stream_is_live(self.bot.main_channel_name)
             if self.stream_is_online != stream_is_online:
                 self.stream_is_online = stream_is_online
                 logger.info(
-                    f"Checked if stream {self.bot.main_channel} is live. Detected a change, stream is live: {stream_is_online}"
+                    f"Checked if stream {self.bot.main_channel_name} is live. Detected a change, stream is live: {stream_is_online}"
                 )
 
         if self.stream_is_online:

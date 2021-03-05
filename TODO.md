@@ -6,11 +6,12 @@ Simplify bot to load scripts/plugins more generically (parse all subfolders and 
 
 ## Scene switcher
 
-- on join replay (from game or from menu): switch scene to observer scene
+-   on join replay (from game or from menu): switch scene to observer scene
 
-- on resume from replay: switch back to game scene
+-   on resume from replay: switch back to game scene
 
 ## Betting script
+
 To implement
 
 ### Prerequisite
@@ -19,11 +20,8 @@ Point system
 
 ## Point system
 
-- Check for active chatters
+-   Check for active chatters
 
-- Check for lurkers
+-   Check for lurkers
 
-- Add points automatically in intervals
-
-
-
+-   Add points automatically in intervals

@@ -1,9 +1,9 @@
 {
-  "twitch_channel_name": "burnysc2",
-  "bot_name": "burnysc2bot",
-  "command_prefix": "!",
-  "match_info": true,
-  "point_system": true,
-  "build_order_overlay": true,
-  "scene_switcher": true
+    "twitch_channel_name": "burnysc2",
+    "bot_name": "burnysc2bot",
+    "command_prefix": "!",
+    "match_info": true,
+    "point_system": true,
+    "build_order_overlay": true,
+    "scene_switcher": true
 }

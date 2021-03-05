@@ -1,6 +1,7 @@
 # work in progress
 
 # Idea
+
 This script could read the replay of the last game, check the matchup, game duration, opponent name and mmr difference.
 
 Then it uses the info to display the last X games on stream, e.g.
