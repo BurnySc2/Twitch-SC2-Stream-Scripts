@@ -18,6 +18,7 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
         '<div class="flex-horizontal-container">' +
         '   <div id="info1">Unique votes: 7</div>' +
         '   <div id="info2">Time active: 14 seconds</div>' +
+        '   <div id="info3">Time limit: 30 seconds</div>' +
         "</div>"
 
     // Test 'start_vote' function
@@ -36,6 +37,7 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
     // Test that the info fields of unique votes and active time has changed
     expect(document.getElementById("info1").textContent).toEqual("Unique votes: 0")
     expect(document.getElementById("info2").textContent).toEqual("Time active: 0 seconds")
+    expect(document.getElementById("info3").textContent).toEqual("Time limit: 0 seconds")
 
     // Test that the fields have been properly filled out
     for (let i = 0; i < content_dict["bos"].length; i++) {
@@ -53,6 +55,7 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
         percentages: ["25%", "50%", "25%"],
         unique_votes: "8",
         time_active: "10",
+        time_till_vote_ends: "30",
     }
     functions.update_vote(content_dict)
 
@@ -66,10 +69,10 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
     }
     expect(document.getElementById("info1").textContent).toEqual("Unique votes: 8")
     expect(document.getElementById("info2").textContent).toEqual("Time active: 10 seconds")
+    expect(document.getElementById("info3").textContent).toEqual("Time limit: 30 seconds")
 
     // Test "end_vote" function which adds 'hidden' class
     content_dict = {}
     functions.end_vote(content_dict)
-    expect(document.getElementsByTagName("body")[0].classList.contains("hidden")).toEqual(true)
-    expect(document.getElementsByTagName("body")[0].classList).toContain("hidden")
+    expect(document.getElementsByTagName("body")[0].style.opacity).toEqual("0")
 })
