@@ -404,7 +404,11 @@ class BuildOrderOverlay(BaseScript):
                 self.chosen_bo = self.build_orders_current_matchup_enabled[index_with_most_votes]
                 await self.build_order_send_websocket_data("end_vote")
                 if self.config.announce_voted_build_order_in_chat:
-                    await self.send_message(f"Chosen build order: {self.chosen_bo}")
+                    if self.votes_total_count > 0:
+                        await self.send_message(f"Chosen build order by vote: {self.chosen_bo['title']}")
+                    # Should a build order be announced if nobody voted for it? Default BO will be selected
+                    # else:
+                    #     await self.send_message(f"Chosen build order by default: {self.chosen_bo['title']}")
                 self.voting_is_running = False
             else:
                 # Update the vote display time

@@ -49,5 +49,5 @@ class BaseScript:
         pass
 
     async def send_message(self, message: str):
-        channel: TwitchChannel = self.main_channel
+        channel: TwitchChannel = self.bot.main_channel
         await channel.send(message)
