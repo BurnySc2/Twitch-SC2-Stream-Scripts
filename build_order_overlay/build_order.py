@@ -99,14 +99,17 @@ class BuildOrderOverlay(BaseScript):
             "TvT": [],
             "TvZ": [],
             "TvP": [],
+            "TvR": [],
             # Zerg
             "ZvT": [],
             "ZvZ": [],
             "ZvP": [],
+            "ZvR": [],
             # Protoss
             "PvT": [],
             "PvZ": [],
             "PvP": [],
+            "PvR": [],
         }
         build_orders_file_path = Path(__file__).parent / "build_orders.txt"
         if not build_orders_file_path.is_file():
@@ -174,7 +177,7 @@ class BuildOrderOverlay(BaseScript):
                     bo.append([supply, time, description])
 
             # Lazy assert, could alternatively also append to build orders here
-            assert not bo and not bo_dict, f"File has to end with a line of equal signs"
+            assert not bo and not bo_dict, f"File has to end with a line of (==) equal signs"
 
     def validate_build_order(self, bo_dict: dict):
         """ Validate build order dict, change 'enabled' to a boolean value and 'priority' to integer, check if entered matchup is correct. """
@@ -326,7 +329,7 @@ class BuildOrderOverlay(BaseScript):
             await self.build_order_send_websocket_data("hide_step")
 
     async def on_new_game_with_mmr(self, match_info: MatchInfo):
-        # If only one build order is enabled in this matchup, then show build order directly
+        # TODO Use 'on_new_game' without mmr to not rely on sc2ladder.com
 
         # Reload build orders file if it was changed
         # TODO: only reload if file was modified
@@ -357,6 +360,7 @@ class BuildOrderOverlay(BaseScript):
         bo_count = len(self.build_orders_current_matchup_enabled)
         self.votes_dict = {i: 0 for i in range(bo_count)}
 
+        # If only one build order is enabled in this matchup, then show build order directly instead of voting
         if bo_count > 1:
             # Enable voting
             logger.debug(f"More than one build order detected!")

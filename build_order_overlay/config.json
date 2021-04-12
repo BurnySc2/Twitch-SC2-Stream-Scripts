@@ -2,5 +2,5 @@
     "voting_time_duration": 30,
     "build_order_step_fade_animation_in_ms": 500,
     "announce_voted_build_order_in_chat": true,
-    "debug_allow_multiple_votes": true
+    "debug_allow_multiple_votes": false
 }

@@ -297,7 +297,7 @@ Priority 5
 =============
 Soul's TvT with fast Stim
 -------------
-Enabled 0
+Enabled 1
 Matchup TvT
 Priority 5
 +++++++++++++
@@ -305,7 +305,7 @@ Priority 5
 0:28 15 Refinery
 0:45 16 Barracks (2 Reapers, then Reactor)
 0:55 17 2nd Gas
-1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab), Orbital, Reaper
+1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab then Cyclone), Orbital, Reaper
 1:44 20 2nd Depot
 2:27 Expand
 2:45 27 Starport, 3rd Depot
@@ -319,27 +319,6 @@ Priority 5
 6:15 @100 Supply, move out with 23 Marines 3 Tanks 4 Medivacs
 6:40 +2 Ebays, 4th Gas
 8:20 Armory
-
-=============
-Clem's Tank drop
--------------
-Enabled 0
-Matchup TvT
-Priority 5
-+++++++++++++
-0:17 14 Depot
-0:28 15 Refinery
-0:45 16 Barracks (2 Reapers, then Reactor)
-0:55 17 2nd Gas
-1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab), Orbital, Reaper
-1:44 20 2nd Depot
-2:27 Expand
-2:44 Starport, 3rd Depot, put SCVs back in gas
-3:15 Make 4 Marines, 1 Tank, 1 Medivac
-3:25 3rd Gas
-3:55 Factory makes Techlab, Starport attaches to free Techlab and makes 2-3 Raven
-4:20 Arrive with Medivac
-4:30 Start 3rd CC
 
 =============
 Heromarines's Rax first double Gas 2 Raven (modified)
@@ -369,6 +348,27 @@ Priority 5
 7:00 Benchmark: 105 Supply
 6:50 +2 Rax, fly out 3rd CC
 7:30 Armory, +2 Gas
+
+=============
+Clem's Tank drop
+-------------
+Enabled 0
+Matchup TvT
+Priority 5
++++++++++++++
+0:17 14 Depot
+0:28 15 Refinery
+0:45 16 Barracks (2 Reapers, then Reactor)
+0:55 17 2nd Gas
+1:31 Pull 2 out of Gas, 19 Factory (1 Hellion then Techlab), Orbital, Reaper
+1:44 20 2nd Depot
+2:27 Expand
+2:44 Starport, 3rd Depot, put SCVs back in gas
+3:15 Make 4 Marines, 1 Tank, 1 Medivac
+3:25 3rd Gas
+3:55 Factory makes Techlab, Starport attaches to free Techlab and makes 2-3 Raven
+4:20 Arrive with Medivac
+4:30 Start 3rd CC
 
 =============
 Heromarines's Double gas 2 Raven opening

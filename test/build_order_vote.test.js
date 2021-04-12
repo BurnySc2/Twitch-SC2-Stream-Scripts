@@ -29,6 +29,7 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
 
     // The content should show, thus it should remove the 'hidden' class
     expect(document.getElementsByTagName("body")[0].classList.contains("hidden")).toEqual(false)
+    expect(document.getElementsByTagName("body")[0].style.opacity).toEqual("1")
 
     // Test that the build orders have been added correctly
     expect(document.getElementById("vote-choices").childElementCount).toEqual(3)
@@ -74,5 +75,6 @@ test("Script executes 'start_vote' and 'update_vote' functions of build_order_vo
     // Test "end_vote" function which adds 'hidden' class
     content_dict = {}
     functions.end_vote(content_dict)
+    expect(document.getElementsByTagName("body")[0].classList.contains("hidden")).toEqual(false)
     expect(document.getElementsByTagName("body")[0].style.opacity).toEqual("0")
 })

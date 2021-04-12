@@ -7,7 +7,7 @@ authors = ["BurnySc2 <gamingburny@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 websockets = "^8.1"
-aiohttp = "^3.7.4"
+aiohttp = "^3.7.4.post0"
 twitchio = "^1.2.2"
 obs-websocket-py = "^0.5.3"
 loguru = "^0.5.3"
@@ -18,7 +18,7 @@ win32-setctime = "^1.0.3"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
 pytest-asyncio = "^0.14.0"
-hypothesis = "^6.4.3"
+hypothesis = "^6.8.3"
 atomicwrites = "^1.4.0"
 
 [build-system]

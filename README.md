@@ -72,7 +72,7 @@ Run `python ./run_configuration.py` and follow the instructions.
 6. Activating overlays in OBS:
     - Go into the `overlay_files` folder
     - Drag and drop the desired .html overlay files into OBS.
-    - Resolution for the .html files should be set to the following (30 fps should suffice):
+    - Resolution for the .html files should to the following (30 fps should suffice):
         - `match_info.html`: 260 width, 170 height
         - `build_order_vote.html`: 420 width, 500 height (depending on how many build orders you have active)
         - `build_order_step.html`: 470 width, 330 height

@@ -428,12 +428,17 @@ class MatchInfo(BaseScript):
         race: one of "Terran", "Protoss", "Zerg", "Random"
         server: one of "US", "EU", "KR"
         """
-        url = f"https://www.sc2ladder.com/api/player?name={name}&race={race}&region={server}"
+        url = f"https://www.sc2ladder.herokuapp.com/api/player?name={name}&race={race}&region={server}"
+        # url = f"https://www.sc2ladder.com/api/player?name={name}&race={race}&region={server}"
         logger.info(f"sc2ladder url: {url}")
-        async with self.session.get(url) as resp:
-            assert resp.status == 200
-            resp_json = await resp.json()
-            return [PlayerInfo.from_sc2_ladder(data) for data in resp_json]
+        try:
+            async with self.session.get(url) as resp:
+                assert resp.status == 200
+                resp_json = await resp.json()
+                return [PlayerInfo.from_sc2_ladder(data) for data in resp_json]
+        except aiohttp.ClientConnectorError:
+            logger.info(f"Could not connect to www.sc2ladder.com")
+            return []
 
     async def get_player1_mmr(self):
         # Set current time to sc2unmasked timezone
