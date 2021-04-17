@@ -549,6 +549,7 @@ class MatchInfo(BaseScript):
             self.validate_data()
             if self.valid_game:
                 logger.info("Valid 1v1 game found")
+                await self.bot.on_new_game_with_players(self)
                 logger.info(f"Grabbing mmr of player1: {self.p1name} ({self.p1race})")
                 await self.get_player1_mmr()
                 logger.info(f"Grabbed mmr of player1: {self.p1mmr} | {self.p1mmr_string}")

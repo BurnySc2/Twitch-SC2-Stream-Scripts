@@ -188,17 +188,28 @@ class TwitchChatBot(commands.Bot):
 
     async def on_new_game(self, match_info: MatchInfo):
         """
-        New game was detected. This is the earliest detection possible that has info about opponent (name, race), but not mmr available yet.
+        New game was detected. This may be a 1v1 game, archon or teamgame or even arcade
         This function is triggered by match_info script
+        Useful for scene switcher
         """
         # logger.info("New game detected")
         for script in self.running_scripts:
             await script.on_new_game(match_info)
 
+    async def on_new_game_with_players(self, match_info: MatchInfo):
+        """
+        New game was detected where the streamer was found (must be 1v1 game). This is the earliest detection possible that has info about opponent (name, race), but not mmr available yet.
+        This function is triggered by match_info script
+        Useful for build order overlay
+        """
+        for script in self.running_scripts:
+            await script.on_new_game_with_players(match_info)
+
     async def on_new_game_with_mmr(self, match_info: MatchInfo):
         """
         New game was detected. This is the earliest detection possible that has info about opponent (name, race, mmr)
         This function is triggered by match_info script
+        Useful for match info overlay
         """
         # logger.info("New game detected, mmr ready")
         for script in self.running_scripts:

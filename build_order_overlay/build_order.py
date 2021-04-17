@@ -328,8 +328,7 @@ class BuildOrderOverlay(BaseScript):
             # Hide build order step because no build order was picked or no build order for this matchup exists
             await self.build_order_send_websocket_data("hide_step")
 
-    async def on_new_game_with_mmr(self, match_info: MatchInfo):
-        # TODO Use 'on_new_game' without mmr to not rely on sc2ladder.com
+    async def on_new_game_with_players(self, match_info: MatchInfo):
 
         # Reload build orders file if it was changed
         # TODO: only reload if file was modified
