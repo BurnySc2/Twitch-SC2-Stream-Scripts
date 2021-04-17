@@ -83,6 +83,7 @@ class BuildOrderOverlay(BaseScript):
         }
         """
         self.chosen_bo = None
+        self.current_matchup = ""  # One of: TvP, TvZ etc.
         # Ingame time from match_info
         self.in_game_time = 0
         # Timestamp of when the end of bo was found (ingame time), fade out 10 seconds after end of bo
@@ -254,11 +255,16 @@ class BuildOrderOverlay(BaseScript):
 
         return [step0_time, step0_info, step1_time, step1_info]
 
-    async def build_order_send_websocket_data(self, websocket_type: str):
+    async def build_order_send_websocket_data(self, websocket_type: str, current_matchup: str = ""):
         if websocket_type == "start_vote":
             # Clear, add_children, change percentage and total unique votes to 0 and time active to 0
             bos = [bo["title"] for bo in self.build_orders_current_matchup_enabled]
-            payload = {"payload_type": "build_order_vote", "vote_type": "start_vote", "bos": bos}
+            payload = {
+                "payload_type": "build_order_vote",
+                "vote_type": "start_vote",
+                "current_matchup": current_matchup,
+                "bos": bos,
+            }
             await self.bot.websocket_broadcast_json(json.dumps(payload))
 
         elif websocket_type == "update_vote":
@@ -272,6 +278,7 @@ class BuildOrderOverlay(BaseScript):
             payload = {
                 "payload_type": "build_order_vote",
                 "vote_type": "update_vote",
+                "current_matchup": current_matchup,
                 "percentages": percentages,
                 "unique_votes": str(self.votes_total_count),
                 "time_active": str(int(time.time() - self.voting_started_time)),
@@ -314,7 +321,7 @@ class BuildOrderOverlay(BaseScript):
         """
         if self.voting_is_running:
             # Show voting poll
-            await self.build_order_send_websocket_data("start_vote")
+            await self.build_order_send_websocket_data("start_vote", self.current_matchup)
             # Update voting poll with the vote percentages
             await self.build_order_send_websocket_data("update_vote")
         else:
@@ -346,14 +353,14 @@ class BuildOrderOverlay(BaseScript):
         self.game_is_running = True
         self.voting_started_time = time.time()
 
-        current_matchup = f"{match_info.p1race[0].upper()}v{match_info.p2race[0].upper()}"
-        if current_matchup not in self.build_orders:
+        self.current_matchup = f"{match_info.p1race[0].upper()}v{match_info.p2race[0].upper()}"
+        if self.current_matchup not in self.build_orders:
             logger.warning(
-                f"No build order found for matchup {current_matchup}. Could not display a build order on build order overlay."
+                f"No build order found for matchup {self.current_matchup}. Could not display a build order on build order overlay."
             )
             return
 
-        build_orders = self.build_orders[current_matchup]
+        build_orders = self.build_orders[self.current_matchup]
         self.build_orders_current_matchup_enabled = [bo for bo in build_orders if bo["enabled"]]
 
         bo_count = len(self.build_orders_current_matchup_enabled)
@@ -363,7 +370,7 @@ class BuildOrderOverlay(BaseScript):
         if bo_count > 1:
             # Enable voting
             logger.debug(f"More than one build order detected!")
-            await self.build_order_send_websocket_data("start_vote")
+            await self.build_order_send_websocket_data("start_vote", current_matchup=self.current_matchup)
             self.voting_is_running = True
             self.voting_started = time.time()
 

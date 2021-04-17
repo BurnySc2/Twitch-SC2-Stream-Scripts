@@ -8,9 +8,15 @@
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="flex flex-col" class="flex-vertical-container">
+        <div class="flex flex-col bg-blue-600">
             <!-- Poll title / question-->
-            <div class="title">Vote TvZ Build Order</div>
+
+            <div
+                id="vote-title"
+                class="bg-blue-500 rounded-2xl border-b-2 border-black p-2 text-3xl"
+            >
+                Vote TvZ Build Order
+            </div>
 
             <!-- Twitch chat instruction -->
             <div class="instruction">Type number (1, 2, ...) in chat to vote</div>
@@ -19,14 +25,12 @@
 
             <div id="vote-choices">
                 <!-- Choice 1 -->
-                <div class="flex-horizontal-container">
-                    <div class="choice-number">1)</div>
-                    <div class="choice">
-                        <div class="flex-horizontal-bo-percentage">
-                            <div id="bo0-name" class="text-bo-description">
-                                Hellion Viking into BC into Mech
-                            </div>
-                            <div id="bo0-percentage" class="text-bo-vote-percentage">25%</div>
+                <div class="flex">
+                    <div class="m-2">1)</div>
+                    <div class="flex flex-col m-2 w-full">
+                        <div class="flex justify-between">
+                            <div id="bo0-name">Hellion Viking into BC into Mech</div>
+                            <div id="bo0-percentage">25%</div>
                         </div>
                         <div class="bar-wrapper">
                             <div id="bo0-bar" class="bar"></div>

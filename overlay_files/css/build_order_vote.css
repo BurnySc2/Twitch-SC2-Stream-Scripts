@@ -10,10 +10,6 @@ body {
 }
 
 .flex-vertical-container {
-    width: 400px;
-    /*height: 500px;*/
-    display: flex;
-    flex-direction: column;
     background: #33c;
     border-radius: 15px;
 }
@@ -30,14 +26,6 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-}
-
-.title {
-    font-size: x-large;
-    background: #44c;
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 1px 5px black;
 }
 
 .instruction {

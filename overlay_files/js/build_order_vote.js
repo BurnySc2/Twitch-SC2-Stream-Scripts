@@ -22,19 +22,23 @@ const showVote = () => {
 
 const changePercentage = (element_number, percentage_value) => {
     // Args example: (0, "75%")
-    const object_bo_percentage = document.getElementById(
-        "bo" + element_number.toString() + "-percentage"
-    )
+    const object_bo_percentage = document.getElementById(`bo${element_number}-percentage`)
     object_bo_percentage.innerHTML = percentage_value
 
-    const bar = document.getElementById("bo" + element_number.toString() + "-bar")
+    const bar = document.getElementById(`bo${element_number}-bar`)
     bar.style.width = percentage_value
 }
 
-const changeInfo = (unique_votes, time_active, time_till_vote_ends) => {
-    // Args example: (15, 25)
+const changeInfo = (current_matchup, unique_votes, time_active, time_till_vote_ends) => {
+    // Args example: ("TvP", 15, 20, 25)
+    // console.log(`Changing info: ${current_matchup} ${unique_votes} ${time_active} ${time_till_vote_ends}`)
+    if (current_matchup) {
+        const vote_title = document.getElementById("vote-title")
+        vote_title.innerHTML = `Vote ${current_matchup} Build Order`
+    }
+
     const unique_votes_object = document.getElementById("info1")
-    unique_votes_object.innerHTML = "Unique votes: " + unique_votes
+    unique_votes_object.innerHTML = `Unique votes: ${unique_votes}`
 
     const time_active_object = document.getElementById("info2")
     time_active_object.innerHTML = "Time active: " + time_active + " seconds"
@@ -49,25 +53,26 @@ const addVoteChild = (bo_description) => {
     let child_element_count = node.childElementCount
 
     let div1 = document.createElement("div")
-    div1.id = "bo" + child_element_count + "-name"
-    div1.classList.add("text-bo-description")
+    div1.id = `bo${child_element_count}-name`
+    div1.classList.add("text-2xl")
     div1.innerHTML = bo_description
 
     let div2 = document.createElement("div")
-    div2.id = "bo" + child_element_count + "-percentage"
+    div2.id = `bo${child_element_count}-percentage`
     div2.classList.add("text-bo-vote-percentage")
     div2.innerHTML = "0%"
 
     // Inner part 1
     let div_flex_horizontal = document.createElement("div")
-    div_flex_horizontal.classList.add("flex-horizontal-bo-percentage")
+    div_flex_horizontal.classList.add("flex")
+    div_flex_horizontal.classList.add("justify-between")
     div_flex_horizontal.appendChild(div1)
     div_flex_horizontal.appendChild(div2)
 
     // Inner part 2
     let bar = document.createElement("div")
     bar.classList.add("bar")
-    bar.id = "bo" + child_element_count + "-bar"
+    bar.id = `bo${child_element_count}-bar`
     bar.style.width = "0%"
 
     let bar_wrapper = document.createElement("div")
@@ -76,18 +81,22 @@ const addVoteChild = (bo_description) => {
 
     // Choice number
     let choice_number = document.createElement("div")
-    choice_number.classList.add("choice-number")
-    choice_number.innerHTML = (child_element_count + 1).toString() + ")"
+    choice_number.classList.add("m-2")
+    choice_number.classList.add("text-2xl")
+    choice_number.innerHTML = `${child_element_count + 1})`
 
     // Choice
     let choice = document.createElement("div")
-    choice.classList.add("choice")
+    choice.classList.add("flex")
+    choice.classList.add("flex-col")
+    choice.classList.add("m-2")
+    choice.classList.add("w-full")
     choice.appendChild(div_flex_horizontal)
     choice.appendChild(bar_wrapper)
 
     // Outer flex horizontal container
     let outer_flex_horizontal_container = document.createElement("div")
-    outer_flex_horizontal_container.classList.add("flex-horizontal-container")
+    outer_flex_horizontal_container.classList.add("flex")
     outer_flex_horizontal_container.appendChild(choice_number)
     outer_flex_horizontal_container.appendChild(choice)
 
@@ -105,7 +114,9 @@ const start_vote = (content_dict) => {
     for (const index in content_dict["bos"]) {
         changePercentage(index, "0%")
     }
-    changeInfo(0, 0, 0)
+    const current_matchup = content_dict["current_matchup"]
+    console.log(`Received start_vote: ${JSON.stringify(content_dict, null, 2)}`)
+    changeInfo(current_matchup, 0, 0, 0)
     showVote()
 }
 
@@ -116,7 +127,7 @@ const update_vote = (content_dict) => {
     const unique_votes = content_dict["unique_votes"]
     const time_active = content_dict["time_active"]
     const time_till_vote_ends = content_dict["time_till_vote_ends"]
-    changeInfo(unique_votes, time_active, time_till_vote_ends)
+    changeInfo("", unique_votes, time_active, time_till_vote_ends)
 }
 
 const end_vote = (content_dict) => {
@@ -138,9 +149,11 @@ const connect = () => {
          *     "vote_type": one of ["start_vote", "update_vote", "end_vote"],
          *
          *     // If "start_vote"
+         *     "current_matchup": "TvP",
          *     "bos": ["my first bo", "my second bo"],
          *
          *     // if "update_vote"
+         *     "current_matchup": "",
          *     "percentages": ["25%", "25%", "50%"],
          *     "unique_votes": 12,
          *     "time_active": 15,
