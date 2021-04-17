@@ -264,6 +264,24 @@ Priority 5
 6:50 +2 Rax, ghost academy or fusion core
 
 =============
+Bunny's mine drop into thor 1base allin
+-------------
+Enabled 0
+Matchup TvP
+Priority 5
++++++++++++++
+# https://youtu.be/xHrqlyvQlJ0?t=3580
+0:17 14 Depot
+0:40 16 Barracks, 2x Refinery
+1:15 SCV Scout
+1:27 Orbital, Reaper (then Reactor)
+1:41 Factory (3 mines then Techlab)
+2:25 Starport (2 Medivacs), non stop Marine production
+2:55 Armory
+4:10 Move out with marines and 10 SCVs
+4:35 Reinforce push with Thor + Medivac
+
+=============
 Demuslims 2 Base Allin
 -------------
 Enabled 0
