@@ -381,7 +381,7 @@ class BuildOrderOverlay(BaseScript):
 
         elif bo_count == 0:
             # Don't show anything
-            logger.warning(f"No build order for matchup {current_matchup} was entered. Returning.")
+            logger.warning(f"No build order for matchup {self.current_matchup} was entered. Returning.")
 
     async def on_message(self, message: Message):
         """
