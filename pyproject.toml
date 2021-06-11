@@ -6,7 +6,7 @@ authors = ["BurnySc2 <gamingburny@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-websockets = "^8.1"
+websockets = "^9.1"
 aiohttp = "^3.7.4.post0"
 twitchio = "^1.2.2"
 obs-websocket-py = "^0.5.3"
